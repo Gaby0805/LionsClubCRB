@@ -9,6 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "bootstrap": "^5.3.3",
+    "embla-carousel-autoplay": "^8.5.2",
+    "embla-carousel-react": "^8.5.2",
     "leoncio-frontend": "file:",
     "next": "15.2.1",
     "react": "^19.0.0",
