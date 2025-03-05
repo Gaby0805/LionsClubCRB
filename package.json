@@ -12,7 +12,10 @@
     "bootstrap": "^5.3.3",
     "embla-carousel-autoplay": "^8.5.2",
     "embla-carousel-react": "^8.5.2",
+    "framer-motion": "^12.4.10",
     "leoncio-frontend": "file:",
+    "lucide-react": "^0.477.0",
+    "motion": "^12.4.10",
     "next": "15.2.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"

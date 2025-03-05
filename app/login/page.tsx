@@ -1,6 +1,7 @@
 import React from "react";
 import { Copse } from "next/font/google"
 import {  Concert_One } from "next/font/google"
+import Link from "next/link";
 
 const copsefont = Copse({
   subsets: ["latin"],
@@ -27,7 +28,9 @@ export default function Home() {
 
   const Entrar = () => {
     return(
+      <Link href={"/dashboard"}>
       <button type="button" className={`${Concert_Onefont.className} h-13 w-44 text-2xl bg-amber-400 rounded-md mt-15 `}> Entrar</button>
+      </Link>
     )
   }
   
