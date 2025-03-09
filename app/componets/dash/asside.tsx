@@ -13,7 +13,7 @@ export default function Asside() {
                     </div>
                     <div className="flex items-center justify-items-start">
                     <Backpack/>
-                    <a className="ml-3" href="">comotato <br /> inventario</a>
+                    <a className="ml-3" href="/dashboard/inventario">comotato <br /> inventario</a>
                     </div>
                     <div className="flex items-center ">
                     <FileSpreadsheet/>

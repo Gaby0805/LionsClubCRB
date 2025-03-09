@@ -15,7 +15,9 @@ weight: "400",
 export default function Header() {
     const Entrar = () => {
         return(
-          <button type="button" className={`${Concert_Onefont.className} h-18 w-44 text-3xl bg-amber-400 rounded-md  `}> Entrar</button>
+          <a href="/login">
+            <button type="button" className={`${Concert_Onefont.className} h-18 w-44 text-3xl bg-amber-400 rounded-md  `}> Entrar</button>
+            </a>
         )
       }
 
@@ -34,6 +36,7 @@ export default function Header() {
             <h2>Contato</h2>
             
             </nav> 
+
             <Entrar/> 
             
 
