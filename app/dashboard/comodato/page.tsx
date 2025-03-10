@@ -1,17 +1,35 @@
 'use client'
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Asside from "../../componets/dash/asside";
 import HeaderDash from "../../componets/dash/headerdash";
 import { Checkbox } from "@mui/material";
 import '@fontsource/roboto/300.css';
+import axios from "axios";
 
-
-const item1 = "pao"
 export default function Comodato() {
+
+      const [item, setitem] = useState([])
+
+      useEffect(() => {
+          const fetchData = async () => {
+              try { 
+                  const response = await axios.get("http://localhost:3333/estoque/ComodatoListtext");
+                  console.log(response.data);
+                  setitem(response.data);
+              } catch (error) {
+                  console.log("Erro ao buscar dados:", error);
+              }
+          };
+          
+          fetchData();
+      }, []);
+      
+
+
   return (
-    <div className="flex h-screen flex-col ">
+    <div className="flex h-full bg">
+      <Asside />
       <div className="flex flex-1">
-        <Asside />
         <div className="flex flex-col w-full">
           <HeaderDash />
           <main className="flex-1 h-full w-full bg-gray-100 p-5">
@@ -85,26 +103,20 @@ export default function Comodato() {
                     
                     <div>
                     <h3>Itens Solictados</h3>
-                    <div className="flex justify-center ">
+
+                    {
+                      item.map((item, index) => (
+                    <div key={index} className="flex  ">
                     <Checkbox/>
-                    <p>{item1}</p>
+                    <p>{item.nome_material}</p>
                     </div>
-                    <div className="flex justify-center ">
-                    <Checkbox/>
-                    <p>{item1}</p>
-                    </div>
-                    <div className="flex justify-center ">
-                    <Checkbox/>
-                    <p>{item1}</p>
-                    </div>
-                    <div className="flex justify-center ">
-                    <Checkbox/>
-                    <p>{item1}</p>
-                    </div>
+                      ) 
+                    )}
+  
                     </div>
 
 
-                    <div className="mb-5">
+                    <div className="">
                     <button className="w-50 h-15 bg-gray-200 rounded-2xl">Enviar</button>
                     </div>
 

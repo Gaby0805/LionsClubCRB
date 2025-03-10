@@ -10,25 +10,23 @@ export default function inventario() {
 
 
     return(
-        <div className="flex h-screen  flex-col overflow-hidden" >
+        <div className="flex h-screen w-full  " >
 
 
-        <div className="flex flex-1">
         <Asside />
-        <div className="flex-col w-full">
+        <div className="flex flex-col w-full">
 
 
 
         <HeaderDash/>
 
 
-        <main className="flex-1 bg-gray-200 h-full flex justify-center  ">
+        <main className="flex-1 bg-gray-200 h-full  w-full flex justify-center ">
 
         <Invent/>
         
         </main>
 
-        </div>
         </div>
 
         </div>
