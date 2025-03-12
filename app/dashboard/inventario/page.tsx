@@ -10,7 +10,7 @@ export default function inventario() {
 
 
     return(
-        <div className="flex h-screen w-full  " >
+        <div className="flex h-screen w-full " >
 
 
         <Asside />

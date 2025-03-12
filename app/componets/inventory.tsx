@@ -1,101 +1,71 @@
-import react, { useState, useRef, useEffect } from 'react'
-import axios from 'axios'
-//corrigir os botões de editar e excluir
-import { InventoryTwoTone } from '@mui/icons-material'
+import React, { useState, useRef, useEffect } from 'react';
+import axios from 'axios';
+import { InventoryTwoTone } from '@mui/icons-material';
 import { Column } from 'primereact/column';
-import { DataTable  } from 'primereact/datatable';
+import { DataTable } from 'primereact/datatable';
 import { Toast } from 'primereact/toast';
-import { Button } from '@mui/material';
 import MuiModalExample from './modaltest';
+import Edit from './edit';
+import { select } from 'framer-motion/client';
+
 export default function Invent() { 
-    
-    const [items, setitems] = useState([])
-    const [selecetitems, setselectitems] = useState(null)
-    const [valueselect, setvalueselect] = useState({"name": "","id": ""})
-
-
+    const [items, setItems] = useState([]);
+    const [selectedItem, setSelectedItem] = useState(null);
+    const [valueSelect, setValueSelect] = useState({"name": "", "id": "", "quantidade": ""});
     const toast = useRef(null);
-
 
     const onRowSelect = (event) => {
         toast.current.show({ severity: 'info', summary: 'Item selecionado', detail: `Nome: ${event.data.nome_material}`, life: 2000 });
-        setvalueselect({
-                "name": event.data.nome_material,
-                "id": event.data.id_estoque
-        })
+        setValueSelect({
+            "name": event.data.nome_material,
+            "id": event.data.id_estoque,
+            "quantidade": event.data.quantidade
+        });
     };
-
-
 
     useEffect(() => {
         const fetchData = async () => {
             try { 
                 const response = await axios.get("http://localhost:3333/estoque/ComodatoListtext");
-                setitems(response.data);
+                setItems(response.data);
             } catch (error) {
                 console.log("Erro ao buscar dados:", error);
             }
         };
-
         fetchData();
     }, []);
 
 
-    function edit() {
-        
-    }
-    function add() {
-
-    }
-
     return (
-        
-        <div className='flex flex-col items-center m-10  '>
+        <div className='flex flex-col items-center m-10 w-full'>
+            <div className='w-full max-w-4xl bg-gray-100 rounded-md m-4 p-4 flex flex-col justify-center items-center text-lg'>
+                <h2 className='text-xl sm:text-2xl'>{valueSelect.name}</h2>
+                <div className='flex flex-col sm:flex-row justify-center items-center w-full gap-4 mt-4'>
 
-        <div className='h-70 bg-gray-100 rounded-md m-4  flex flex-col justify-center items-center' style={{width: '60%', fontSize: '20px'}}>
-                
-                <h2>{valueselect.name}</h2>
-                <MuiModalExample/>
-                <div className='flex justify-center items-center '>
-
-                    <button type="button" onClick={edit} className='w-35 m-5 h-15 rounded-md bg-gray-400'>
-                    Editar
-                    </button>
-
-                    <button type="button" onClick={add} className='w-35 m-5 h-15 rounded-md bg-gray-400'>
-                    Adicionar/remover
-                    </button>
-                    
-
+                    <Edit quantidade1={valueSelect.quantidade} id_q={valueSelect.id}/>
                 </div>
+            </div>
 
-        </div>
-
-
-        <div className='card '>
-
-            <div>
-            <ul className=''>    
-            <Toast ref={toast} className='  m-5 p-2'/>
-            <DataTable className='bg-gray-100 rounded-sm ' scrollHeight='380px'  value={items} selectionMode="single" selection={selecetitems} onSelectionChange={(e) => setselectitems(e.value)}
-                    dataKey="id_estoque"  onRowSelect={onRowSelect}  metaKeySelection={false} dragSelection tableStyle={{ minWidth: '65rem', margin: '20px', height: '22rem'}}>
-
-                <Column className='' field="nome_material" header="Nome do Material" style={{paddingTop: '20px', paddingLeft: '35px',           fontSize: '20px'}}></Column>
-                <Column className='' field="valor" header="Valor" style={{                   paddingTop: '20px', paddingLeft: '35px',           fontSize: '20px'}}></Column>
-                <Column className='' field="tamanho" header="tamanho" style={{               paddingTop: '20px', paddingLeft: '35px',           fontSize: '20px'}}></Column>
-                <Column className='' field="aquisicao" header="Aquisição" style={{           paddingTop: '20px', paddingLeft: '35px',         fontSize: '20px'}}></Column>
-                <Column className='' field="status" header="Status" style={{                 paddingTop: '20px', paddingLeft: '35px',           fontSize: '20px'}}></Column>
-                <Column className='' field="quantidade" header="Quantidade" style={{         paddingTop: '20px', paddingLeft: '35px',display: 'flex',justifyContent: 'center',           fontSize: '20px'}}></Column>
-                <Column className='' field="descricao" header="Descrição" style={{           paddingTop: '20px', paddingLeft: '35px',           fontSize: '20px'}}></Column>
-
-
-            </DataTable>
-
-            </ul>
+            <div className='card w-full overflow-x-auto flex justify-center items-center mt-auto'>
+                <div className='flex justify-center items-center'>
+                    <ul className='bg-amber-600 w-[90%] flex justify-center items-center'>    
+                        <Toast ref={toast} className='m-5 p-2'/>
+                        <DataTable className='bg-gray-100 rounded-sm w-full' scrollHeight='380px' 
+                            value={items} selectionMode="single" selection={selectedItem} 
+                            onSelectionChange={(e) => setSelectedItem(e.value)}
+                            dataKey="id_estoque" onRowSelect={onRowSelect} 
+                            metaKeySelection={false} dragSelection>
+                            <Column field="nome_material" header="Nome do Material" style={{ fontSize: '18px', padding: '10px' }}></Column>
+                            <Column field="valor" header="Valor" style={{ fontSize: '18px', padding: '10px' }}></Column>
+                            <Column field="tamanho" header="Tamanho" style={{ fontSize: '18px', padding: '10px' }}></Column>
+                            <Column field="aquisicao" header="Aquisição" style={{ fontSize: '18px', padding: '10px' }}></Column>
+                            <Column field="status" header="Status" style={{ fontSize: '18px', padding: '10px' }}></Column>
+                            <Column field="quantidade" header="Quantidade" style={{ fontSize: '18px', padding: '10px' }}></Column>
+                            <Column field="descricao" header="Descrição" style={{ fontSize: '18px', padding: '10px' }}></Column>
+                        </DataTable>
+                    </ul>
+                </div>
             </div>
         </div>
-        </div>
-
-    )
-
+    );
 }

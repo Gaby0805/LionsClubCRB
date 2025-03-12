@@ -3,22 +3,23 @@
 import React from 'react'
 import useEmblaCarousel from 'embla-carousel-react'
 import Autoplay from 'embla-carousel-autoplay'
-import Image from 'next/image'
 
-export default function EmblaCarousel() {
-  const [emblaRef] = useEmblaCarousel({ loop: true }, [Autoplay()])
+export function EmblaCarousel() {
+  // Passando o plugin Autoplay e as opções
+  const [emblaRef] = useEmblaCarousel({ loop: true }, [Autoplay({ delay: 3000 })])
 
   return (
-    <div className="embla mx-auto mt-30 w-screen   " ref={emblaRef} style={{ height: 550 }}>
-      {/* Texto que ficará sobre as imagens */}
-      <h2 className="absolute mt-25 left-60  text-white text-4xl font-bold z-10 flex ">
-        TEXTO PARA APARECER EM CIMA DE TODAS AS IMAGENS
+    <div className="embla" ref={emblaRef}>
+
+      <h2 className="absolute mt-25 left-170  text-white text-6xl font-bold z-10 flex ">
+        Nos servimos
       </h2>
 
-      <div className="embla__container h-full">
-        <div className="embla__slide flex items-center justify-center bg-amber-400"></div>
-        <div className="embla__slide flex items-center justify-center bg-amber-500"></div>
-        <div className="embla__slide flex items-center justify-center bg-amber-600"></div>
+
+      <div className="embla__container">
+        <div className="embla__slide"><img src="/imgs/carro/img1.jpg" alt="" width={'100%'} height={'100%'}/></div>
+        <div className="embla__slide"><img src="/imgs/carro/img2.jpg" alt="" width={'100%'} height={'100%'}/></div>
+        <div className="embla__slide"><img src="/imgs/carro/img3.jpg" alt="" width={'100%'} height={'100%'}/></div>
       </div>
     </div>
   )

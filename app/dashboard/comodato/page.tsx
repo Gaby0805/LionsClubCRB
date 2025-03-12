@@ -27,7 +27,7 @@ export default function Comodato() {
 
 
   return (
-    <div className="flex h-full bg">
+    <div className="flex w-full h-full">
       <Asside />
       <div className="flex flex-1">
         <div className="flex flex-col w-full">
@@ -44,7 +44,7 @@ export default function Comodato() {
                 ].map((label) => (
                   <div key={label} className="flex flex-col">
                     <p>{label}</p>
-                    <input type="text" className="h-12 rounded-md bg-gray-300 p-2" />
+                      <input type="text" className="h-12 rounded-md bg-gray-300 p-2" />
                   </div>
                 ))}
                 <div className="flex flex-col mt-5">

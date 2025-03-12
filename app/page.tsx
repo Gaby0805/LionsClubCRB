@@ -1,6 +1,7 @@
+'use client'
 import React from "react";
 import  Header from "./componets/header";
-import   EmblaCarousel from "./componets/carrousel";
+import { EmblaCarousel } from "./componets/carrousel";
 
 export default function Home() {
 
