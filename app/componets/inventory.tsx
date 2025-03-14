@@ -42,7 +42,7 @@ export default function Invent() {
                 <h2 className='text-xl sm:text-2xl'>{valueSelect.name}</h2>
                 <div className='flex flex-col sm:flex-row justify-center items-center w-full gap-4 mt-4'>
 
-                    <Edit quantidade1={valueSelect.quantidade} id_q={valueSelect.id}/>
+                    <Edit quantidade1={valueSelect.quantidade} id_quantidade={valueSelect.id}/>
                 </div>
             </div>
 

@@ -6,12 +6,12 @@ import Autoplay from 'embla-carousel-autoplay'
 
 export function EmblaCarousel() {
   // Passando o plugin Autoplay e as opções
-  const [emblaRef] = useEmblaCarousel({ loop: true }, [Autoplay({ delay: 3000 })])
+  const [emblaRef] = useEmblaCarousel({ loop: true }, [Autoplay({ delay: 2000 })])
 
   return (
-    <div className="embla" ref={emblaRef}>
+    <div className="embla h-[700px] w-full" ref={emblaRef}>
 
-      <h2 className="absolute mt-25 left-170  text-white text-6xl font-bold z-10 flex ">
+      <h2 className="absolute mt-25  w-full  text-white text-6xl font-bold z-10 flex justify-center items-center ">
         Nos servimos
       </h2>
 

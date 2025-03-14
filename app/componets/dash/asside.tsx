@@ -1,4 +1,4 @@
-import { BookOpen, Backpack, FileSpreadsheet } from "lucide-react";
+import { BookOpen, Backpack, FileSpreadsheet, NotepadText } from "lucide-react";
 
 export default function Asside() {
   return (
@@ -23,6 +23,10 @@ export default function Asside() {
           <div className="flex items-center">
             <FileSpreadsheet />
             <a className="ml-4" href="">Relatório</a>
+          </div>
+          <div className="flex items-center">
+            <NotepadText/>
+            <a className="ml-4" href="">Status <br />Comodato</a>
           </div>
         </div>
 

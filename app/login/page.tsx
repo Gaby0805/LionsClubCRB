@@ -1,52 +1,75 @@
-import React from "react";
-import { Copse } from "next/font/google"
-import {  Concert_One } from "next/font/google"
-import Link from "next/link";
+"use client";
+import React, { useState } from "react";
+import { Copse, Concert_One } from "next/font/google";
+import axios from "axios";
+import {RedirectType, useRouter} from "next/navigation";
+import { ReduceCapacityRounded } from "@mui/icons-material";
+const copsefont = Copse({ subsets: ["latin"], weight: "400" });
+const Concert_Onefont = Concert_One({ subsets: ["latin"], weight: "400" });
 
-const copsefont = Copse({
-  subsets: ["latin"],
-  weight: "400",
-}) 
-const Concert_Onefont = Concert_One({
-  subsets: ["latin"],
-  weight: "400",
-}) 
 
 export default function Home() {
+  // Estados para armazenar email e senha
+  const router = useRouter()
+  const [email, setEmail] = useState("");
+  const [senha, setSenha] = useState("");
+  // Função para autenticar usuário
+  const autorizar = async () => {
+    try {
+      const response = await axios.post("http://localhost:3333/usuario/autenticar", {
+        email,
+        senha,
+      });
+      if (response.data.success == false) {
+        alert("Falha no login. Verifique suas credenciais.");
+        return
+      }
+    
+      console.log("Login realizado:", response.data);
+      alert("Login realizado com sucesso!");
+      router.push('/dashboard')
+    } catch (error) {
+      console.error("Erro no login:", error);
+      alert("Falha no sistema, tente novamente");
+    }
+  };
 
-  const Email = () => {
-    return(
-      <input className={`${copsefont.className} bg-gray-400 w-72 h-11 rounded-md m-13 text-xl font-bold p-3 opacity-80`} type="email" name="email " id="" placeholder="Email"/>
-    )
-  }
-
-  const Password = () => {
-    return(
-      <input className={`${copsefont.className} bg-gray-400 w-72 h-11 rounded-md text-xl font-bold p-3 opacity-80 `} type="password" name="senha" id="" placeholder="Senha" />
-    )
-  }
-
-  const Entrar = () => {
-    return(
-      <Link href={"/dashboard"}>
-      <button type="button" className={`${Concert_Onefont.className} h-13 w-44 text-2xl bg-amber-400 rounded-md mt-15 `}> Entrar</button>
-      </Link>
-    )
-  }
-  
   return (
     <main className="bg-cover bg-center h-screen" style={{ backgroundImage: 'url(/imgs/login.png)' }}>
       <div className="w-screen h-screen flex justify-center items-center">
-        <div className=" w-96 border-2 border-white rounded-2xl flex justify-center items-center flex-col " 
-             style={{ height: 500, backgroundColor: 'rgba(21, 78, 157, 0.7)' }}>
+        <div className="w-96 border-2 border-white rounded-2xl flex justify-center items-center flex-col" 
+             style={{ height: 500, backgroundColor: "rgba(21, 78, 157, 0.7)" }}>
+          
+          <div className="flex justify-center h-full w items-center flex-col opacity-100 text-white">
+            <h3 className="text-white text-4xl w-max">Login</h3>
 
+            {/* Input Email */}
+            <input
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className={`${copsefont.className} bg-gray-400 w-72 h-11 rounded-md text-xl font-bold p-3 opacity-80 mt-5`}
+            />
 
-          <div className="flex justify-center h-full w items-center flex-col opacity-100 text-white ">
-          <h3 className="text-white text-4xl w-max ">Login</h3>
-            <Email />
-            <Password />
-            <p className="mr-32 mt-1 font-bold underline">esqueci minha senha</p>
-            <Entrar/>
+            {/* Input Senha */}
+            <input
+              type="password"
+              placeholder="Senha"
+              value={senha}
+              onChange={(e) => setSenha(e.target.value)}
+              className={`${copsefont.className} bg-gray-400 w-72 h-11 rounded-md text-xl font-bold p-3 opacity-80 mt-5`}
+            />
+
+            <p className="mr-32 mt-1 font-bold underline">Esqueci minha senha</p>
+
+            {/* Botão de Login */}
+            <button 
+              onClick={autorizar} 
+              className={`${Concert_Onefont.className} h-13 w-44 text-2xl bg-amber-400 rounded-md mt-4`}>
+              Entrar
+            </button>
+
           </div>
         </div>
       </div>
