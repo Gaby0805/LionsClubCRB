@@ -17,39 +17,56 @@ const style = {
   p: 4,
 };
 
-export default function Edit({ quantidade1, id_quantidade }) {
+export default function Edit({ nome, status, tamanho, descricao, estoque_id }) {
   const [open, setOpen] = useState(false);
-  const [quantidade, setQuantidade] = useState(quantidade1 || 0); // Define um valor padrão caso undefined
+  const [nomeEditado, setNomeEditado] = useState(nome);
+  const [descricaoEditada, setDescricaoEditada] = useState(descricao);
+  const [tamanhoSelecionado, setTamanhoSelecionado] = useState(tamanho);
+  const [statusSelecionado, setStatusSelecionado] = useState(status);
+  const [Item, setItems] = useState('')
 
-  // Atualiza o estado quando `quantidade1` mudar
   useEffect(() => {
-    setQuantidade(quantidade1 || 0);
-  }, [quantidade1]);
+    setNomeEditado(nome);
+    setDescricaoEditada(descricao);
+    setTamanhoSelecionado(tamanho);
+    setStatusSelecionado(status);
+  }, [nome, descricao, tamanho, status]);
 
-  const handleOpen = () => {
-    setQuantidade(quantidade1 || 0); // Garante que o valor inicial seja atualizado ao abrir o modal
-    setOpen(true);
-  };
-
+  const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   const atualizar = async () => {
     try {
-      console.log("Valor atualizado:", quantidade);
+      console.log("Dados enviados:", { nomeEditado, descricaoEditada, statusSelecionado, tamanhoSelecionado });
       const response = await axios.put('http://localhost:3333/quantidades/', {
-        id_quantidade,
-        quantidade,
+        estoque_id,
+        nome_material: nomeEditado, 
+        descricao: descricaoEditada,
+        status: statusSelecionado,
+        tamanho: tamanhoSelecionado
       });
-
+      handleClose();
       console.log('Resposta do servidor:', response);
     } catch (error) {
       console.error("Erro ao atualizar os dados:", error);
     }
   };
 
+    useEffect(() => {
+        const fetchData = async () => {
+            try { 
+                const response = await axios.get("http://localhost:3333/estoque/valores/");
+                setItems(response.data);
+            } catch (error) {
+                console.log("Erro ao buscar dados:", error);
+            }
+        };
+        fetchData();
+    }, []);
+
   return (
     <div className="w-24 py-2 px-4 rounded-md bg-gray-400">
-      <Button onClick={handleOpen}>Open modal</Button>
+      <Button onClick={handleOpen}>Editar</Button>
       <Modal
         open={open}
         onClose={handleClose}
@@ -57,25 +74,47 @@ export default function Edit({ quantidade1, id_quantidade }) {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <Typography
-            id="modal-modal-title"
-            className="flex justify-center items-center"
-            variant="h6"
-            component="h2"
-          >
-            Edite o valor
+          <Typography id="modal-modal-title" className="flex justify-center items-center" variant="h6" component="h2">
+            Edite os valores
           </Typography>
-          <Typography
-            id="modal-modal-description"
-            className="flex justify-center items-center flex-col"
-            sx={{ mt: 2 }}
-          >
+          <Typography id="modal-modal-description" className="flex justify-center items-center flex-col" sx={{ mt: 2 }}>
+            <label>Nome:</label>
             <input
-              type="number"
+              type="text"
               className="border-[2px] w-35 h-10 rounded-sm pl-2 mb-3"
-              value={quantidade} // Agora usa `quantidade` corretamente
-              onChange={(e) => setQuantidade(Number(e.target.value))} // Atualiza corretamente o estado
+              value={nomeEditado}
+              onChange={(e) => setNomeEditado(e.target.value)}
             />
+
+            <label>Descrição:</label>
+            <textarea
+              className="border-[2px] w-35 h-20 rounded-sm pl-2 mb-3"
+              value={descricaoEditada}
+              onChange={(e) => setDescricaoEditada(e.target.value)}
+            />
+
+            <label>Tamanho:</label>
+            <select
+              className="border-[2px] w-35 h-10 rounded-sm pl-2 mb-3"
+              value={tamanhoSelecionado}
+              onChange={(e) => setTamanhoSelecionado(e.target.value)}
+            >
+              <option value="Padrão">Padrão</option>
+              <option value="Pequena">Pequena</option>
+              <option value="Média">Média</option>
+              <option value="Grande">Grande</option>
+            </select>
+
+            <label>Status:</label>
+            <select
+              className="border-[2px] w-35 h-10 rounded-sm pl-2 mb-3"
+              value={statusSelecionado}
+              onChange={(e) => setStatusSelecionado(e.target.value)}
+            >
+              <option value="Disponível">Ativo</option>
+              <option value="Indisponível">Inativo</option>
+            </select>
+
             <input
               type="button"
               className="border-[2px] w-35 h-10 rounded-sm pl-2"

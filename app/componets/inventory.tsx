@@ -5,13 +5,14 @@ import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
 import { Toast } from 'primereact/toast';
 import MuiModalExample from './modaltest';
-import Edit from './edit';
+import Change from './change';
 import { select } from 'framer-motion/client';
+import Edit from './edit';
 
 export default function Invent() { 
     const [items, setItems] = useState([]);
     const [selectedItem, setSelectedItem] = useState(null);
-    const [valueSelect, setValueSelect] = useState({"name": "", "id": "", "quantidade": ""});
+    const [valueSelect, setValueSelect] = useState({"name": "", "id": "", "descricao": "", "status": "", "tamanho": "", "quantidades": ""});
     const toast = useRef(null);
 
     const onRowSelect = (event) => {
@@ -19,14 +20,17 @@ export default function Invent() {
         setValueSelect({
             "name": event.data.nome_material,
             "id": event.data.id_estoque,
-            "quantidade": event.data.quantidade
+            "descricao": event.data.descricao,
+            "status": event.data.status,
+            "tamanho": event.data.tamanho,
+            "quantidades": event.data.quantidade
         });
     };
 
     useEffect(() => {
         const fetchData = async () => {
             try { 
-                const response = await axios.get("http://localhost:3333/estoque/ComodatoListtext");
+                const response = await axios.get("http://localhost:3333/estoque/comodatolisttext/");
                 setItems(response.data);
             } catch (error) {
                 console.log("Erro ao buscar dados:", error);
@@ -36,15 +40,18 @@ export default function Invent() {
     }, []);
 
 
+
     return (
         <div className='flex flex-col items-center m-10 w-full'>
             <div className='w-full max-w-4xl bg-gray-100 rounded-md m-4 p-4 flex flex-col justify-center items-center text-lg'>
                 <h2 className='text-xl sm:text-2xl'>{valueSelect.name}</h2>
                 <div className='flex flex-col sm:flex-row justify-center items-center w-full gap-4 mt-4'>
 
-                    <Edit quantidade1={valueSelect.quantidade} id_quantidade={valueSelect.id}/>
+                    <Change quantidade1={valueSelect.quantidades} estoque_id={valueSelect.id}/>
+                    <Edit descricao={valueSelect.descricao} nome={valueSelect.name} status={valueSelect.status} estoque_id={valueSelect.id} tamanho={valueSelect.tamanho} />
                 </div>
             </div>
+
 
             <div className='card w-full overflow-x-auto flex justify-center items-center mt-auto'>
                 <div className='flex justify-center items-center'>
@@ -66,6 +73,6 @@ export default function Invent() {
                     </ul>
                 </div>
             </div>
-        </div>
+    </div>
     );
 }
