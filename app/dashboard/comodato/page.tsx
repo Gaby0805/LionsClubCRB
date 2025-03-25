@@ -1,4 +1,6 @@
 'use client'
+// Ajeitar o id do estoque e a transação
+
 import React, { useState, useEffect } from "react";
 import Asside from "../../componets/dash/asside";
 import HeaderDash from "../../componets/dash/headerdash";
@@ -8,44 +10,39 @@ import axios from "axios";
 import { Dropdown } from 'primereact/dropdown';
 import 'primereact/resources/themes/lara-light-indigo/theme.css';
 import 'primereact/resources/primereact.min.css';
+import { useUser } from "@/app/componets/context/UserContext";
 
 export default function Comodato() {
+  const { userId } = useUser();
+  const [valor, setValor] = useState();
+  
+  useEffect(() => {
+    const fetchData = async () => {
+        try {
+            const response = await axios.post("http://localhost:3333/usuario/especifico", {
+                id_usuario: userId
+            });
+            setValor(response.data.nome_user);
+        } catch (error) {
+            console.log("Erro ao buscar dados:", error);
+        }
+    };
+
+    if (userId) {
+        fetchData();
+    }
+  }, [userId]);
+
   const [item, setItem] = useState([]);
   const [formData, setFormData] = useState({
     nome: "", sobrenome: "", cpf: "", rg: "", cep: "", profissao: "",
     estado_civil: "", rua: "", numero_casa: "", complemento: "", telefone: "", cidade_id: "" 
   });
+
+  // Estado atualizado para armazenar nome e ID dos itens
   const [itensSelecionados, setItensSelecionados] = useState([]);
 
-  const atualizar = async () => {
-    try {
-      console.log("Valor Comodato criado:" );
-      const response = await axios.put('http://localhost:3333/comodato/', {
-        formData
-      });
-
-      console.log('Resposta do servidor:', response);
-    } catch (error) {
-      console.error("Erro ao atualizar os dados:", error);
-    }
-  };
-
-
-
-
-  // Opções para os Dropdowns
-  const estadoCivilOptions = [
-    { label: "Solteiro(a)", value: "solteiro" },
-    { label: "Casado(a)", value: "casado" },
-    { label: "Divorciado(a)", value: "divorciado" },
-    { label: "Viúvo(a)", value: "viuvo" }
-  ];
-
-  const cidadeOptions = [
-    { label: "Corumbá", value: "11" },
-    { label: "Ladário", value: "12" },
-  ];
-
+  // Busca os itens do estoque
   useEffect(() => {
     const fetchData = async () => {
       try { 
@@ -69,17 +66,23 @@ export default function Comodato() {
     setFormData({ ...formData, [name]: value });
   };
 
-  // Atualiza os itens selecionados
-  const handleItemSelection = (nome_material) => {
-    setItensSelecionados((prev) => 
-      prev.includes(nome_material) ? prev.filter(item => item !== nome_material) : [...prev, nome_material]
-    );
+  // Atualiza os itens selecionados armazenando Nome + ID
+  const handleItemSelection = (id, nome) => {
+    setItensSelecionados((prev) => {
+      const isSelected = prev.some(item => item.id === id);
+
+      if (isSelected) {
+        return prev.filter(item => item.id !== id); // Remove se já estiver selecionado
+      } else {
+        return [...prev, { id, nome }]; // Adiciona o item
+      }
+    });
   };
 
   // Envia os dados para API
   const Enviardados = async () => {
     try {
-      const dataToSend = { ...formData };
+      const dataToSend = { ...formData, itensSelecionados };
       await axios.post("http://localhost:3333/comodato/", dataToSend);
       alert("Cadastro realizado com sucesso!");
     } catch (error) {
@@ -120,11 +123,19 @@ export default function Comodato() {
                   <p>Cidade</p>
                   <Dropdown
                     value={formData.cidade_id}
-                    options={cidadeOptions}
+                    options={[
+                      { label: "Corumbá", value: "11" },
+                      { label: "Ladário", value: "12" }
+                    ]}
                     onChange={(e) => handleDropdownChange("cidade_id", e.value)}
                     placeholder="Selecione uma cidade"
                     className="h-12 w-full bg-gray-300 rounded-md"
                   />
+                </div>
+
+                <div className="flex flex-col">
+                  <p>Usuario responsavel</p>
+                  <input className="h-12 rounded-md bg-gray-300 p-2" type="text" value={valor} disabled/>
                 </div>
               </div>
 
@@ -148,7 +159,12 @@ export default function Comodato() {
                   <p>Estado Civil</p>
                   <Dropdown
                     value={formData.estado_civil}
-                    options={estadoCivilOptions}
+                    options={[
+                      { label: "Solteiro(a)", value: "solteiro" },
+                      { label: "Casado(a)", value: "casado" },
+                      { label: "Divorciado(a)", value: "divorciado" },
+                      { label: "Viúvo(a)", value: "viuvo" }
+                    ]}
                     onChange={(e) => handleDropdownChange("estado_civil", e.value)}
                     placeholder="Selecione um estado civil"
                     className="h-12 w-full bg-gray-300 rounded-md"
@@ -184,26 +200,21 @@ export default function Comodato() {
               <div className="flex flex-col justify-between ml-auto">
                 <h3 className="text-2xl font-bold mb-4">Itens Solicitados</h3>
                 <div className="space-y-2">
-                  {item.map((item, index) => (
-                    <div key={index} className="flex items-center">
+                  {item.map(({ id_estoque, nome_material }) => (
+                    <div key={id_estoque} className="flex items-center">
                       <Checkbox
-                        checked={itensSelecionados.includes(item.nome_material)}
-                        onChange={() => handleItemSelection(item.nome_material)}
+                        checked={itensSelecionados.some(item => item.id === id_estoque)}
+                        onChange={() => handleItemSelection(id_estoque, nome_material)}
                       />
-                      <p>{item.nome_material}</p>
+                      <p>{nome_material}</p>  
                     </div>
                   ))}
                 </div>
 
-                {/* Botão de Envio */}
-                <button 
-                  onClick={Enviardados} 
-                  className="w-full mt-5 bg-blue-500 text-white rounded-md py-2 text-lg font-semibold hover:bg-blue-600 transition duration-200"
-                >
-                  Enviar
+                <button onClick={Enviardados} className="w-full mt-5 bg-blue-500 text-white rounded-md py-2 text-lg font-semibold hover:bg-blue-600 transition duration-200">
+                   Enviar
                 </button>
               </div>
-
             </div>
           </main>
         </div>

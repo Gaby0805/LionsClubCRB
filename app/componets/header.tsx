@@ -2,7 +2,6 @@ import React from "react";
 import Image from 'next/image'
 import useEmblaCarousel from 'embla-carousel-react'
 import { Concert_One, Akatab } from "next/font/google"
-
 const Concert_Onefont = Concert_One({
     subsets: ["latin"],
     weight: "400",

@@ -66,7 +66,7 @@ export default function Edit({ nome, status, tamanho, descricao, estoque_id }) {
 
   return (
     <div className="w-24 py-2 px-4 rounded-md bg-gray-400">
-      <Button onClick={handleOpen}>Editar</Button>
+      <Button sx={{color: 'black'}} onClick={handleOpen}>Editar</Button>
       <Modal
         open={open}
         onClose={handleClose}

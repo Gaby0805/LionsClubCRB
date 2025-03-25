@@ -18,17 +18,12 @@ const style = {
   p: 4,
 };
 
-export default function Change({ quantidade1, estoque_id }) {
+export default function Userchange({}) {
   const [open, setOpen] = useState(false);
-  const [quantidade, setQuantidade] = useState(quantidade1 || 0); // Define um valor padrão caso undefined
 
   // Atualiza o estado quando `quantidade1` mudar
-  useEffect(() => {
-    setQuantidade(quantidade1 || 0);
-  }, [quantidade1]);
 
   const handleOpen = () => {
-    setQuantidade(quantidade1 || 0); // Garante que o valor inicial seja atualizado ao abrir o modal
     setOpen(true);
   };
 
@@ -36,10 +31,9 @@ export default function Change({ quantidade1, estoque_id }) {
 
   const atualizar = async () => {
     try {
-      console.log("Valor atualizado:", quantidade);
+      console.log("Valor atualizado:");
       const response = await axios.put('http://localhost:3333/quantidades/', {
-        estoque_id,
-        quantidade,
+
       });
       handleClose( )
 
@@ -76,8 +70,8 @@ export default function Change({ quantidade1, estoque_id }) {
             <input
               type="number"
               className="border-[2px] w-35 h-10 rounded-sm pl-2 mb-3"
-              value={quantidade} // Agora usa `quantidade` corretamente
-              onChange={(e) => setQuantidade(Number(e.target.value))} // Atualiza corretamente o estado
+              value={15} // Agora usa `quantidade` corretamente
+              onChange={(e) => {console.log('aaa')}} // Atualiza corretamente o estado
             />
             <input
               type="button"

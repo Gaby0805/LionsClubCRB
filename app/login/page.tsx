@@ -2,14 +2,16 @@
 import React, { useState } from "react";
 import { Copse, Concert_One } from "next/font/google";
 import axios from "axios";
-import {RedirectType, useRouter} from "next/navigation";
-import { ReduceCapacityRounded } from "@mui/icons-material";
+import {useRouter} from "next/navigation";
+import { useUser } from "../componets/context/UserContext";
+
 const copsefont = Copse({ subsets: ["latin"], weight: "400" });
 const Concert_Onefont = Concert_One({ subsets: ["latin"], weight: "400" });
 
 
 export default function Home() {
-  // Estados para armazenar email e senha
+  // Estados para armazenar email e senha3
+  const {saveUserId} = useUser()
   const router = useRouter()
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
@@ -24,8 +26,9 @@ export default function Home() {
         alert("Falha no login. Verifique suas credenciais.");
         return
       }
-    
-      console.log("Login realizado:", response.data);
+      saveUserId(response.data.id_usuario);     
+      console.log(response.data.id_usuario)
+       console.log("Login realizado:", response.data);
       alert("Login realizado com sucesso!");
       router.push('/dashboard')
     } catch (error) {

@@ -3,6 +3,7 @@ import React from "react";
 import Asside from "../componets/dash/asside";
 import HeaderDash from "../componets/dash/headerdash";
 import { motion } from "motion/react"
+
 export default function Dashboard() {
 
     const transition = {
