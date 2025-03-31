@@ -40,7 +40,8 @@ export default function Change({ quantidade1, estoque_id }) {
       const response = await axios.put('http://localhost:3333/quantidades/', {
         estoque_id,
         quantidade,
-      });
+      },
+      {withCredentials: true});
       handleClose( )
 
       console.log('Resposta do servidor:', response);

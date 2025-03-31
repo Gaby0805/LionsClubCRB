@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
-import ".././globals.css";
+import { Geist, Geist_Mono } from "next/font/google";
+import "../globals.css";
+import { UserProvider } from "../componets/context/UserContext";
 
 
 export const metadata: Metadata = {
@@ -13,10 +15,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
+    <UserProvider>
+
     <html lang="en">
-      <body>
+      <body
+      >
         {children}
       </body>
     </html>
+        </UserProvider>
   );
 }

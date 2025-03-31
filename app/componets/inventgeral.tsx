@@ -28,7 +28,8 @@ export default function Invent2() {
     useEffect(() => {
         const fetchData = async () => {
             try { 
-                const response = await axios.get("http://localhost:3333/estoque/lions/");
+                const response = await axios.get("http://localhost:3333/estoque/lions/",
+                    {withCredentials: true});
                 setItems(response.data);
             } catch (error) {
                 console.log("Erro ao buscar dados:", error);

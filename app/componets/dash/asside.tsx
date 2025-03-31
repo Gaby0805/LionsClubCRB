@@ -26,7 +26,7 @@ export default function Asside() {
           </div>
           <div className="flex items-center">
             <NotepadText/>
-            <a className="ml-4" href="">Status <br />Comodato</a>
+            <a className="ml-4" href="/dashboard/stats">Status <br />Comodato</a>
           </div>
         </div>
 

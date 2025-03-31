@@ -35,7 +35,8 @@ export default function AddItem({ Area }) {
         area_material: Area,
         aquisicao: new Date(aquisicaoSelecionada).toISOString(),
         tamanho: tamanhoSelecionado
-      });
+      },
+      {withCredentials: true});
       console.log('Resposta do servidor:', response);
       handleClose();
     } catch (error) {

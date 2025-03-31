@@ -4,7 +4,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 
 export default function HeaderDash() {
-    const { userId } = useUser();
+    const { userId } = useUser(); 
     const [valor, setValor] = useState()
 
     useEffect(() => {
@@ -12,7 +12,8 @@ export default function HeaderDash() {
             try {
                 const response = await axios.post("http://localhost:3333/usuario/especifico", {
                     id_usuario: userId // Envia o ID do usuário no body
-                });
+                },
+                {withCredentials: true});
                 setValor(response.data.nome_user); // Atualiza o estado com o nome do usuário
             } catch (error) {
                 console.log("Erro ao buscar dados:", error);

@@ -1,8 +1,8 @@
 'use client'
 import React from "react";
-import Header from "./componets/header";
-import { EmblaCarousel } from "./componets/carrousel";
-import Footer from "./componets/footer";
+import Header from "../componets/header";
+import { EmblaCarousel } from "../componets/carrousel";
+import Footer from "../componets/footer";
 import { Concert_One, Lora } from "next/font/google";
 
 const concertOne = Concert_One({ subsets: ["latin"], weight: "400" });

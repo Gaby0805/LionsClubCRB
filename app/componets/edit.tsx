@@ -44,7 +44,8 @@ export default function Edit({ nome, status, tamanho, descricao, estoque_id }) {
         descricao: descricaoEditada,
         status: statusSelecionado,
         tamanho: tamanhoSelecionado
-      });
+      },
+      {withCredentials: true});
       handleClose();
       console.log('Resposta do servidor:', response);
     } catch (error) {
@@ -55,7 +56,8 @@ export default function Edit({ nome, status, tamanho, descricao, estoque_id }) {
     useEffect(() => {
         const fetchData = async () => {
             try { 
-                const response = await axios.get("http://localhost:3333/estoque/valores/");
+                const response = await axios.get("http://localhost:3333/estoque/valores/",
+                  {withCredentials: true});
                 setItems(response.data);
             } catch (error) {
                 console.log("Erro ao buscar dados:", error);

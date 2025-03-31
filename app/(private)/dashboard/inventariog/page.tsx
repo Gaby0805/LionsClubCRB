@@ -1,9 +1,10 @@
 'use client'
-import Asside from "../../componets/dash/asside";
+import Asside from "../../../componets/dash/asside";
 
 import React, { useState, useEffect } from 'react';
 import Invent from "@/app/componets/inventory";
-import HeaderDash from "../../componets/dash/headerdash";
+import HeaderDash from "../../../componets/dash/headerdash";
+import Invent2 from "@/app/componets/inventgeral";
 export default function inventario() {
 
 
@@ -23,8 +24,8 @@ export default function inventario() {
 
         <main className="flex-1 bg-gray-200 h-full  w-full flex justify-center ">
 
-        <Invent/>
         
+        <Invent2/>
         </main>
 
         </div>

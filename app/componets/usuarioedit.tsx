@@ -34,7 +34,8 @@ export default function Userchange({}) {
       console.log("Valor atualizado:");
       const response = await axios.put('http://localhost:3333/quantidades/', {
 
-      });
+      },
+      {withCredentials: true});
       handleClose( )
 
       console.log('Resposta do servidor:', response);

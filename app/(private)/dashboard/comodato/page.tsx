@@ -2,8 +2,8 @@
 // Ajeitar o id do estoque e a transação
 
 import React, { useState, useEffect } from "react";
-import Asside from "../../componets/dash/asside";
-import HeaderDash from "../../componets/dash/headerdash";
+import Asside from "../../../componets/dash/asside";
+import HeaderDash from "../../../componets/dash/headerdash";
 import { Checkbox } from "@mui/material";
 import '@fontsource/roboto/300.css';
 import axios from "axios";
@@ -21,7 +21,8 @@ export default function Comodato() {
         try {
             const response = await axios.post("http://localhost:3333/usuario/especifico", {
                 id_usuario: userId
-            });
+            },
+            {withCredentials: true});
             setValor(response.data.nome_user);
         } catch (error) {
             console.log("Erro ao buscar dados:", error);
@@ -46,7 +47,8 @@ export default function Comodato() {
   useEffect(() => {
     const fetchData = async () => {
       try { 
-        const response = await axios.get("http://localhost:3333/estoque/ComodatoList");
+        const response = await axios.get("http://localhost:3333/estoque/ComodatoList",
+          {withCredentials: true});
         setItem(response.data);
       } catch (error) {
         console.log("Erro ao buscar dados:", error);
@@ -83,7 +85,8 @@ export default function Comodato() {
   const Enviardados = async () => {
     try {
       const dataToSend = { ...formData, itensSelecionados };
-      await axios.post("http://localhost:3333/comodato/", dataToSend);
+      await axios.post("http://localhost:3333/comodato/", dataToSend,
+        {withCredentials: true});
       alert("Cadastro realizado com sucesso!");
     } catch (error) {
       console.log("Erro ao enviar dados:", error);

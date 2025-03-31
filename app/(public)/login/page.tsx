@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Copse, Concert_One } from "next/font/google";
 import axios from "axios";
 import {useRouter} from "next/navigation";
-import { useUser } from "../componets/context/UserContext";
+import { useUser } from "../../componets/context/UserContext";
 
 const copsefont = Copse({ subsets: ["latin"], weight: "400" });
 const Concert_Onefont = Concert_One({ subsets: ["latin"], weight: "400" });
@@ -21,7 +21,10 @@ export default function Home() {
       const response = await axios.post("http://localhost:3333/usuario/autenticar", {
         email,
         senha,
-      });
+      },
+      {withCredentials: true}
+  );
+      console.log(email, senha)
       if (response.data.success == false) {
         alert("Falha no login. Verifique suas credenciais.");
         return

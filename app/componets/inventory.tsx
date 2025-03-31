@@ -6,6 +6,7 @@ import { Column } from 'primereact/column';
 import AddItem from './additemcomodato';
 import Change from './change';
 import Edit from './edit';
+import { Truck } from 'lucide-react';
 
 export default function Invent() { 
     const [items, setItems] = useState([]);
@@ -32,7 +33,7 @@ export default function Invent() {
     // 🔄 Função para buscar os dados da API
     const fetchData = async () => {
         try { 
-            const response = await axios.get("http://localhost:3333/estoque/comodatolisttext/");
+            const response = await axios.get("http://localhost:3333/estoque/comodatolisttext/", {withCredentials:true});
             setItems(response.data);
         } catch (error) {
             console.log("Erro ao buscar dados:", error);
