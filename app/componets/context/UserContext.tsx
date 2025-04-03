@@ -17,9 +17,9 @@ export function UserProvider({children}) {
         }
     }, []);
 
-    const saveUserId = (id) => {
-        setUserId(id);
-        localStorage.setItem("user_id", id);
+    const saveUserId = (id_usuario) => {
+        setUserId(id_usuario);
+        localStorage.setItem("user_id", id_usuario);
     };
 
     return (

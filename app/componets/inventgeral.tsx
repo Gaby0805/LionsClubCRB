@@ -10,7 +10,7 @@ import AddItem from './additemcomodato';
 export default function Invent2() { 
     const [items, setItems] = useState([]);
     const [selectedItem, setSelectedItem] = useState(null);
-    const [valueSelect, setValueSelect] = useState({"name": "", "id": "", "descricao": "", "status": "", "tamanho": "", "quantidades": ""});
+    const [valueSelect, setValueSelect] = useState({"name": "", "id": "", "descricao": "", "status": "", "tamanho": "", "quantidades": "","area_material": ""});
     const toast = useRef(null);
 
     const onRowSelect = (event) => {
@@ -21,7 +21,8 @@ export default function Invent2() {
             "descricao": event.data.descricao,
             "status": event.data.status,
             "tamanho": event.data.tamanho,
-            "quantidades": event.data.quantidade
+            "quantidades": event.data.quantidade,
+            "area_material": event.data.area_material
         });
     };
 
@@ -66,6 +67,7 @@ export default function Invent2() {
                            metaKeySelection={false} dragSelection
                            sortField="nome_material" sortOrder={1} // Define uma ordenação inicial
                            >
+                               <Column field="area_material" header="Categoria" sortable style={{ fontSize: '18px', padding: '10px' }} />
                                <Column field="nome_material" header="Nome do Material" sortable style={{ fontSize: '18px', padding: '10px' }} />
                                <Column field="valor" header="Valor" sortable style={{ fontSize: '18px', padding: '10px' }} />
                                <Column field="tamanho" header="Tamanho" sortable style={{ fontSize: '18px', padding: '10px' }} />

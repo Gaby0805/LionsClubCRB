@@ -47,7 +47,7 @@ export default function Comodato() {
   useEffect(() => {
     const fetchData = async () => {
       try { 
-        const response = await axios.get("http://localhost:3333/estoque/ComodatoList",
+        const response = await axios.get("http://localhost:3333/estoque/ComodatoListtext",
           {withCredentials: true});
         setItem(response.data);
       } catch (error) {
@@ -95,12 +95,12 @@ export default function Comodato() {
   };
 
   return (
-    <div className="flex w-full h-full">
+    <div className="flex   w-screen h-screen ">
       <Asside />
-      <div className="flex flex-1">
+      <div className="flex flex-1 overflow-hidden ">
         <div className="flex flex-col w-full">
           <HeaderDash />
-          <main className="flex-1 h-full w-full bg-gray-100 p-5">
+          <main className="flex-1 h-full w-full bg-gray-100 p-5 overflow-auto">
             <h1 className="text-4xl font-bold mb-5">Cadastro</h1>
 
             {/* Grid Responsivo */}
@@ -108,18 +108,27 @@ export default function Comodato() {
               
               {/* Primeira Coluna */}
               <div className="space-y-4">
-                {["Nome", "CPF", "profissao", "CEP", "Bairro", "Telefone"].map((label) => (
-                  <div key={label} className="flex flex-col">
-                    <p>{label}</p>
-                    <input
-                      type="text"
-                      name={label.toLowerCase()}
-                      value={formData[label.toLowerCase()]}
-                      onChange={handleInputChange}
-                      className="h-12 rounded-md bg-gray-300 p-2"
-                    />
-                  </div>
-                ))}
+              {["Nome", "CPF", "profissao", "CEP", "Bairro", "Telefone"].map((label) => (
+  <div key={label} className="flex flex-col">
+    <p>{label}</p>
+    <input
+      type="text"
+      name={label.toLowerCase()}
+      value={formData[label.toLowerCase()]}
+      onChange={handleInputChange}
+      className="h-12 rounded-md bg-gray-300 p-2"
+      placeholder={
+        label === "CPF"
+          ? "Ex: 123.456.789-00"
+          : label === "CEP"
+          ? "Ex: 12345-678"
+          : ""
+      }
+    />
+  </div>
+))}
+
+
 
                 {/* Cidade (Dropdown) */}
                 <div className="flex flex-col">
@@ -144,18 +153,19 @@ export default function Comodato() {
 
               {/* Segunda Coluna */}
               <div className="space-y-4">
-                {["Sobrenome", "RG", "Complemento"].map((label) => (
-                  <div key={label} className="flex flex-col">
-                    <p>{label}</p>
-                    <input
-                      type="text"
-                      name={label.toLowerCase()}
-                      value={formData[label.toLowerCase()]}
-                      onChange={handleInputChange}
-                      className="h-12 rounded-md bg-gray-300 p-2"
-                    />
-                  </div>
-                ))}
+              {["Sobrenome", "RG", "Complemento"].map((label) => (
+  <div key={label} className="flex flex-col">
+    <p>{label}</p>
+    <input
+      type="text"
+      name={label.toLowerCase()}
+      value={formData[label.toLowerCase()]}
+      onChange={handleInputChange}
+      className="h-12 rounded-md bg-gray-300 p-2"
+      placeholder={label === "RG" ? "Ex: 12.345.678-9" : ""}
+    />
+  </div>
+))}
 
                 {/* Estado Civil (Dropdown) */}
                 <div className="flex flex-col">
@@ -200,11 +210,11 @@ export default function Comodato() {
               </div>
 
               {/* Terceira Coluna (Itens Solicitados) */}
-              <div className="flex flex-col justify-between ml-auto">
-                <h3 className="text-2xl font-bold mb-4">Itens Solicitados</h3>
-                <div className="space-y-2">
+              <div className="flex flex-col  ml-auto">
+                <h3 className="text-2xl font-bold ">Itens Solicitados</h3>
+                <div className="space-y-2 mt-10">
                   {item.map(({ id_estoque, nome_material }) => (
-                    <div key={id_estoque} className="flex items-center">
+                    <div key={id_estoque} className="flex items-center ">
                       <Checkbox
                         checked={itensSelecionados.some(item => item.id === id_estoque)}
                         onChange={() => handleItemSelection(id_estoque, nome_material)}

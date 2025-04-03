@@ -3,7 +3,7 @@ import { BookOpen, Backpack, FileSpreadsheet, NotepadText } from "lucide-react";
 export default function Asside() {
   return (
     <div
-      className="w-60 h-screen rounded-r-xl "
+      className="w-60 h-scree rounded-r-xl "
       style={{ backgroundColor: "#4C506B",}}
     >
     <nav className="text-white flex flex-col justify-between h-full w-full">

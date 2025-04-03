@@ -27,7 +27,7 @@ export default function Statuscomodato(props:any) {
 
 
       </div >
-        <p className="ml-3 mt-1 ">clicle para obter mais informações</p>
+        <p className="mt-1 pl-3 flex ml-auto">clicle para obter mais informações</p>
 
 
 

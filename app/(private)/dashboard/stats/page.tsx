@@ -5,12 +5,12 @@ import HeaderDash from "../../../componets/dash/headerdash";
 import Statuscomodato from "@/app/componets/statusitem";
 import axios from "axios";
 import Itempage from "@/app/componets/pagination";
-import { listClasses } from "@mui/material";
+import EditStats from "@/app/componets/itemstats";
 
 
-export default function Dashboard() {
+export default function StatsItem() {
     const [item, setItem] = useState([])
-
+  
     useEffect(() => {
         const fetchData = async () => {
           try { 
@@ -26,7 +26,7 @@ export default function Dashboard() {
       // const listaitem = item.
 
     return(
-        <div className="flex flex-col overflow-hidden" >
+        <div className="flex flex-col h-screen w-screen overflow-hidden" >
 
 
         <div className="flex flex-1">
@@ -38,7 +38,7 @@ export default function Dashboard() {
 
 
         <main className="flex-1 bg-gray-200 h-screen flex flex-col overflow-auto">
-            <div className="flex m-5 flex-col flex-1">
+        <div className="flex m-5 flex-col flex-1">
                 <div className=" text-3xl">
                     Status comodato
                 </div>

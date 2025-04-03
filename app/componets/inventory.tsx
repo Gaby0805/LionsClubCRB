@@ -33,7 +33,7 @@ export default function Invent() {
     // 🔄 Função para buscar os dados da API
     const fetchData = async () => {
         try { 
-            const response = await axios.get("http://localhost:3333/estoque/comodatolisttext/", {withCredentials:true});
+            const response = await axios.get("http://localhost:3333/estoque/ComodatoList", {withCredentials:true});
             setItems(response.data);
         } catch (error) {
             console.log("Erro ao buscar dados:", error);
