@@ -39,6 +39,27 @@ export default function Invent() {
             console.log("Erro ao buscar dados:", error);
         }
     };
+    const deletar = async ()=> {
+    try{
+        const confirmDelete = confirm('Você tem certeza que deseja excluir o item?');
+        if (!confirmDelete) return;
+        await axios.delete("http://localhost:3333/estoque/",{
+            data: {
+                id_estoque: valueSelect.id
+            },
+            withCredentials: true            
+        });
+        console.log('item deletato')
+    }
+     catch (error) {
+        alert('o item precisa possuir quantidade para ser deletado')
+
+        console.error('Erro ao deletar item:', error);
+    }
+    } 
+    
+        
+
 
     // 🚀 Atualiza os dados sempre que refreshData mudar
     useEffect(() => {
@@ -62,6 +83,11 @@ export default function Invent() {
                     <Edit descricao={valueSelect.descricao} nome={valueSelect.name} status={valueSelect.status} 
                           estoque_id={valueSelect.id} tamanho={valueSelect.tamanho} 
                           onEditSuccess={() => setRefreshData(prev => !prev)} />
+                    <div className='w-fit py-3 px-4 rounded-md bg-red-500 '>
+                        <button onClick={deletar}>
+                            excluir item
+                        </button>
+                    </div>
                 </div>
             </div>
 
