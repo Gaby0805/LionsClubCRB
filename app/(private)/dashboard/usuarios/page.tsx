@@ -24,10 +24,9 @@ export default function Dashboard() {
         sobrenome: '',
         email: '',
         cpf: '',
-        senha: '',
         tipo_user: '',
 
-    })
+    })  
     
     const CreateItemAdmin = () => {
         return (
@@ -53,7 +52,7 @@ export default function Dashboard() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.post("https://leoncio-backend.onrender.com/usuario/especifico", {
+                const response = await axios.post("http://localhost:3333/usuario/especifico", {
                     id_usuario: userId // Envia o ID do usuário no body
                 },
                 {withCredentials: true});
@@ -114,7 +113,7 @@ export default function Dashboard() {
                 if (!confirme) return;
 
                 try {
-                await axios.post('https://leoncio-backend.onrender.com/usuario/logout', {}, {
+                await axios.post('http://localhost:3333/usuario/logout', {}, {
                     withCredentials: true // <- importante para enviar e apagar cookies HttpOnly
                 });
 
