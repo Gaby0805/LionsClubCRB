@@ -18,28 +18,33 @@ export default function Home() {
   // Função para autenticar usuário
   const autorizar = async () => {
     try {
-      const response = await axios.post("https://leoncio-backend.onrender.com/usuario/autenticar", {
-        email,
-        senha,
-      },
-      {withCredentials: true}
-  );
-      console.log(email, senha)
-      if (response.data.success == false) {
+      const response = await axios.post(
+        "https://leoncio-backend.onrender.com/usuario/autenticar", 
+        { email, senha },
+        { withCredentials: true }
+      );
+      
+      // Verificar se a resposta foi bem-sucedida
+      if (response.data.success === false) {
         alert("Falha no login. Verifique suas credenciais.");
-        return
+        return;
       }
-      saveUserId(response.data.id_usuario);     
-      console.log(response.data.id_usuario)
-       console.log("Login realizado:", response.data);
+  
+      // Armazenar ID do usuário
+      saveUserId(response.data.id_usuario); 
+  
+      console.log("Login realizado com sucesso:", response.data);
+  
+      // Redirecionar para o dashboard após o login bem-sucedido
       alert("Login realizado com sucesso!");
-      router.push('/dashboard')
+      router.push('/dashboard');
+      
     } catch (error) {
       console.error("Erro no login:", error);
       alert("Falha no sistema, tente novamente");
     }
   };
-
+  
   return (
     <main className="bg-cover bg-center h-screen" style={{ backgroundImage: 'url(/imgs/login.png)' }}>
       <div className="w-screen h-screen flex justify-center items-center">
