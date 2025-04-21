@@ -22,11 +22,11 @@ export default function Asside() {
           </div>
           <div className="flex items-center">
             <FileSpreadsheet />
-            <a className="ml-4" href="">Relatório</a>
+            <a className="ml-4" href="relatorio">Relatório</a>
           </div>
           <div className="flex items-center">
             <NotepadText/>
-            <a className="ml-4" href="/dashboard/stats">Status <br />Comodato</a>
+            <a className="ml-4 flex flex-wrap" href="/dashboard/stats">Status <br />Comodato</a>
           </div>
         </div>
 

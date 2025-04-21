@@ -10,7 +10,7 @@ export default function HeaderDash() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.post("http://localhost:3333/usuario/especifico", {
+                const response = await axios.post("https://leoncio-backend.onrender.com/usuario/especifico", {
                     id_usuario: userId // Envia o ID do usuário no body
                 },
                 {withCredentials: true});
@@ -33,7 +33,7 @@ export default function HeaderDash() {
 
 
         <div>
-            <a href="/dashboard/usuarios/:">
+            <a href="/dashboard/usuarios">
             <CircleUserRound color="black" size={36}/>
             </a>
             

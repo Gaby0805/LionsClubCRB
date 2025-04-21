@@ -6,6 +6,7 @@ import { Toast } from 'primereact/toast';
 import Change from './change';
 import Edit from './edit';
 import AddItem from './additemcomodato';
+import { Button } from '@mui/material';
 
 export default function Invent2() { 
     const [items, setItems] = useState([]);
@@ -29,7 +30,7 @@ export default function Invent2() {
     useEffect(() => {
         const fetchData = async () => {
             try { 
-                const response = await axios.get("http://localhost:3333/estoque/lions/",
+                const response = await axios.get("https://leoncio-backend.onrender.com/estoque/lions/",
                     {withCredentials: true});
                 setItems(response.data);
             } catch (error) {
@@ -42,7 +43,7 @@ export default function Invent2() {
         try{
             const confirmDelete = confirm('Você tem certeza que deseja excluir o item?');
             if (!confirmDelete) return;
-            await axios.delete("http://localhost:3333/estoque/",{
+            await axios.delete("https://leoncio-backend.onrender.com/estoque/",{
                 data: {
                     id_estoque: valueSelect.id
                 },
@@ -61,6 +62,10 @@ export default function Invent2() {
 
     return (
         <div className='flex flex-col items-center m-10 w-full'>
+                    <div className=" py-2 px-4 rounded-md bg-gray-400 mb-5 ">
+                        <Button sx={{color: 'black'}} href="/dashboard/inventario">Inventario Lions+</Button>
+                    </div>
+  
                 <div className=''>
                     <AddItem Area={'Lions'}/>
                 </div>

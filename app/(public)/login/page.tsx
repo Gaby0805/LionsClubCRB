@@ -18,7 +18,7 @@ export default function Home() {
   // Função para autenticar usuário
   const autorizar = async () => {
     try {
-      const response = await axios.post("http://localhost:3333/usuario/autenticar", {
+      const response = await axios.post("https://leoncio-backend.onrender.com/usuario/autenticar", {
         email,
         senha,
       },

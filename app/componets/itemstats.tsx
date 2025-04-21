@@ -27,7 +27,7 @@ export default function EditStats({modal}) {
   const Enviar = async () => {
     try {
       console.log("Dados enviados:", { nomeEditado, descricaoEditada, tamanhoSelecionado, valorSelecionado, aquisicaoSelecionada });
-      const response = await axios.post('http://localhost:3333/estoque/', {
+      const response = await axios.post('https://leoncio-backend.onrender.com/estoque/', {
         nome_material: nomeEditado,
         descricao: descricaoEditada,
         valor: valorSelecionado,
@@ -56,7 +56,7 @@ export default function EditStats({modal}) {
           <Typography className="flex justify-center items-center flex-col" sx={{ mt: 2 }}>
             <label>Nome:</label>
             <input type="text" className="border-[2px] w-35 h-10 rounded-sm pl-2 mb-3" value={nomeEditado} onChange={(e) => setNomeEditado(e.target.value)} />
-1
+
             <label>Descrição:</label>
             <textarea className="border-[2px] w-35 h-20 rounded-sm pl-2 mb-3" value={descricaoEditada} onChange={(e) => setDescricaoEditada(e.target.value)} />
 

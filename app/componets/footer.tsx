@@ -4,7 +4,7 @@ import React from "react";
 
 export default function Footer() {
     return (
-        <footer className="w-full h-auto flex flex-col md:flex-row bg-blue-900 p-4">
+        <footer className="w-full h-auto flex flex-col md:flex-row bg-blue-900 p-4 ">
             {/* Ícones Sociais */}
             <div className="flex flex-col justify-center items-center w-full md:w-36 mb-4 md:mb-0">
                 <FaInstagram color="#ffd700" size={'34px'} />

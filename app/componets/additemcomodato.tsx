@@ -27,7 +27,7 @@ export default function AddItem({ Area }) {
   const Enviar = async () => {
     try {
       console.log("Dados enviados:", { nomeEditado, descricaoEditada, tamanhoSelecionado, valorSelecionado, aquisicaoSelecionada });
-      const response = await axios.post('http://localhost:3333/estoque/', {
+      const response = await axios.post('https://leoncio-backend.onrender.com/estoque/', {
         nome_material: nomeEditado,
         descricao: descricaoEditada,
         valor: valorSelecionado,
@@ -70,7 +70,7 @@ export default function AddItem({ Area }) {
             </select>
 
             <label>Valor:</label>
-            <input type="number" className="border-[2px] w-35 h-10 rounded-sm pl-2 mb-3" value={valorSelecionado} onChange={(e) => setValorSelecionado(e.target.value)} />
+            <input type="number" className="border-[2px] w-35 h-10 rounded-sm pl-2 mb-3"  placeholder='20.52' value={valorSelecionado} onChange={(e) => setValorSelecionado(e.target.value)} />
             
             <label>Data de Aquisição:</label>
             <input type="date" className="border-[2px] w-35 h-10 rounded-sm pl-2 mb-3" value={aquisicaoSelecionada} onChange={(e) => setAquisicaoSelecionada(e.target.value)} />

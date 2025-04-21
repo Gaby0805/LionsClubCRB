@@ -6,7 +6,7 @@ import { Column } from 'primereact/column';
 import AddItem from './additemcomodato';
 import Change from './change';
 import Edit from './edit';
-import { Truck } from 'lucide-react';
+import { Button } from '@mui/material';
 
 export default function Invent() { 
     const [items, setItems] = useState([]);
@@ -33,7 +33,7 @@ export default function Invent() {
     // 🔄 Função para buscar os dados da API
     const fetchData = async () => {
         try { 
-            const response = await axios.get("http://localhost:3333/estoque/ComodatoList", {withCredentials:true});
+            const response = await axios.get("https://leoncio-backend.onrender.com/estoque/ComodatoList", {withCredentials:true});
             setItems(response.data);
         } catch (error) {
             console.log("Erro ao buscar dados:", error);
@@ -43,7 +43,8 @@ export default function Invent() {
     try{
         const confirmDelete = confirm('Você tem certeza que deseja excluir o item?');
         if (!confirmDelete) return;
-        await axios.delete("http://localhost:3333/estoque/",{
+
+        await axios.delete("https://leoncio-backend.onrender.com/estoque/",{
             data: {
                 id_estoque: valueSelect.id
             },
@@ -68,12 +69,15 @@ export default function Invent() {
 
     return (
         <div className='flex flex-col items-center m-10 w-full'>
+                    <div className=" py-2 px-4 rounded-md bg-gray-400 mb-5 ">
+                        <Button sx={{color: 'black'}} href="/dashboard/inventariog">Inventario Geral</Button>
+                    </div>
             <div>
                 {/* 📌 Passamos a função setRefreshData para atualizar a tabela após adicionar um item */}
                 <AddItem Area={'Comodato'} onAddSuccess={() => setRefreshData(prev => !prev)} />
             </div>
 
-            <div className='w-full max-w-4xl bg-gray-100 rounded-md m-4 p-4 flex flex-col justify-center items-center text-lg'>
+            <div className='w-full max-w-4xl bg-gray-100 rounded-md m-6 p-4 flex flex-col justify-center items-center text-lg'>
                 <h2 className='text-xl sm:text-2xl'>{valueSelect.name}</h2>
                 <div className='flex flex-col sm:flex-row justify-center items-center w-full gap-4 mt-4'>
                     {/* 📌 Atualiza a tabela após mudança na quantidade */}
@@ -91,25 +95,74 @@ export default function Invent() {
                 </div>
             </div>
 
-            <div className='card w-full overflow-x-auto flex justify-center items-center mt-auto'>
+            <div className='card w-full overflow-x-auto flex justify-center items-center mt-auto '>
                 <div className='flex justify-center items-center'>
                     <ul className='bg-amber-600 w-[90%] flex justify-center items-center'>    
                         <Toast ref={toast} className='m-5 p-2'/>
-                        <DataTable className='bg-gray-100 rounded-sm w-full' scrollHeight='380px' 
-                        value={items} selectionMode="single" selection={selectedItem} 
-                        onSelectionChange={(e) => setSelectedItem(e.value)}
-                        dataKey="id_estoque" onRowSelect={onRowSelect} 
-                        metaKeySelection={false} dragSelection
-                        sortField="nome_material" sortOrder={1} // Define uma ordenação inicial
-                        >
-                            <Column field="nome_material" header="Nome do Material" sortable style={{ fontSize: '18px', padding: '10px' }} />
-                            <Column field="valor" header="Valor" sortable style={{ fontSize: '18px', padding: '10px' }} />
-                            <Column field="tamanho" header="Tamanho" sortable style={{ fontSize: '18px', padding: '10px' }} />
-                            <Column field="aquisicao" header="Aquisição" sortable style={{ fontSize: '18px', padding: '10px' }} />
-                            <Column field="status" header="Status" sortable style={{ fontSize: '18px', padding: '10px' }} />
-                            <Column field="quantidade" header="Quantidade" sortable style={{ fontSize: '18px', padding: '10px' }} />
-                            <Column field="descricao" header="Descrição" sortable style={{ fontSize: '18px', padding: '10px' }} />
-                        </DataTable>
+                        <DataTable
+  className="bg-gray-100 rounded-sm w-full"
+  scrollHeight="380px"
+  value={items}
+  selectionMode="single"
+  selection={selectedItem}
+  onSelectionChange={(e) => setSelectedItem(e.value)}
+  dataKey="id_estoque"
+  onRowSelect={onRowSelect}
+  metaKeySelection={false}
+  dragSelection
+  sortField="nome_material"
+  sortOrder={1}
+>
+  <Column
+    field="nome_material"
+    header="Nome do Material"
+    sortable
+    headerStyle={{ textAlign: 'center' }}
+    style={{ fontSize: '18px', padding: '10px' }}
+  />
+  <Column
+    field="valor"
+    header="Valor"
+    sortable
+    headerStyle={{ textAlign: 'center' }}
+    style={{ fontSize: '18px', padding: '10px' }}
+  />
+  <Column
+    field="tamanho"
+    header="Tamanho"
+    sortable
+    headerStyle={{ textAlign: 'center' }}
+    style={{ fontSize: '18px', padding: '10px' }}
+  />
+<Column
+  field="aquisicao"
+  header="Aquisição"
+  sortable
+  headerStyle={{ textAlign: 'center', justifyContent: 'center', display: 'flex', marginTop: 13  }}
+  style={{ fontSize: '18px', padding: '10px' }}
+/>
+
+  <Column
+    field="status"
+    header="Status"
+    sortable
+    headerStyle={{ textAlign: 'center' }}
+    style={{ fontSize: '18px', padding: '10px' }}
+  />
+  <Column
+    field="quantidade"
+    header="Quantidade"
+    sortable
+    headerStyle={{ textAlign: 'center' }}
+    style={{ fontSize: '18px', padding: '10px' }}
+  />
+  <Column
+    field="descricao"
+    header="Descrição"
+    sortable
+    style={{ fontSize: '18px', padding: '10px' }}
+  />
+</DataTable>
                     </ul>
                 </div>
             </div>

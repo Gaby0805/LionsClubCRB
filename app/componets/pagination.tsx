@@ -1,22 +1,32 @@
-import * as React from 'react';
-import Pagination from '@mui/material/Pagination';
-import PaginationItem from '@mui/material/PaginationItem';
-import Stack from '@mui/material/Stack';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+// components/pagination.tsx
+import React from "react";
 
-export default function Itempage() {
-  return (
-    <Stack spacing={2}>
-      <Pagination 
-        count={10}
-        renderItem={(item) => (
-          <PaginationItem
-            slots={{ previous: ArrowBackIcon, next: ArrowForwardIcon }}
-            {...item}
-          />
-        )}
-      />
-    </Stack>
-  );
+interface PaginationProps {
+  currentPage: number;
+  totalPages: number;
+  onPageChange: (page: number) => void;
 }
+
+const Itempage: React.FC<PaginationProps> = ({ currentPage, totalPages, onPageChange }) => {
+  const handlePrev = () => {
+    if (currentPage > 1) onPageChange(currentPage - 1);
+  };
+
+  const handleNext = () => {
+    if (currentPage < totalPages) onPageChange(currentPage + 1);
+  };
+
+  return (
+    <div className="flex items-center space-x-4">
+      <button onClick={handlePrev} disabled={currentPage === 1} className="px-3 py-1 bg-gray-300 rounded">
+        Anterior
+      </button>
+      <span>{currentPage} de {totalPages}</span>
+      <button onClick={handleNext} disabled={currentPage === totalPages} className="px-3 py-1 bg-gray-300 rounded">
+        Próximo
+      </button>
+    </div>
+  );
+};
+
+export default Itempage;

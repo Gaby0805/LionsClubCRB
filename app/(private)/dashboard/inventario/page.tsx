@@ -4,6 +4,7 @@ import Asside from "../../../componets/dash/asside";
 import React, { useState, useEffect } from 'react';
 import Invent from "@/app/componets/inventory";
 import HeaderDash from "../../../componets/dash/headerdash";
+import { Button } from "@mui/material";
 export default function inventario() {
 
 
@@ -22,6 +23,7 @@ export default function inventario() {
 
 
         <main className="flex-1 bg-gray-200 h-full  w-full flex justify-center ">
+
 
         <Invent/>
         

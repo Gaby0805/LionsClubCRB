@@ -1,7 +1,6 @@
-'use client'
-// Ajeitar o id do estoque e a transação
+'use client';
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, ChangeEvent } from "react";
 import Asside from "../../../componets/dash/asside";
 import HeaderDash from "../../../componets/dash/headerdash";
 import { Checkbox } from "@mui/material";
@@ -14,164 +13,288 @@ import { useUser } from "@/app/componets/context/UserContext";
 
 export default function Comodato() {
   const { userId } = useUser();
-  const [valor, setValor] = useState();
-  
-  useEffect(() => {
-    const fetchData = async () => {
-        try {
-            const response = await axios.post("http://localhost:3333/usuario/especifico", {
-                id_usuario: userId
-            },
-            {withCredentials: true});
-            setValor(response.data.nome_user);
-        } catch (error) {
-            console.log("Erro ao buscar dados:", error);
-        }
-    };
+  const [valor, setValor] = useState<string>("");
 
-    if (userId) {
-        fetchData();
-    }
-  }, [userId]);
+  const [item, setItem] = useState<{ id_estoque: number; nome_material: string }[]>([]);
+  const [itensSelecionados, setItensSelecionados] = useState<{ id: number }[]>([]);
 
-  const [item, setItem] = useState([]);
   const [formData, setFormData] = useState({
-    nome: "", sobrenome: "", cpf: "", rg: "", cep: "", profissao: "",
-    estado_civil: "", rua: "", numero_casa: "", complemento: "", telefone: "", cidade_id: "" 
+    nome: "",
+    sobrenome: "",
+    cpf: "",
+    rg: "",
+    cep: "",
+    bairro: "",
+    telefone: "",
+    profissao: "",
+    estado_civil: "",
+    rua: "",
+    numero_casa: "",
+    complemento: "",
+    cidade_id: ""
   });
 
-  // Estado atualizado para armazenar nome e ID dos itens
-  const [itensSelecionados, setItensSelecionados] = useState([]);
-
-  // Busca os itens do estoque
+  // Busca nome do usuario responsavel
   useEffect(() => {
-    const fetchData = async () => {
-      try { 
-        const response = await axios.get("http://localhost:3333/estoque/ComodatoListtext",
-          {withCredentials: true});
-        setItem(response.data);
-      } catch (error) {
-        console.log("Erro ao buscar dados:", error);
-      }
-    };
-    fetchData();
+    if (!userId) return;
+    axios.post("https://leoncio-backend.onrender.com/usuario/especifico", { id_usuario: userId }, { withCredentials: true })
+      .then(response => setValor(response.data.nome_user))
+      .catch(console.error);
+  }, [userId]);
+
+  // Busca itens de estoque
+  useEffect(() => {
+    axios.get("https://leoncio-backend.onrender.com/estoque/ComodatoList", { withCredentials: true })
+      .then(response => setItem(response.data))
+      .catch(console.error);
   }, []);
 
-  // Atualiza os valores dos inputs
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData(prev => ({ ...prev, [name]: value.toUpperCase() }));
   };
 
-  // Atualiza os Dropdowns
-  const handleDropdownChange = (name, value) => {
-    setFormData({ ...formData, [name]: value });
+  const handleDropdownChange = (name: string, value: any) => {
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  // Atualiza os itens selecionados armazenando Nome + ID
-  const handleItemSelection = (id, nome) => {
-    setItensSelecionados((prev) => {
-      const isSelected = prev.some(item => item.id === id);
-
-      if (isSelected) {
-        return prev.filter(item => item.id !== id); // Remove se já estiver selecionado
-      } else {
-        return [...prev, { id, nome }]; // Adiciona o item
-      }
+  const handleItemSelection = (id: number) => {
+    setItensSelecionados(prev => {
+      const exists = prev.some(i => i.id === id);
+      return exists ? prev.filter(i => i.id !== id) : [...prev, { id }];
     });
   };
 
-  // Envia os dados para API
   const Enviardados = async () => {
     try {
       const dataToSend = { ...formData, itensSelecionados };
-      await axios.post("http://localhost:3333/comodato/", dataToSend,
-        {withCredentials: true});
+  
+      // Tenta cadastrar a pessoa no comodato
+      await axios.post("https://leoncio-backend.onrender.com/comodato/", dataToSend, {
+        withCredentials: true
+      });
+  
+      // Se cadastro for bem-sucedido, envia a transação
+      await axios.post(
+        "https://leoncio-backend.onrender.com/transacao/",
+        {
+          cpf: formData.cpf,
+          user_id: userId,
+          estoque_id: itensSelecionados.map(i => i.id)
+        },
+        { withCredentials: true }
+      );
+  
       alert("Cadastro realizado com sucesso!");
-    } catch (error) {
-      console.log("Erro ao enviar dados:", error);
+    } catch (error: any) {
+      const errorMessage = error?.response?.data?.error;
+  
+      console.error("Erro:", errorMessage);
+  
+      // Checa se é erro de CPF duplicado
+      if (
+        errorMessage?.includes('duplicar valor da chave') ||
+        errorMessage?.includes('pessoas_comodato_cpf_key') ||
+        errorMessage?.includes('pessoas_comodato_rg_key') ||
+        errorMessage?.includes('pessoas_comodato_cep_key') 
+      ) {
+        try {
+          // CPF já cadastrado, envia apenas a transação
+          await axios.post(
+            "https://leoncio-backend.onrender.com/transacao/",
+            {
+              cpf: formData.cpf,
+              user_id: userId,
+              estoque_id: itensSelecionados.map(i => i.id)
+            },
+            { withCredentials: true }
+          );
+  
+          alert("Cadastro realizado com sucesso! CPF já estava cadastrado.");
+          return;
+        } catch (transacaoError) {
+          console.error("Erro ao cadastrar transação:", transacaoError);
+          alert("Erro ao registrar transação.");
+          return;
+        }
+      }
+  
       alert("Erro ao cadastrar.");
     }
   };
-
+  
   return (
-    <div className="flex   w-screen h-screen ">
+    <div className="flex w-screen h-screen">
       <Asside />
-      <div className="flex flex-1 overflow-hidden ">
+      <div className="flex flex-1 overflow-hidden">
         <div className="flex flex-col w-full">
           <HeaderDash />
           <main className="flex-1 h-full w-full bg-gray-100 p-5 overflow-auto">
             <h1 className="text-4xl font-bold mb-5">Cadastro</h1>
-
-            {/* Grid Responsivo */}
             <div className="grid xl:grid-cols-3 gap-8">
-              
-              {/* Primeira Coluna */}
+              {/* Coluna 1 */}
               <div className="space-y-4">
-              {["Nome", "CPF", "profissao", "CEP", "Bairro", "Telefone"].map((label) => (
-  <div key={label} className="flex flex-col">
-    <p>{label}</p>
-    <input
-      type="text"
-      name={label.toLowerCase()}
-      value={formData[label.toLowerCase()]}
-      onChange={handleInputChange}
-      className="h-12 rounded-md bg-gray-300 p-2"
-      placeholder={
-        label === "CPF"
-          ? "Ex: 123.456.789-00"
-          : label === "CEP"
-          ? "Ex: 12345-678"
-          : ""
-      }
-    />
-  </div>
-))}
+                <div className="flex flex-col">
+                  <p>Nome</p>
+                  <input
+                    tabIndex={1}
+                    type="text"
+                    name="nome"
+                    value={formData.nome}
+                    onChange={handleInputChange}
+                    className="h-12 rounded-md bg-gray-300 p-2"
+                  />
+                </div>
 
-
-
-                {/* Cidade (Dropdown) */}
+                <div className="flex flex-col">
+                  <p>CPF</p>
+                  <input
+                  tabIndex={3}
+                    type="text"
+                    name="cpf"
+                    value={formData.cpf}
+                    onChange={handleInputChange}
+                    className="h-12 rounded-md bg-gray-300 p-2"
+                    placeholder="Ex: 12345678900"
+                  />
+                </div>
+                <div className="flex flex-col">
+                  <p>CEP</p>
+                  <input
+                  tabIndex={5}
+                    type="text"
+                    name="cep"
+                    value={formData.cep}
+                    onChange={handleInputChange}
+                    className="h-12 rounded-md bg-gray-300 p-2"
+                    placeholder="Ex: 12345678"
+                  />
+                </div>
                 <div className="flex flex-col">
                   <p>Cidade</p>
                   <Dropdown
+                  tabIndex={7}
                     value={formData.cidade_id}
                     options={[
-                      { label: "Corumbá", value: "11" },
-                      { label: "Ladário", value: "12" }
+                      { label: "Corumbá", value: "1" },
+                      { label: "Ladário", value: "2" }
                     ]}
                     onChange={(e) => handleDropdownChange("cidade_id", e.value)}
                     placeholder="Selecione uma cidade"
                     className="h-12 w-full bg-gray-300 rounded-md"
                   />
                 </div>
-
+                <div className="flex gap-4">
+                <div className="flex-1 flex flex-col">
+                  <p>Rua</p>
+                  <input
+                    type="text"
+                    tabIndex={9}
+                    name="rua"
+                    value={formData.rua}
+                    onChange={handleInputChange}
+                    className="h-12 rounded-md bg-gray-300 p-2"
+                  />
+                </div>
+                <div className="w-1/4 flex flex-col">
+                  <p>Número</p>
+                  <input
+                    type="text"
+                    tabIndex={11}
+                    name="numero_casa"
+                    value={formData.numero_casa}
+                    onChange={handleInputChange}
+                    className="h-12 rounded-md bg-gray-300 p-2"
+                  />
+                </div>
+              </div>  
                 <div className="flex flex-col">
-                  <p>Usuario responsavel</p>
-                  <input className="h-12 rounded-md bg-gray-300 p-2" type="text" value={valor} disabled/>
+                  <p>Telefone</p>
+                  <input
+                    type="text"
+                    tabIndex={14}
+                    name="telefone"
+                    value={formData.telefone}
+                    onChange={handleInputChange}
+                    className="h-12 rounded-md bg-gray-300 p-2"
+                  />
+                </div>
+                <div className="flex flex-col">
+                  <p>Usuário Responsável</p>
+                  <input
+                    type="text"
+                    value={valor}
+                    disabled
+                    className="h-12 rounded-md bg-gray-300 p-2"
+                  />
                 </div>
               </div>
 
-              {/* Segunda Coluna */}
+              {/* Coluna 2 */}
               <div className="space-y-4">
-              {["Sobrenome", "RG", "Complemento"].map((label) => (
-  <div key={label} className="flex flex-col">
-    <p>{label}</p>
-    <input
-      type="text"
-      name={label.toLowerCase()}
-      value={formData[label.toLowerCase()]}
-      onChange={handleInputChange}
-      className="h-12 rounded-md bg-gray-300 p-2"
-      placeholder={label === "RG" ? "Ex: 12.345.678-9" : ""}
-    />
-  </div>
-))}
+              <div className="flex flex-col">
+                  <p>Sobrenome</p>
+                  <input
+                  tabIndex={2}
+                    type="text"
+                    name="sobrenome"
+                    value={formData.sobrenome}
+                    onChange={handleInputChange}
+                    className="h-12 rounded-md bg-gray-300 p-2"
+                  />
+                </div>
+                <div className="flex flex-col">
+                  <p>RG</p>
+                  <input
+                  tabIndex={4}
+                    type="text"
+                    name="rg"
+                    value={formData.rg}
+                    onChange={handleInputChange}
+                    className="h-12 rounded-md bg-gray-300 p-2"
+                    placeholder="Ex: 123456789"
+                  />
+                </div>
+                <div className="flex flex-col">
+                  <p>Profissão</p>
+                  <input
+                  tabIndex={5}
+                    type="text"
+                    name="profissao"
+                    value={formData.profissao}
+                    onChange={handleInputChange}
+                    className="h-12 rounded-md bg-gray-300 p-2"
+                  />
+                </div>
+                
+                <div className="flex flex-col">
+                  <p>Bairro</p>
+                  <input
+                    type="text"
+                    tabIndex={8}
+                    name="bairro"
+                    value={formData.bairro}
+                    onChange={handleInputChange}
+                    className="h-12 rounded-md bg-gray-300 p-2"
+                  />
+                </div>
 
-                {/* Estado Civil (Dropdown) */}
+                <div className="flex flex-col">
+                  <p>Complemento</p>
+                  <input
+                    type="text"
+                    tabIndex={13}
+                    name="complemento"
+                    value={formData.complemento}
+                    onChange={handleInputChange}
+                    className="h-12 rounded-md bg-gray-300 p-2"
+                  />
+                </div>
                 <div className="flex flex-col">
                   <p>Estado Civil</p>
                   <Dropdown
                     value={formData.estado_civil}
+                    tabIndex={15}
                     options={[
                       { label: "Solteiro(a)", value: "solteiro" },
                       { label: "Casado(a)", value: "casado" },
@@ -183,49 +306,27 @@ export default function Comodato() {
                     className="h-12 w-full bg-gray-300 rounded-md"
                   />
                 </div>
-
-                {/* Rua e Número */}
-                <div className="flex gap-4">
-                  <div className="flex-1 flex flex-col">
-                    <p>Rua</p>
-                    <input
-                      type="text"
-                      name="rua"
-                      value={formData.rua}
-                      onChange={handleInputChange}
-                      className="h-12 rounded-md bg-gray-300 p-2"
-                    />
-                  </div>
-                  <div className="w-1/4 flex flex-col">
-                    <p>Nº</p>
-                    <input
-                      type="text"
-                      name="numero_casa"
-                      value={formData.numero_casa}
-                      onChange={handleInputChange}
-                      className="h-12 rounded-md bg-gray-300 p-2"
-                    />
-                  </div>
-                </div>
               </div>
 
-              {/* Terceira Coluna (Itens Solicitados) */}
-              <div className="flex flex-col  ml-auto">
-                <h3 className="text-2xl font-bold ">Itens Solicitados</h3>
+              {/* Coluna 3 - Itens Solicitados */}
+              <div className="flex flex-col ml-auto">
+                <h3 className="text-2xl font-bold">Itens Solicitados</h3>
                 <div className="space-y-2 mt-10">
                   {item.map(({ id_estoque, nome_material }) => (
-                    <div key={id_estoque} className="flex items-center ">
+                    <div key={id_estoque} className="flex items-center">
                       <Checkbox
-                        checked={itensSelecionados.some(item => item.id === id_estoque)}
-                        onChange={() => handleItemSelection(id_estoque, nome_material)}
+                        checked={itensSelecionados.some(i => i.id === id_estoque)}
+                        onChange={() => handleItemSelection(id_estoque)}
                       />
-                      <p>{nome_material}</p>  
+                      <p>{nome_material}</p>
                     </div>
                   ))}
                 </div>
-
-                <button onClick={Enviardados} className="w-full mt-5 bg-blue-500 text-white rounded-md py-2 text-lg font-semibold hover:bg-blue-600 transition duration-200">
-                   Enviar
+                <button
+                  onClick={Enviardados}
+                  className="w-full mt-5 bg-blue-500 text-white rounded-md py-2 text-lg font-semibold hover:bg-blue-600 transition duration-200"
+                >
+                  Enviar
                 </button>
               </div>
             </div>

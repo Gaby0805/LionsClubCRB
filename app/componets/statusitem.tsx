@@ -1,39 +1,64 @@
-import React from "react";
+'use client';
 
-export default function Statuscomodato(props:any) {
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import ModalComodatoteste from "./modalcomodato";  // Importando o modal
 
-  const {nome, status, data} = props;
-    const verifyStatus = (statusitem)  => statusitem == "Ativo"? " bg-green-500" : statusitem == "EmailEnviado"? " bg-amber-600": statusitem == "Concluido"? " bg-green-900": 'alguma outra'
-    
-    return(
+interface StatuscomodatoProps {
+  nome: string;
+  status: string;
+  data: string;
+  id: string;
+  nome_item: string;
+}
 
-    <div className=" w-96  h-18 bg-gray-300 m-10 rounded-xl transition delay-150 duration-300 ease-linear hover:scale-105  " onClick={() => console.log('bread')}>
-      <div className="flex w-fit h-fit ">
-        <div className=" flex mt-2 ml-3">
-          <p className="">
-            {nome}
+export default function Statuscomodato({ nome, status, data, id, nome_item }: StatuscomodatoProps) {
+  const [Isready, setIsready] = useState(false);
+  const [openModal, setOpenModal] = useState(false);  // Estado para controlar a exibição do modal
+  const [selectedItem, setSelectedItem] = useState<any>(null);  // Estado para armazenar o item selecionado
 
-          </p>
-        <div className={" w-16 ml-4 bg h-fit  rounded-2xl flex justify-center items-center"+verifyStatus(props.status) }>
-           {status}
-            
-         </div>
-         <p className="ml-2"> 
-            Data Limite:  
-            { data}
-         </p>
-        </div>
-        
+  const ConcluirAction = () => {
+    const confirme = confirm('O usuário completou o empréstimo?');
+    if (!confirme) return;
+    axios.put('https://leoncio-backend.onrender.com/transacao/status', { id_emprestimo: id }, { withCredentials: true });
+  };
 
+  const handleOpenModal = () => {
+    setSelectedItem({ nome_comodato: nome, sobrenome_comodato: "Sobrenome Exemplo", status, nome_material: nome_item, telefone: "123456789", data_limite: data });  // Aqui você pode passar mais informações
+    setOpenModal(true);
+  };
 
-      </div >
-        <p className="mt-1 pl-3 flex ml-auto">clicle para obter mais informações</p>
+  const handleCloseModal = () => {
+    setOpenModal(false);
+    setSelectedItem(null);  // Limpa os dados ao fechar o modal
+  };
 
+  useEffect(() => {
+    if (status === "Concluido") {
+      setIsready(true);
+    }
+  }, [status]);
 
+  return (
+    <div className="bg-white mr-10 rounded-lg p-4 shadow-md flex">
+      <div className="flex-1">
+        <h3 className="text-xl font-semibold">{nome}</h3>
+        <p>id: {id}</p>
+        <p>Status: {status}</p>
+        <p>Item: {nome_item}</p>
+        <p>Data limite: {data}</p>
+      </div>
+      <div className="flex flex-col justify-center items-center">
+        <button className="w-fit h-10 mb-2 p-2 bg-gray-300 rounded-md" onClick={handleOpenModal}>
+          Ver informações
+        </button>
+        <button disabled={Isready} className="w-20 h-10 bg-gray-300 rounded-md" onClick={ConcluirAction}>
+          Concluir
+        </button>
+      </div>
 
+      {/* Modal será exibido aqui */}
+      {openModal && <ModalComodatoteste item={selectedItem} onClose={handleCloseModal} />}
     </div>
-    
-
-)
-
+  );
 }
