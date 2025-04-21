@@ -17,8 +17,15 @@ const style = {
   p: 4,
 };
 
-export default function Edit({ nome, status, tamanho, descricao, estoque_id }) {
-  const [open, setOpen] = useState(false);
+type EditProps = {
+  nome: string;
+  status: string;
+  tamanho: string;
+  descricao: string;
+  estoque_id: number; // ou string, dependendo do que estiver vindo
+};
+
+export default function Edit({ nome, status, tamanho, descricao, estoque_id }: EditProps) {  const [open, setOpen] = useState(false);
   const [nomeEditado, setNomeEditado] = useState(nome);
   const [descricaoEditada, setDescricaoEditada] = useState(descricao);
   const [tamanhoSelecionado, setTamanhoSelecionado] = useState(tamanho);

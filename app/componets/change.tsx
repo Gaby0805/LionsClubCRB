@@ -17,8 +17,11 @@ const style = {
   boxShadow: 24,
   p: 4,
 };
-
-export default function Change({ quantidade1, estoque_id }) {
+type ChangeProps = {
+  quantidade1: string | number;
+  estoque_id: string | number;
+};
+export default function Change({ quantidade1, estoque_id }: ChangeProps) {
   const [open, setOpen] = useState(false);
   const [quantidade, setQuantidade] = useState(quantidade1 || 0); // Define um valor padrão caso undefined
 

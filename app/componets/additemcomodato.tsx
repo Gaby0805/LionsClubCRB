@@ -13,7 +13,7 @@ const style = {
   p: 4,
 };
 
-export default function AddItem({ Area }) {
+export default function AddItem({ Area }: { Area: any }) {
   const [open, setOpen] = useState(false);
   const [nomeEditado, setNomeEditado] = useState('');
   const [descricaoEditada, setDescricaoEditada] = useState('');

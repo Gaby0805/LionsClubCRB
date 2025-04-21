@@ -1,14 +1,22 @@
-"use client";
-import { createContext, useContext, useState, useEffect } from "react";
+'use client';
 
-const UserContext = createContext({
+import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+
+// Define a estrutura esperada do contexto
+interface UserContextType {
+    userId: string | null;
+    saveUserId: (id: string) => void;
+}
+
+// Cria o contexto com a estrutura tipada
+const UserContext = createContext<UserContextType>({
     userId: null,
-    saveUserId: ()=> {}
-
+    saveUserId: () => {}, // Implementação padrão vazia
 });
 
-export function UserProvider({children}) {
-    const [userId, setUserId] = useState(null);
+// Provider do contexto
+export function UserProvider({ children }: { children: ReactNode }) {
+    const [userId, setUserId] = useState<string | null>(null);
 
     useEffect(() => {
         const storedUserId = localStorage.getItem("user_id");
@@ -17,9 +25,9 @@ export function UserProvider({children}) {
         }
     }, []);
 
-    const saveUserId = (id_usuario) => {
-        setUserId(id_usuario);
-        localStorage.setItem("user_id", id_usuario);
+    const saveUserId = (id: string) => {
+        setUserId(id);
+        localStorage.setItem("user_id", id);
     };
 
     return (
@@ -29,6 +37,7 @@ export function UserProvider({children}) {
     );
 }
 
+// Hook personalizado para acessar o contexto
 export function useUser() {
     return useContext(UserContext);
 }
