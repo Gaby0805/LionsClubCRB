@@ -69,7 +69,7 @@ export default function StatsItem() {
                         data={new Date(item.data_limite)
                           .toISOString()
                           .split("T")[0]}
-                          id={item.id_emprestimo}
+                          id={item.id_emprestimo.toString()}
                       />
                     </li>
                   ))}
