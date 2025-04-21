@@ -1,9 +1,14 @@
+"use client";
+
 import axios from 'axios';
-import { useState, useEffect } from 'react';
-import { Box, Button, Typography, Modal } from '@mui/material';
+import { useState } from 'react';
+import { Box, Button, Typography, Modal, TextField } from '@mui/material';
+import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import dayjs, { Dayjs } from 'dayjs';
 
 const style = {
-  position: 'absolute',
+  position: 'absolute' as const,
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
@@ -19,64 +24,112 @@ export default function AddItem({ Area }: { Area: any }) {
   const [descricaoEditada, setDescricaoEditada] = useState('');
   const [tamanhoSelecionado, setTamanhoSelecionado] = useState('Padrão');
   const [valorSelecionado, setValorSelecionado] = useState('');
-  const [aquisicaoSelecionada, setAquisicaoSelecionada] = useState('');
+  const [aquisicaoSelecionada, setAquisicaoSelecionada] = useState<Dayjs | null>(dayjs());
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   const Enviar = async () => {
     try {
-      console.log("Dados enviados:", { nomeEditado, descricaoEditada, tamanhoSelecionado, valorSelecionado, aquisicaoSelecionada });
-      const response = await axios.post('https://leoncio-backend.onrender.com/estoque/', {
-        nome_material: nomeEditado,
-        descricao: descricaoEditada,
-        valor: valorSelecionado,
-        status: 'Ativo',
-        area_material: Area,
-        aquisicao: new Date(aquisicaoSelecionada).toISOString(),
-        tamanho: tamanhoSelecionado
-      },
-      {withCredentials: true});
-      console.log('Resposta do servidor:', response);
+      console.log("Dados enviados:", { 
+        nomeEditado, descricaoEditada, 
+        tamanhoSelecionado, valorSelecionado, 
+        aquisicaoSelecionada 
+      });
+      const response = await axios.post(
+        'http://localhost:3333/estoque/',
+        {
+          nome_material: nomeEditado,
+          descricao: descricaoEditada,
+          valor: valorSelecionado,
+          status: 'Ativo',
+          area_material: Area,
+          aquisicao: aquisicaoSelecionada?.toISOString(),
+          tamanho: tamanhoSelecionado
+        },
+        { withCredentials: true }
+      );
+      console.log('Resposta do servidor:', response.data);
       handleClose();
     } catch (error) {
       console.error("Erro ao enviar os dados:", error);
     }
   };
 
-
-
   return (
     <div className="w-fit py-2 px-4 rounded-md bg-gray-400">
-      <Button sx={{color: 'black'}} onClick={handleOpen}>Adicionar item</Button>
+      <Button sx={{ color: 'black' }} onClick={handleOpen}>
+        Adicionar item
+      </Button>
+
       <Modal open={open} onClose={handleClose}>
         <Box sx={style}>
-          <Typography variant="h6" component="h2" className="flex justify-center items-center">
+          <Typography variant="h6" component="h2" className="flex justify-center">
             Edite os valores
           </Typography>
-          <Typography className="flex justify-center items-center flex-col" sx={{ mt: 2 }}>
-            <label>Nome:</label>
-            <input type="text" className="border-[2px] w-35 h-10 rounded-sm pl-2 mb-3" value={nomeEditado} onChange={(e) => setNomeEditado(e.target.value)} />
 
-            <label>Descrição:</label>
-            <textarea className="border-[2px] w-35 h-20 rounded-sm pl-2 mb-3" value={descricaoEditada} onChange={(e) => setDescricaoEditada(e.target.value)} />
+          <Box 
+            component="form"
+            sx={{ mt: 2, display: 'flex', flexDirection: 'column', gap: 2 }}
+          >
+            <TextField
+              label="Nome"
+              value={nomeEditado}
+              onChange={(e) => setNomeEditado(e.target.value)}
+              size="small"
+              fullWidth
+            />
 
-            <label>Tamanho:</label>
-            <select className="border-[2px] w-35 h-10 rounded-sm pl-2 mb-3" value={tamanhoSelecionado} onChange={(e) => setTamanhoSelecionado(e.target.value)}>
+            <TextField
+              label="Descrição"
+              multiline
+              rows={4}
+              value={descricaoEditada}
+              onChange={(e) => setDescricaoEditada(e.target.value)}
+              size="small"
+              fullWidth
+            />
+
+            <TextField
+              select
+              label="Tamanho"
+              value={tamanhoSelecionado}
+              onChange={(e) => setTamanhoSelecionado(e.target.value)}
+              SelectProps={{ native: true }}
+              size="small"
+              fullWidth
+            >
               <option value="Padrão">Padrão</option>
               <option value="Pequena">Pequena</option>
               <option value="Média">Média</option>
               <option value="Grande">Grande</option>
-            </select>
+            </TextField>
 
-            <label>Valor:</label>
-            <input type="number" className="border-[2px] w-35 h-10 rounded-sm pl-2 mb-3"  placeholder='20.52' value={valorSelecionado} onChange={(e) => setValorSelecionado(e.target.value)} />
-            
-            <label>Data de Aquisição:</label>
-            <input type="date" className="border-[2px] w-35 h-10 rounded-sm pl-2 mb-3" value={aquisicaoSelecionada} onChange={(e) => setAquisicaoSelecionada(e.target.value)} />
+            <TextField
+              label="Valor"
+              type="number"
+              placeholder="20.52"
+              value={valorSelecionado}
+              onChange={(e) => setValorSelecionado(e.target.value)}
+              size="small"
+              fullWidth
+            />
 
-            <input type="button" className="border-[2px] w-35 h-10 rounded-sm pl-2" value="Enviar" onClick={Enviar} />
-          </Typography>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DatePicker
+                label="Data de Aquisição"
+                value={aquisicaoSelecionada}
+                onChange={(newValue) => setAquisicaoSelecionada(newValue)}
+                renderInput={(params) => (
+                  <TextField {...params} size="small" fullWidth />
+                )}
+              />
+            </LocalizationProvider>
+
+            <Button variant="contained" onClick={Enviar}>
+              Enviar
+            </Button>
+          </Box>
         </Box>
       </Modal>
     </div>

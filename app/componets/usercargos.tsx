@@ -20,7 +20,7 @@ export default function ListaUsuariosModal({ open, handleClose }: { open: boolea
   useEffect(() => {
     const fetchUsuarios = async () => {
       try {
-        const response = await axios.get("https://leoncio-backend.onrender.com/usuario", {
+        const response = await axios.get("http://localhost:3333/usuario", {
           withCredentials: true,
         });
         setUsuarios(response.data);

@@ -27,7 +27,7 @@ export default function EditStats({modal}) {
   const Enviar = async () => {
     try {
       console.log("Dados enviados:", { nomeEditado, descricaoEditada, tamanhoSelecionado, valorSelecionado, aquisicaoSelecionada });
-      const response = await axios.post('https://leoncio-backend.onrender.com/estoque/', {
+      const response = await axios.post('http://localhost:3333/estoque/', {
         nome_material: nomeEditado,
         descricao: descricaoEditada,
         valor: valorSelecionado,

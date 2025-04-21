@@ -20,7 +20,7 @@ export default function Statuscomodato({ nome, status, data, id, nome_item }: St
   const ConcluirAction = () => {
     const confirme = confirm('O usuário completou o empréstimo?');
     if (!confirme) return;
-    axios.put('https://leoncio-backend.onrender.com/transacao/status', { id_emprestimo: id }, { withCredentials: true });
+    axios.put('http://localhost:3333/transacao/status', { id_emprestimo: id }, { withCredentials: true });
   };
 
   const handleOpenModal = () => {

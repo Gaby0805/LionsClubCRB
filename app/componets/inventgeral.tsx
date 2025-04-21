@@ -30,7 +30,7 @@ export default function Invent2() {
     useEffect(() => {
         const fetchData = async () => {
             try { 
-                const response = await axios.get("https://leoncio-backend.onrender.com/estoque/lions/",
+                const response = await axios.get("http://localhost:3333/estoque/lions/",
                     {withCredentials: true});
                 setItems(response.data);
             } catch (error) {
@@ -43,7 +43,7 @@ export default function Invent2() {
         try{
             const confirmDelete = confirm('Você tem certeza que deseja excluir o item?');
             if (!confirmDelete) return;
-            await axios.delete("https://leoncio-backend.onrender.com/estoque/",{
+            await axios.delete("http://localhost:3333/estoque/",{
                 data: {
                     id_estoque: valueSelect.id
                 },

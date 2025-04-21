@@ -19,7 +19,7 @@ export default function ModalTipoUsuario({ open, onClose, userId }: ModalTipoUsu
     if (!confirme) return;
 
     try {
-      await axios.put('https://leoncio-backend.onrender.com/usuario/tipo', {
+      await axios.put('http://localhost:3333/usuario/tipo', {
         id_usuario: userId,
         u_tipo: novoTipo
       }, { withCredentials: true });

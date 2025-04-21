@@ -27,7 +27,7 @@ export default function StatsItem() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("https://leoncio-backend.onrender.com/transacao/info", {
+        const response = await axios.get("http://localhost:3333/transacao/info", {
           withCredentials: true,
         });
         setItems(response.data);

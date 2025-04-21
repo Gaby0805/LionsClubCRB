@@ -19,7 +19,7 @@ export default function Home() {
   const autorizar = async () => {
     try {
       const response = await axios.post(
-        "https://leoncio-backend.onrender.com/usuario/autenticar", 
+        "http://localhost:3333/usuario/autenticar", 
         { email, senha },
         { withCredentials: true }
       );
