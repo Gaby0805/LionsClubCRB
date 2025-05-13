@@ -1,9 +1,16 @@
 'use client';
 
 import React, { useEffect, useState } from "react";
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle
+} from "@mui/material";
 import axios from "axios";
-import ModalTipoUsuario from "./ModalTipoUsuario"; // Certifique-se de que o caminho está correto
+import ModalTipoUsuario from "./ModalTipoUsuario";
+import EsqueceuSenha from "./esqueceusenha";
 
 interface Usuario {
   id_user: number;
@@ -16,6 +23,8 @@ export default function ListaUsuariosModal({ open, handleClose }: { open: boolea
   const [usuarios, setUsuarios] = useState<Usuario[]>([]);
   const [userSelecionado, setUserSelecionado] = useState<Usuario | null>(null);
   const [openTipoModal, setOpenTipoModal] = useState(false);
+  const [openSenhaModal, setOpenSenhaModal] = useState(false);
+  const [userSenhaSelecionado, setUserSenhaSelecionado] = useState<Usuario | null>(null);
 
   useEffect(() => {
     const fetchUsuarios = async () => {
@@ -42,6 +51,16 @@ export default function ListaUsuariosModal({ open, handleClose }: { open: boolea
     setUserSelecionado(null);
   };
 
+  const handleAbrirModalSenha = (user: Usuario) => {
+    setUserSenhaSelecionado(user);
+    setOpenSenhaModal(true);
+  };
+
+  const handleFecharModalSenha = () => {
+    setOpenSenhaModal(false);
+    setUserSenhaSelecionado(null);
+  };
+
   return (
     <>
       <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>
@@ -65,7 +84,7 @@ export default function ListaUsuariosModal({ open, handleClose }: { open: boolea
                     variant="outlined"
                     color="primary"
                     size="small"
-                    onClick={() => alert(`Alterar senha de ${user.nome_user}`)}
+                    onClick={() => handleAbrirModalSenha(user)}
                   >
                     Alterar senha
                   </Button>
@@ -89,12 +108,20 @@ export default function ListaUsuariosModal({ open, handleClose }: { open: boolea
         </DialogActions>
       </Dialog>
 
-      {/* Modal para mudar o tipo de usuário */}
       {userSelecionado && (
         <ModalTipoUsuario
           open={openTipoModal}
           onClose={handleFecharModalTipo}
           userId={userSelecionado.id_user}
+        />
+      )}
+
+      {userSenhaSelecionado && (
+        <EsqueceuSenha
+          open={openSenhaModal}
+          onClose={handleFecharModalSenha}
+          userId={userSenhaSelecionado.id_user}
+          nome={userSenhaSelecionado.nome_user}
         />
       )}
     </>

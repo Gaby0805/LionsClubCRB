@@ -1,3 +1,4 @@
+'use client'
 import React from "react";
 import Image from "next/image";
 import { Button, AppBar, Toolbar, Typography, Container, Grid, Box, Link } from "@mui/material";
@@ -15,7 +16,7 @@ export default function Projetos() {
 
     <Container className=" flex-1  w-fit flex justify-center items-center"style={{backgroundColor: '#FEECCF'}}>
         
-        <div className=" flex flex-col justify-center items-center border p-4 rounded-3xl border-gray-400 ">
+        <div className=" flex flex-col justify-center items-center p-4 ">
           <h2 className="text-[24px] mb-10">
             Email para contato
           </h2>

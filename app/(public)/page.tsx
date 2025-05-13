@@ -11,6 +11,7 @@ import {
   Link,
 } from "@mui/material";
 import Header from "../componets/header";
+import Footer from "../componets/footer";
 
 export default function HomePage() {
   return (
@@ -41,14 +42,14 @@ export default function HomePage() {
               position: "absolute",
               top: "0%",
               left: "37%",
-              color: "",
+              color: "#002E73",
               fontWeight: "bold",
               px: 3,
               py: 4,
               fontFamily: "'Metamorphous', serif",
               height: 'fit',
-              width: 'fit'
-            }}
+              fontSize: '80px',
+              textShadow: '1px 1px 4px #FCCB06'            }}
             >
             NÓS SERVIMOS
           </Typography>
@@ -101,42 +102,7 @@ export default function HomePage() {
         </Typography>
       </Box>
 
-      <Box sx={{ bgcolor: "#001F3F", color: "white", py: 3 }}>
-        <Container
-          sx={{
-            display: "flex",
-            flexDirection: { xs: "column", md: "row" },
-            justifyContent: "space-between",
-            alignItems: "center",
-            gap: 2,
-          }}
-        >
-          <Box
-            display="flex"
-            flexDirection="column"
-            alignItems={{ xs: "center", md: "flex-start" }}
-          >
-            <Link
-              href="https://www.lionsclubs.org"
-              target="_blank"
-              rel="noopener"
-              color="inherit"
-              underline="hover"
-            >
-              Site Lions Internacional
-            </Link>
-            <Typography variant="body2">
-              R. Vinte Um de Setembro, 2423 - Aeroporto, Corumbá - MS, 79330-110
-            </Typography>
-          </Box>
-          <Image
-            src="/imgs/newlogo.png"
-            alt="Logo Lions"
-            width={50}
-            height={50}
-          />
-        </Container>
-      </Box>
+      <Footer/>
     </div>
   );
 }

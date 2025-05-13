@@ -7,13 +7,13 @@ export default function Footer() {
         <footer className="w-full h-auto flex flex-col md:flex-row bg-blue-900 p-4 ">
             {/* Ícones Sociais */}
             <div className="flex flex-col justify-center items-center w-full md:w-36 mb-4 md:mb-0">
-                <FaInstagram color="#ffd700" size={'34px'} />
-                <CiFacebook color="#ffd700" size={'34px'} />
+                <FaInstagram color="#ffd700" size={'34px'} href="https://www.instagram.com/lionsclubecorumbams/"/>
+                <CiFacebook color="#ffd700" size={'34px'} href="https://www.facebook.com/pages/Lions%20Clube%20Corumb%C3%A1/159874107858741/" />
             </div>
             
             {/* Link */}
             <div className="flex justify-center md:justify-start w-full md:w-auto md:pt-7">
-                <a className="text-[#ffd700] text-lg" href="">Site Lions Internacional</a>
+                <a className="text-[#ffd700] text-lg" href="https://www.lionsclubs.org/pt">Site Lions Internacional</a>
             </div>
             
             {/* Endereço e Logo */}

@@ -17,7 +17,13 @@ export default function Asside() {
           <div className="flex items-center">
             <Backpack />
             <a className="ml-3" href="/dashboard/inventario">
-              Inventário
+              Inventário Comodato
+            </a>
+          </div>
+          <div className="flex items-center">
+            <Backpack />
+            <a className="ml-3" href="/dashboard/inventariog">
+              Inventário Patrimonial
             </a>
           </div>
           <div className="flex items-center">

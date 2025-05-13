@@ -1,3 +1,5 @@
+'use client'
+
 import React from "react";
 import Image from 'next/image'
 import useEmblaCarousel from 'embla-carousel-react'
@@ -26,7 +28,7 @@ export default function Header() {
               <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", flex: 1, gap: 4, fontSize: 24} }>
                 <Link href="#projeto" underline="hover" color="inherit" sx={{ fontFamily: "Arial, sans-serif", fontWeight: 600 }}>Projetos</Link>
                 <Link href="localizacao" underline="hover" color="inherit" sx={{ fontFamily: "Arial, sans-serif", fontWeight: 600 }}>Localização</Link>
-                <Link href="contato" underline="hover" color="inherit" sx={{ fontFamily: "Arial, sans-serif", fontWeight: 600 }}>Contato</Link>
+                <Link onClick={()=> window.location.href = 'mailto:Lionsclubecorumbams@gmail.com?subject=Contato%20pelo%20site'} underline="hover" color="inherit" sx={{ fontFamily: "Arial, sans-serif", fontWeight: 600 }}>Contato</Link>
               </Box>
               <Button variant="contained" sx={{ bgcolor: "#1976d2", color: "white", fontWeight: "bold", fontFamily: "Arial, sans-serif" } } href="/login">Entrar</Button>
             </Toolbar>

@@ -69,9 +69,7 @@ export default function Invent() {
 
     return (
         <div className='flex flex-col items-center m-10 w-full'>
-                    <div className=" py-2 px-4 rounded-md bg-gray-400 mb-5 ">
-                        <Button sx={{color: 'black'}} href="/dashboard/inventariog">Inventario Geral</Button>
-                    </div>
+
             <div>
                 {/* 📌 Passamos a função setRefreshData para atualizar a tabela após adicionar um item */}
                 <AddItem Area={'Comodato'} onAddSuccess={() => setRefreshData(prev => !prev)} />

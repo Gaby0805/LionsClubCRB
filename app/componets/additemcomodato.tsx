@@ -52,6 +52,7 @@ export default function AddItem({ Area }: { Area: any }) {
       console.log('Resposta do servidor:', response.data);
       handleClose();
     } catch (error) {
+      alert('verifique as informações')
       console.error("Erro ao enviar os dados:", error);
     }
   };

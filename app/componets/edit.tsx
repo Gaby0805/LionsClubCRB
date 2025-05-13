@@ -56,6 +56,7 @@ export default function Edit({ nome, status, tamanho, descricao, estoque_id }: E
       handleClose();
       console.log('Resposta do servidor:', response);
     } catch (error) {
+      alert('Error: Verifique as informações')
       console.error("Erro ao atualizar os dados:", error);
     }
   };

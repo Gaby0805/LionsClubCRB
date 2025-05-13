@@ -62,10 +62,7 @@ export default function Invent2() {
 
     return (
         <div className='flex flex-col items-center m-10 w-full'>
-                    <div className=" py-2 px-4 rounded-md bg-gray-400 mb-5 ">
-                        <Button sx={{color: 'black'}} href="/dashboard/inventario">Inventario Lions+</Button>
-                    </div>
-  
+
                 <div className=''>
                     <AddItem Area={'Lions'}/>
                 </div>

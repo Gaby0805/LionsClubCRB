@@ -71,7 +71,7 @@
             senha: "", // senha não vem da API, mas o campo é obrigatório no state
           });
 
-          if (response.data.tipo_user === "ADM") {
+          if (response.data.tipo_user === "ADM/Presidente") {
             SetIsadm("");
           }
         } catch (error) {

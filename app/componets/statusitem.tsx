@@ -10,9 +10,11 @@ interface StatuscomodatoProps {
   data: string;
   id: string;
   nome_item: string;
+  sobrenome: string;
+  telefone: string;
 }
 
-export default function Statuscomodato({ nome, status, data, id, nome_item }: StatuscomodatoProps) {
+export default function Statuscomodato({ nome, status, data, id, nome_item, sobrenome, telefone}: StatuscomodatoProps) {
   const [Isready, setIsready] = useState(false);
   const [openModal, setOpenModal] = useState(false);  // Estado para controlar a exibição do modal
   const [selectedItem, setSelectedItem] = useState<any>(null);  // Estado para armazenar o item selecionado
@@ -24,7 +26,7 @@ export default function Statuscomodato({ nome, status, data, id, nome_item }: St
   };
 
   const handleOpenModal = () => {
-    setSelectedItem({ nome_comodato: nome, sobrenome_comodato: "Sobrenome Exemplo", status, nome_material: nome_item, telefone: "123456789", data_limite: data });  // Aqui você pode passar mais informações
+    setSelectedItem({ nome_comodato: nome, sobrenome_comodato: sobrenome, status, nome_material: nome_item, telefone: telefone, data_limite: data });  // Aqui você pode passar mais informações
     setOpenModal(true);
   };
 

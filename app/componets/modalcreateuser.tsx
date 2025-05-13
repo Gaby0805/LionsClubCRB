@@ -21,7 +21,7 @@ const style = {
   p: 4,
 };
 
-const tiposUsuario = ['ADM/Presidente', 'Vice', '1º Secretaria', 'Diretor de Patrimonio'];
+const tiposUsuario = ['ADM/Presidente', 'Vice', '1º Secretaria', '2º Secretaria', 'Diretor de Patrimonio'];
 
 const ModalUsuario = ({ open, handleClose }: { open: boolean; handleClose: () => void }) => {
   const [formData, setFormData] = useState({

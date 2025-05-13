@@ -49,6 +49,7 @@ export default function Change({ quantidade1, estoque_id }: ChangeProps) {
 
       console.log('Resposta do servidor:', response);
     } catch (error) {
+      alert('verifique sea quantidade é maior que zero')
       console.error("Erro ao atualizar os dados:", error); 
     }
   };

@@ -147,17 +147,25 @@ export default function Comodato() {
                 </div>
 
                 <div className="flex flex-col">
-                  <p>CPF</p>
-                  <input
+                <p>CPF</p>
+                <input
                   tabIndex={3}
-                    type="text"
-                    name="cpf"
-                    value={formData.cpf}
-                    onChange={handleInputChange}
-                    className="h-12 rounded-md bg-gray-300 p-2"
-                    placeholder="Ex: 12345678900"
-                  />
+                  type="text"
+                  name="cpf"
+                  value={formData.cpf}
+                  onChange={handleInputChange}
+                  className={`h-12 rounded-md bg-gray-300 p-2 border-2 ${
+                    (formData.cpf.length > 11 || /[a-zA-Z!@#$%¨&*()-=]/.test(formData.cpf))
+                      ? 'border-red-500'
+                      : 'border-transparent'
+                  }`}
+                  placeholder="Ex: 12345678900"
+                />
+                {(formData.cpf.length > 11 || /[a-zA-Z!@#$%¨&*()-=]/.test(formData.cpf)) && (
+                  <span className="text-red-500 text-sm mt-1">passou do limite de carcteres</span>
+                )}
                 </div>
+
                 <div className="flex flex-col">
                   <p>CEP</p>
                   <input
@@ -166,9 +174,17 @@ export default function Comodato() {
                     name="cep"
                     value={formData.cep}
                     onChange={handleInputChange}
-                    className="h-12 rounded-md bg-gray-300 p-2"
+                    
+                    className={`h-12 rounded-md bg-gray-300 p-2 border-2 ${
+                    (formData.cep.length > 8 || /[a-zA-Z!@#$%¨&*()-=]/.test(formData.cep))
+                      ? 'border-red-500'
+                      : 'border-transparent'
+                  }`}
                     placeholder="Ex: 12345678"
                   />
+                  {(formData.cep.length > 11 || /[a-zA-Z!@#$%¨&*()-=]/.test(formData.cep)) && (
+                  <span className="text-red-500 text-sm mt-1">passou do limite de carcteres</span>
+                )}
                 </div>
                 <div className="flex flex-col">
                   <p>Cidade</p>
@@ -185,24 +201,24 @@ export default function Comodato() {
                   />
                 </div>
                 <div className="flex gap-4">
-                <div className="flex-1 flex flex-col">
-                  <p>Rua</p>
+                <div className="flex w-1/4 flex-col">
+                  <p>Número</p>
                   <input
                     type="text"
                     tabIndex={9}
-                    name="rua"
-                    value={formData.rua}
+                    name="numero_casa"
+                    value={formData.numero_casa}
                     onChange={handleInputChange}
                     className="h-12 rounded-md bg-gray-300 p-2"
                   />
                 </div>
-                <div className="w-1/4 flex flex-col">
-                  <p>Número</p>
+                <div className="flex-1 flex flex-col">
+                  <p>Bairro</p>
                   <input
                     type="text"
                     tabIndex={11}
-                    name="numero_casa"
-                    value={formData.numero_casa}
+                    name="bairro"
+                    value={formData.bairro}
                     onChange={handleInputChange}
                     className="h-12 rounded-md bg-gray-300 p-2"
                   />
@@ -251,9 +267,16 @@ export default function Comodato() {
                     name="rg"
                     value={formData.rg}
                     onChange={handleInputChange}
-                    className="h-12 rounded-md bg-gray-300 p-2"
-                    placeholder="Ex: 123456789"
+                    className={`h-12 rounded-md bg-gray-300 p-2 border-2 ${
+                      (formData.rg.length > 14 || /[a-zA-Z!@#$%¨&*()-=]/.test(formData.rg))
+                        ? 'border-red-500'
+                        : 'border-transparent'
+                    }`}
+                    placeholder="Ex: 12345678912345"
                   />
+                  {(formData.rg.length > 14 || /[a-zA-Z!@#$%¨&*()-=]/.test(formData.rg)) && (
+                  <span className="text-red-500 text-sm mt-1">passou do limite de carcteres</span>
+                )}
                 </div>
                 <div className="flex flex-col">
                   <p>Profissão</p>
@@ -268,12 +291,12 @@ export default function Comodato() {
                 </div>
                 
                 <div className="flex flex-col">
-                  <p>Bairro</p>
+                  <p>Rua</p>
                   <input
                     type="text"
                     tabIndex={8}
-                    name="bairro"
-                    value={formData.bairro}
+                    name="rua"
+                    value={formData.rua}
                     onChange={handleInputChange}
                     className="h-12 rounded-md bg-gray-300 p-2"
                   />

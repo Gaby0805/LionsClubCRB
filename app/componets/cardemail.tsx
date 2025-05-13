@@ -18,7 +18,7 @@ const bull = (
 
 export default function EmailCard() {
   return (
-    <Card >
+    <Card>
       <CardContent>
         <Typography variant="h5" component="div">
           Lionsclubecorumbams@gmail.com
