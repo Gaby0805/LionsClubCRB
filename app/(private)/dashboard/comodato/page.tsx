@@ -37,14 +37,14 @@ export default function Comodato() {
   // Busca nome do usuario responsavel
   useEffect(() => {
     if (!userId) return;
-    axios.post("http://localhost:3333/usuario/especifico", { id_usuario: userId }, { withCredentials: true })
+    axios.post("https://leoncio-backend-production.up.railway.app/usuario/especifico", { id_usuario: userId }, { withCredentials: true })
       .then(response => setValor(response.data.nome_user))
       .catch(console.error);
   }, [userId]);
 
   // Busca itens de estoque
   useEffect(() => {
-    axios.get("http://localhost:3333/estoque/ComodatoList", { withCredentials: true })
+    axios.get("https://leoncio-backend-production.up.railway.app/estoque/ComodatoList", { withCredentials: true })
       .then(response => setItem(response.data))
       .catch(console.error);
   }, []);
@@ -70,13 +70,13 @@ export default function Comodato() {
       const dataToSend = { ...formData, itensSelecionados };
   
       // Tenta cadastrar a pessoa no comodato
-      await axios.post("http://localhost:3333/comodato/", dataToSend, {
+      await axios.post("https://leoncio-backend-production.up.railway.app/comodato/", dataToSend, {
         withCredentials: true
       });
   
       // Se cadastro for bem-sucedido, envia a transação
       await axios.post(
-        "http://localhost:3333/transacao/",
+        "https://leoncio-backend-production.up.railway.app/transacao/",
         {
           cpf: formData.cpf,
           user_id: userId,
@@ -101,7 +101,7 @@ export default function Comodato() {
         try {
           // CPF já cadastrado, envia apenas a transação
           await axios.post(
-            "http://localhost:3333/transacao/",
+            "https://leoncio-backend-production.up.railway.app/transacao/",
             {
               cpf: formData.cpf,
               user_id: userId,

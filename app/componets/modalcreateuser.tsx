@@ -39,7 +39,7 @@ const ModalUsuario = ({ open, handleClose }: { open: boolean; handleClose: () =>
 
   const handleSubmit = async () => {
     try {
-      await axios.post('http://localhost:3333/usuario', formData, {withCredentials: true});
+      await axios.post('https://leoncio-backend-production.up.railway.app/usuario', formData, {withCredentials: true});
       alert('Usuário criado com sucesso!');
       handleClose();
     } catch (error) {

@@ -5,7 +5,9 @@ import { useState } from 'react';
 import { Box, Button, Typography, Modal, TextField } from '@mui/material';
 import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+
 import dayjs, { Dayjs } from 'dayjs';
+import 'dayjs/locale/pt-br'; // importa o locale
 
 const style = {
   position: 'absolute' as const,
@@ -37,7 +39,7 @@ export default function AddItem({ Area }: { Area: any }) {
         aquisicaoSelecionada 
       });
       const response = await axios.post(
-        'http://localhost:3333/estoque/',
+        'https://leoncio-backend-production.up.railway.app/estoque/',
         {
           nome_material: nomeEditado,
           descricao: descricaoEditada,
@@ -116,16 +118,18 @@ export default function AddItem({ Area }: { Area: any }) {
               fullWidth
             />
 
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DatePicker
-                label="Data de Aquisição"
-                value={aquisicaoSelecionada}
-                onChange={(newValue) => setAquisicaoSelecionada(newValue)}
-                renderInput={(params) => (
-                  <TextField {...params} size="small" fullWidth />
-                )}
-              />
-            </LocalizationProvider>
+<LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
+      <DatePicker
+        label="Data de Aquisição"
+        value={aquisicaoSelecionada}
+        onChange={(newValue) => setAquisicaoSelecionada(newValue)}
+        format="DD/MM/YYYY"
+        renderInput={(params) => (
+          <TextField {...params} size="small" fullWidth />
+        )}
+      />
+
+    </LocalizationProvider>
 
             <Button variant="contained" onClick={Enviar}>
               Enviar

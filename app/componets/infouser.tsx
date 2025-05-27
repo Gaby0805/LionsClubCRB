@@ -37,7 +37,7 @@ export default function InfoUser() {
   const trocarSenha = async () => {
     try {
       const response = await axios.put(
-        "http://localhost:3333/usuario/senha",
+        "https://leoncio-backend-production.up.railway.app/usuario/senha",
         {
           id_usuario: userId,
           senha_antiga: senhaAntiga,
@@ -58,7 +58,7 @@ export default function InfoUser() {
     const fetchData = async () => {
       try {
         const response = await axios.post(
-          "http://localhost:3333/usuario/especifico",
+          "https://leoncio-backend-production.up.railway.app/usuario/especifico",
           { id_usuario: userId },
           { withCredentials: true }
         );
@@ -93,7 +93,7 @@ export default function InfoUser() {
       if (!confirmealter) return;
 
       const response = axios.put(
-        "http://localhost:3333/usuario",
+        "https://leoncio-backend-production.up.railway.app/usuario",
         {
           id_usuario: userId,
           u_nome: respostasNome,

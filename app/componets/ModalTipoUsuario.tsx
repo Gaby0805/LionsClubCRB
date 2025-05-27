@@ -19,7 +19,7 @@ export default function ModalTipoUsuario({ open, onClose, userId }: ModalTipoUsu
     if (!confirme) return;
 
     try {
-      await axios.put('http://localhost:3333/usuario/tipo', {
+      await axios.put('https://leoncio-backend-production.up.railway.app/usuario/tipo', {
         id_usuario: userId,
         u_tipo: novoTipo
       }, { withCredentials: true });
@@ -47,7 +47,8 @@ export default function ModalTipoUsuario({ open, onClose, userId }: ModalTipoUsu
           >
             <MenuItem value="ADM">ADM/Presidente</MenuItem>
             <MenuItem value="Vice">Vice</MenuItem>
-            <MenuItem value="Secretaria">Secretaria</MenuItem>
+            <MenuItem value="1º Secretaria">1º Secretaria</MenuItem>
+            <MenuItem value="2º Secretaria">2º Secretaria</MenuItem>
             <MenuItem value="Diretor de Patrimonio">Diretor de Patrimonio</MenuItem>
             <MenuItem value="inativo">Desativar usuario</MenuItem>
           </Select>

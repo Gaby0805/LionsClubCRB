@@ -29,7 +29,7 @@ export default function ListaUsuariosModal({ open, handleClose }: { open: boolea
   useEffect(() => {
     const fetchUsuarios = async () => {
       try {
-        const response = await axios.get("http://localhost:3333/usuario", {
+        const response = await axios.get("https://leoncio-backend-production.up.railway.app/usuario/ativos", {
           withCredentials: true,
         });
         setUsuarios(response.data);

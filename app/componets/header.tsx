@@ -22,7 +22,7 @@ export default function Header() {
             <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
               <Box display="flex" alignItems="center" gap={2}>
                 <a href="/">
-                <Image src="/imgs/logolions.png" alt="Lions Clube" width={130} height={130} />
+                <Image src="/imgs/logoLions.png" alt="Lions Clube" width={130} height={130} />
                 </a>
               </Box>
               <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", flex: 1, gap: 4, fontSize: 24} }>

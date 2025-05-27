@@ -55,7 +55,7 @@
       const fetchData = async () => {
         try {
           const response = await axios.post(
-            "http://localhost:3333/usuario/especifico",
+            "https://leoncio-backend-production.up.railway.app/usuario/especifico",
             {
               id_usuario: userId,
             },
@@ -109,7 +109,7 @@
 
                     try {
                       await axios.post(
-                        "http://localhost:3333/usuario/logout",
+                        "https://leoncio-backend-production.up.railway.app/usuario/logout",
                         {},
                         {
                           withCredentials: true,

@@ -31,7 +31,7 @@ export default function StatsItem() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:3333/transacao/info", {
+        const response = await axios.get("https://leoncio-backend-production.up.railway.app/transacao/info", {
           withCredentials: true,
         });
         setItems(response.data);

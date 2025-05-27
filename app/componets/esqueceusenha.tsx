@@ -26,7 +26,7 @@ export default function EsqueceuSenha({ open, onClose, userId, nome }: ModalSenh
 
   const handleSalvar = async () => {
     try {
-      await axios.put('http://localhost:3333/usuario/esqueceusenha', {
+      await axios.put('https://leoncio-backend-production.up.railway.app/usuario/esqueceusenha', {
         id_usuario: userId,
         id_adm: adminId,
         senha_adm: senhaAdm,

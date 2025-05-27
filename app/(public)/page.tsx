@@ -17,7 +17,7 @@ export default function HomePage() {
   return (
     <div className="flex flex-col min-h-screen ">
       <Header />
-
+ 
       <Box
         sx={{
           bgcolor: "#FEECCF",
@@ -78,7 +78,7 @@ export default function HomePage() {
             </Grid>
             <Grid item xs={12} md={6}>
               <Image
-                src="/imgs/lions.png"
+                src="/imgs/login.png"
                 alt="Membros do Lions"
                 width={500}
                 height={300}

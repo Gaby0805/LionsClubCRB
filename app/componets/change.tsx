@@ -40,7 +40,7 @@ export default function Change({ quantidade1, estoque_id }: ChangeProps) {
   const atualizar = async () => {
     try {
       console.log("Valor atualizado:", quantidade);
-      const response = await axios.put('http://localhost:3333/quantidades/', {
+      const response = await axios.put('https://leoncio-backend-production.up.railway.app/quantidades/', {
         estoque_id,
         quantidade,
       },

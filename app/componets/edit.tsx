@@ -45,7 +45,7 @@ export default function Edit({ nome, status, tamanho, descricao, estoque_id }: E
   const atualizar = async () => {
     try {
       console.log("Dados enviados:", { nomeEditado, descricaoEditada, statusSelecionado, tamanhoSelecionado });
-      const response = await axios.put('http://localhost:3333/estoque/', {
+      const response = await axios.put('https://leoncio-backend-production.up.railway.app/estoque/', {
         estoque_id,
         nome_material: nomeEditado, 
         descricao: descricaoEditada,
@@ -64,7 +64,7 @@ export default function Edit({ nome, status, tamanho, descricao, estoque_id }: E
     useEffect(() => {
         const fetchData = async () => {
             try { 
-                const response = await axios.get("http://localhost:3333/estoque/valores/",
+                const response = await axios.get("https://leoncio-backend-production.up.railway.app/estoque/valores/",
                   {withCredentials: true});
                 setItems(response.data);
             } catch (error) {

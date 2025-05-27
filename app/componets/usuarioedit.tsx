@@ -32,7 +32,7 @@ export default function Userchange({}) {
   const atualizar = async () => {
     try {
       console.log("Valor atualizado:");
-      const response = await axios.put('http://localhost:3333/quantidades/', {
+      const response = await axios.put('https://leoncio-backend-production.up.railway.app/quantidades/', {
 
       },
       {withCredentials: true});

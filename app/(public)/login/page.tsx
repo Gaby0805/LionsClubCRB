@@ -19,7 +19,7 @@ export default function Home() {
   const autorizar = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:3333/usuario/autenticar", 
+        "https://leoncio-backend-production.up.railway.app/usuario/autenticar", 
         { email, senha },
         { withCredentials: true }
       );
