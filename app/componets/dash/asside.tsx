@@ -1,3 +1,4 @@
+"use client";
 import { BookOpen, Backpack, FileSpreadsheet, NotepadText } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useUser } from "../context/UserContext";

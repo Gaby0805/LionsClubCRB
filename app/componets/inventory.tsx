@@ -1,3 +1,4 @@
+'use client'
 import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import { Toast } from 'primereact/toast';
@@ -36,37 +37,41 @@ useEffect(() => {
         });
     };
 
-    // 🔄 Função para buscar os dados da API
-    const fetchData = async () => {
-        try { 
-            const response = await axios.get("https://leoncio-backend-production.up.railway.app/estoque/ComodatoList", {withCredentials:true});
-            setItems(response.data);
-        } catch (error) {
-            console.log("Erro ao buscar dados:", error);
-        }
-    };
-    const deletar = async ()=> {
-    try{
-        const confirmDelete = confirm('Você tem certeza que deseja excluir o item?');
-        if (!confirmDelete) return;
+const fetchData = async () => {
+  try { 
+    const response = await axios.delete(
+      "https://leoncio-backend-production.up.railway.app/estoque/",
+      {
+        data: { id_estoque: valueSelect.id },
+        headers: { Authorization: `Bearer ${token}` }
+      }
+    );
+    setItems(response.data);
+  } catch (error) {
+    console.log("Erro ao buscar dados:", error);
+  }
+};
 
-        await axios.delete("https://leoncio-backend-production.up.railway.app/estoque/",{
-            data: {
-                id_estoque: valueSelect.id
-                      {
-            headers: {
-              Authorization: `Bearer ${token}`
-            }
-          });
-        console.log('item deletato')
-    }
-     catch (error) {
-        alert('o item precisa possuir quantidade para ser deletado')
+const deletar = async () => {
+  try {
+    const confirmDelete = confirm('Você tem certeza que deseja excluir o item?');
+    if (!confirmDelete) return;
 
-        console.error('Erro ao deletar item:', error);
-    }
-    } 
-    
+    await axios.delete(
+      "https://leoncio-backend-production.up.railway.app/estoque/",
+      {
+        data: { id_estoque: valueSelect.id },
+        headers: { Authorization: `Bearer ${token}` }
+      }
+    );
+
+    console.log('item deletado');
+  } catch (error) {
+    alert('O item precisa possuir quantidade para ser deletado');
+    console.error('Erro ao deletar item:', error);
+  }
+};
+
         
 
 

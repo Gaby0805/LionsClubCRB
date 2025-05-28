@@ -1,3 +1,4 @@
+'use client'
 import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import { Column } from 'primereact/column';
@@ -15,10 +16,11 @@ export default function Invent2() {
     const toast = useRef(null);
 const [token, setToken] = useState<string | null>(null);
 
-useEffect(() => {
-  const tokenLocalStorage = localStorage.getItem("token");
-  setToken(tokenLocalStorage);
-}, []);  
+  useEffect(() => {
+    const tokenLocalStorage = localStorage.getItem("token");
+    setToken(tokenLocalStorage);
+  }, []);
+
 
     const onRowSelect = (event) => {
         toast.current.show({ severity: 'info', summary: 'Item selecionado', detail: `Nome: ${event.data.nome_material}`, life: 2000 });

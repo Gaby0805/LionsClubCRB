@@ -1,3 +1,4 @@
+"use client";
 import {CircleUserRound, VenetianMaskIcon} from "lucide-react"
 import { useUser } from "../context/UserContext"
 import axios from "axios";

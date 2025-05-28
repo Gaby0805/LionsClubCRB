@@ -25,23 +25,23 @@ export default function StatsItem() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedLetter, setSelectedLetter] = useState("");
   const itemsPerPage = 6;
+const [token, setToken] = useState<string | null>(null);
+
+useEffect(() => {
+  const tokenLocalStorage = localStorage.getItem("token");
+  setToken(tokenLocalStorage);
+}, []);  const [valor, setValor] = useState<string>("");
 
   const letras = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await           {
+        const response = await axios.get("https://leoncio-backend-production.up.railway.app/transacao/info",{
             headers: {
               Authorization: `Bearer ${token}`
             }
-          }.get("https://leoncio-backend-production.up.railway.app/transacao/info", {
-                    
-            headers: {
-              Authorization: `Bearer ${token}`
-            
-          },
-        });
+          });
         setItems(response.data);
       } catch (error) {
         console.log("Erro ao buscar dados:", error);
