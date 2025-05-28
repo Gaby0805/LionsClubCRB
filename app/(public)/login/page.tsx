@@ -16,34 +16,31 @@ export default function Home() {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   // Função para autenticar usuário
-  const autorizar = async () => {
-    try {
-      const response = await axios.post(
-        "https://leoncio-backend-production.up.railway.app/usuario/autenticar", 
-        { email, senha },
-        { withCredentials: true }
-      );
-      
-      // Verificar se a resposta foi bem-sucedida
-      if (response.data.success === false) {
-        alert("Falha no login. Verifique suas credenciais.");
-        return;
-      }
-  
-      // Armazenar ID do usuário
-      saveUserId(response.data.id_usuario); 
-  
-      console.log("Login realizado com sucesso:", response.data);
-  
-      // Redirecionar para o dashboard após o login bem-sucedido
-      alert("Login realizado com sucesso!");
-      router.push('/dashboard');
-      
-    } catch (error) {
-      console.error("Erro no login:", error);
-      alert("Falha no sistema, tente novamente");
+const autorizar = async () => {
+  try {
+    const response = await axios.post(
+      "https://leoncio-backend-production.up.railway.app/usuario/autenticar", 
+      { email, senha }
+    );
+
+    if (response.data.success === false) {
+      alert("Falha no login. Verifique suas credenciais.");
+      return;
     }
-  };
+
+    // ✅ Armazenar token e ID no localStorage
+    localStorage.setItem("token", response.data.token);
+    saveUserId(response.data.id_usuario); 
+    console.log("Login realizado com sucesso:", response.data);
+
+    alert("Login realizado com sucesso!");
+    router.push('/dashboard');
+    
+  } catch (error) {
+    console.error("Erro no login:", error);
+    alert("Falha no sistema, tente novamente");
+  }
+};
   
   return (
     <main className="bg-cover bg-center h-screen" style={{ backgroundImage: 'url(/imgs/login.png)' }}>

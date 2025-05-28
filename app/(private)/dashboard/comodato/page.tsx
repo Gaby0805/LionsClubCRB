@@ -13,6 +13,7 @@ import { useUser } from "@/app/componets/context/UserContext";
 
 export default function Comodato() {
   const { userId } = useUser();
+  const token = localStorage.getItem("token");
   const [valor, setValor] = useState<string>("");
 
   const [item, setItem] = useState<{ id_estoque: number; nome_material: string }[]>([]);
@@ -82,8 +83,11 @@ export default function Comodato() {
           user_id: userId,
           estoque_id: itensSelecionados.map(i => i.id)
         },
-        { withCredentials: true }
-      );
+{
+  headers: {
+    Authorization: `Bearer ${token}`
+  }
+}      );
   
       alert("Cadastro realizado com sucesso!");
     } catch (error: any) {
@@ -107,8 +111,11 @@ export default function Comodato() {
               user_id: userId,
               estoque_id: itensSelecionados.map(i => i.id)
             },
-            { withCredentials: true }
-          );
+    {
+  headers: {
+    Authorization: `Bearer ${token}`
+  }
+}          );
   
           alert("Cadastro realizado com sucesso! CPF já estava cadastrado.");
           return;

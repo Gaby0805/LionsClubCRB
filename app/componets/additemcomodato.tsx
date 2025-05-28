@@ -8,7 +8,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 import dayjs, { Dayjs } from 'dayjs';
 import 'dayjs/locale/pt-br'; // importa o locale
-
+const token = localStorage.getItem("token");
 const style = {
   position: 'absolute' as const,
   top: '50%',
@@ -27,6 +27,7 @@ export default function AddItem({ Area }: { Area: any }) {
   const [tamanhoSelecionado, setTamanhoSelecionado] = useState('Padrão');
   const [valorSelecionado, setValorSelecionado] = useState('');
   const [aquisicaoSelecionada, setAquisicaoSelecionada] = useState<Dayjs | null>(dayjs());
+  const token = localStorage.getItem("token");
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -49,8 +50,11 @@ export default function AddItem({ Area }: { Area: any }) {
           aquisicao: aquisicaoSelecionada?.toISOString(),
           tamanho: tamanhoSelecionado
         },
-        { withCredentials: true }
-      );
+{
+  headers: {
+    Authorization: `Bearer ${token}`
+  }
+}      );
       console.log('Resposta do servidor:', response.data);
       handleClose();
     } catch (error) {

@@ -15,10 +15,10 @@
     const { userId } = useUser();
     const [Isadm, SetIsadm] = useState("invisible");
     const [openModal, setOpenModal] = useState(false);
-
+    const token = localStorage.getItem("token");
     const handleOpenModal = () => setOpenModal(true);
     const handleCloseModal = () => setOpenModal(false);
-
+    
     const [Infosearch, setInfosearch] = useState({
       nome_user: "",
       sobrenome: "",
@@ -59,8 +59,11 @@
             {
               id_usuario: userId,
             },
-            { withCredentials: true }
-          );
+    {
+  headers: {
+    Authorization: `Bearer ${token}`
+  }
+}          );
 
           setInfosearch({
             nome_user: response.data.nome_user,

@@ -23,6 +23,7 @@ export default function InfoUser() {
   const [respostasCpf, setRespostasCpf] = useState(Infosearch.cpf);
   const [respostasSenha, setRespostasSenha] = useState('');
   const [Isenable, setIsenable] = useState(true);
+  const token = localStorage.getItem("token");
 
   // Estado para o Modal de troca de senha
   const [openModal, setOpenModal] = useState(false);
@@ -43,8 +44,11 @@ export default function InfoUser() {
           senha_antiga: senhaAntiga,
           senha_nova: senhaNova,
         },
-        { withCredentials: true }
-      );
+{
+  headers: {
+    Authorization: `Bearer ${token}`
+  }
+}      );
       alert(response.data.message); // Exibe a mensagem de sucesso
       handleCloseModalSenha(); // Fecha o modal
     } catch (error) {
@@ -60,8 +64,11 @@ export default function InfoUser() {
         const response = await axios.post(
           "https://leoncio-backend-production.up.railway.app/usuario/especifico",
           { id_usuario: userId },
-          { withCredentials: true }
-        );
+  {
+  headers: {
+    Authorization: `Bearer ${token}`
+  }
+}        );
 
         setInfosearch({
           nome_user: response.data.nome_user,
@@ -102,8 +109,11 @@ export default function InfoUser() {
           u_cpf: respostasCpf,
           u_tipo: Infosearch.tipo_user,
         },
-        { withCredentials: true }
-      );
+{
+  headers: {
+    Authorization: `Bearer ${token}`
+  }
+}      );
       response.catch(() => {
         alert("Houve algum erro em alguma informação, confira a quantidade de caracteres em cada campo.");
       });

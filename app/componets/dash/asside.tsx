@@ -5,7 +5,7 @@ import axios from "axios";
 
 export default function Asside() {
   const { userId } = useUser();
-  
+  const token = localStorage.getItem("token");
   const [isUser, setUser] = useState("hidden")
   const [isUser2, setUser2] = useState("hidden")
     const [Infosearch, setInfosearch] = useState({
@@ -25,8 +25,11 @@ export default function Asside() {
             {
               id_usuario: userId,
             },
-            { withCredentials: true }
-          );
+    {
+  headers: {
+    Authorization: `Bearer ${token}`
+  }
+}          );
 
           setInfosearch({
             nome_user: response.data.nome_user,

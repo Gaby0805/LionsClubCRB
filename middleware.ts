@@ -4,13 +4,15 @@ import { NextResponse, NextRequest } from 'next/server';
 const secret = new TextEncoder().encode(process.env.SECRET_KEY || 'fallback');
 
 export async function middleware(req: NextRequest) {
-  const token = req.cookies.get('token')?.value;
-  const pathname = new URL(req.url).pathname;
+  const pathname = req.nextUrl.pathname;
+  const authHeader = req.headers.get('authorization');
+  const token = authHeader?.startsWith('Bearer ') ? authHeader.split(' ')[1] : null;
 
   try {
     if (token) {
       await jwtVerify(token, secret);
 
+      // Impede acesso à página de login se já estiver autenticado
       if (pathname === '/login') {
         return NextResponse.redirect(new URL('/dashboard', req.url));
       }
@@ -18,6 +20,7 @@ export async function middleware(req: NextRequest) {
       return NextResponse.next();
     }
 
+    // Se não houver token e estiver tentando acessar rota protegida
     if (pathname !== '/login') {
       return NextResponse.redirect(new URL('/login', req.url));
     }
