@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import { Toast } from 'primereact/toast';
@@ -17,10 +17,11 @@ export default function Invent() {
 const [token, setToken] = useState<string | null>(null);
 
 useEffect(() => {
-  const tokenLocalStorage = localStorage.getItem("token");
-  setToken(tokenLocalStorage);
-}, []); 
-
+  if (typeof window !== "undefined") {
+    const tokenLocalStorage = localStorage.getItem("token");
+    setToken(tokenLocalStorage);
+  }
+}, []);
     const [valueSelect, setValueSelect] = useState({
         "name": "", "id": "", "descricao": "", "status": "", "tamanho": "", "quantidades": ""
     });

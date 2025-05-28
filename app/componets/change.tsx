@@ -27,10 +27,11 @@ export default function Change({ quantidade1, estoque_id }: ChangeProps) {
 const [token, setToken] = useState<string | null>(null);
 
 useEffect(() => {
-  const tokenLocalStorage = localStorage.getItem("token");
-  setToken(tokenLocalStorage);
-}, []); 
-
+  if (typeof window !== "undefined") {
+    const tokenLocalStorage = localStorage.getItem("token");
+    setToken(tokenLocalStorage);
+  }
+}, []);
   // Atualiza o estado quando `quantidade1` mudar
   useEffect(() => {
     setQuantidade(quantidade1 || 0);
