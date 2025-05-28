@@ -27,8 +27,12 @@ export default function AddItem({ Area }: { Area: any }) {
   const [tamanhoSelecionado, setTamanhoSelecionado] = useState('Padrão');
   const [valorSelecionado, setValorSelecionado] = useState('');
   const [aquisicaoSelecionada, setAquisicaoSelecionada] = useState<Dayjs | null>(dayjs());
-  const token = localStorage.getItem("token");
+const [token, setToken] = useState<string | null>(null);
 
+useEffect(() => {
+  const tokenLocalStorage = localStorage.getItem("token");
+  setToken(tokenLocalStorage);
+}, []);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 

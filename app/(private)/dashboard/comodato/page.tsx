@@ -13,8 +13,12 @@ import { useUser } from "@/app/componets/context/UserContext";
 
 export default function Comodato() {
   const { userId } = useUser();
-  const token = localStorage.getItem("token");
-  const [valor, setValor] = useState<string>("");
+const [token, setToken] = useState<string | null>(null);
+
+useEffect(() => {
+  const tokenLocalStorage = localStorage.getItem("token");
+  setToken(tokenLocalStorage);
+}, []);  const [valor, setValor] = useState<string>("");
 
   const [item, setItem] = useState<{ id_estoque: number; nome_material: string }[]>([]);
   const [itensSelecionados, setItensSelecionados] = useState<{ id: number }[]>([]);

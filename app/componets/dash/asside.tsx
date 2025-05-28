@@ -5,8 +5,12 @@ import axios from "axios";
 
 export default function Asside() {
   const { userId } = useUser();
-  const token = localStorage.getItem("token");
-  const [isUser, setUser] = useState("hidden")
+const [token, setToken] = useState<string | null>(null);
+
+useEffect(() => {
+  const tokenLocalStorage = localStorage.getItem("token");
+  setToken(tokenLocalStorage);
+}, []);  const [isUser, setUser] = useState("hidden")
   const [isUser2, setUser2] = useState("hidden")
     const [Infosearch, setInfosearch] = useState({
       nome_user: "",

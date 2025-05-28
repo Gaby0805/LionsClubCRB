@@ -23,8 +23,12 @@ export default function InfoUser() {
   const [respostasCpf, setRespostasCpf] = useState(Infosearch.cpf);
   const [respostasSenha, setRespostasSenha] = useState('');
   const [Isenable, setIsenable] = useState(true);
-  const token = localStorage.getItem("token");
+const [token, setToken] = useState<string | null>(null);
 
+useEffect(() => {
+  const tokenLocalStorage = localStorage.getItem("token");
+  setToken(tokenLocalStorage);
+}, []);
   // Estado para o Modal de troca de senha
   const [openModal, setOpenModal] = useState(false);
   const [senhaAntiga, setSenhaAntiga] = useState('');

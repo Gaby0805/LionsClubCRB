@@ -15,8 +15,12 @@
     const { userId } = useUser();
     const [Isadm, SetIsadm] = useState("invisible");
     const [openModal, setOpenModal] = useState(false);
-    const token = localStorage.getItem("token");
-    const handleOpenModal = () => setOpenModal(true);
+  const [token, setToken] = useState<string | null>(null);
+
+useEffect(() => {
+  const tokenLocalStorage = localStorage.getItem("token");
+  setToken(tokenLocalStorage);
+}, []);    const handleOpenModal = () => setOpenModal(true);
     const handleCloseModal = () => setOpenModal(false);
     
     const [Infosearch, setInfosearch] = useState({
