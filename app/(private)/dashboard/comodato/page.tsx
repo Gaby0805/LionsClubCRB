@@ -42,14 +42,22 @@ useEffect(() => {
   // Busca nome do usuario responsavel
   useEffect(() => {
     if (!userId) return;
-    axios.post("https://leoncio-backend-production.up.railway.app/usuario/especifico", { id_usuario: userId }, { withCredentials: true })
+    axios.post("https://leoncio-backend-production.up.railway.app/usuario/especifico", { id_usuario: userId },           {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          })
       .then(response => setValor(response.data.nome_user))
       .catch(console.error);
   }, [userId]);
 
   // Busca itens de estoque
   useEffect(() => {
-    axios.get("https://leoncio-backend-production.up.railway.app/estoque/ComodatoList", { withCredentials: true })
+    axios.get("https://leoncio-backend-production.up.railway.app/estoque/ComodatoList",           {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          })
       .then(response => setItem(response.data))
       .catch(console.error);
   }, []);
@@ -75,9 +83,11 @@ useEffect(() => {
       const dataToSend = { ...formData, itensSelecionados };
   
       // Tenta cadastrar a pessoa no comodato
-      await axios.post("https://leoncio-backend-production.up.railway.app/comodato/", dataToSend, {
-        withCredentials: true
-      });
+      await axios.post("https://leoncio-backend-production.up.railway.app/comodato/", dataToSend,           {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          });
   
       // Se cadastro for bem-sucedido, envia a transação
       await axios.post(

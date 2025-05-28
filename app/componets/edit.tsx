@@ -31,6 +31,12 @@ export default function Edit({ nome, status, tamanho, descricao, estoque_id }: E
   const [tamanhoSelecionado, setTamanhoSelecionado] = useState(tamanho);
   const [statusSelecionado, setStatusSelecionado] = useState(status);
   const [Item, setItems] = useState('')
+const [token, setToken] = useState<string | null>(null);
+
+useEffect(() => {
+  const tokenLocalStorage = localStorage.getItem("token");
+  setToken(tokenLocalStorage);
+}, []);  
 
   useEffect(() => {
     setNomeEditado(nome);
@@ -52,7 +58,11 @@ export default function Edit({ nome, status, tamanho, descricao, estoque_id }: E
         status: statusSelecionado,
         tamanho: tamanhoSelecionado
       },
-      {withCredentials: true});
+      {          
+            headers: {
+              Authorization: `Bearer ${token}`
+            
+          }});
       handleClose();
       console.log('Resposta do servidor:', response);
     } catch (error) {
@@ -65,7 +75,11 @@ export default function Edit({ nome, status, tamanho, descricao, estoque_id }: E
         const fetchData = async () => {
             try { 
                 const response = await axios.get("https://leoncio-backend-production.up.railway.app/estoque/valores/",
-                  {withCredentials: true});
+                  {          
+            headers: {
+              Authorization: `Bearer ${token}`
+            
+          }});
                 setItems(response.data);
             } catch (error) {
                 console.log("Erro ao buscar dados:", error);

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import {
   Modal,
@@ -39,7 +39,11 @@ const ModalUsuario = ({ open, handleClose }: { open: boolean; handleClose: () =>
 
   const handleSubmit = async () => {
     try {
-      await axios.post('https://leoncio-backend-production.up.railway.app/usuario', formData, {withCredentials: true});
+      await axios.post('https://leoncio-backend-production.up.railway.app/usuario', formData,           {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          });
       alert('Usuário criado com sucesso!');
       handleClose();
     } catch (error) {
@@ -47,6 +51,12 @@ const ModalUsuario = ({ open, handleClose }: { open: boolean; handleClose: () =>
       alert('Erro ao criar usuário');
     }
   };
+const [token, setToken] = useState<string | null>(null);
+
+useEffect(() => {
+  const tokenLocalStorage = localStorage.getItem("token");
+  setToken(tokenLocalStorage);
+}, []);  
 
   return (
     <Modal open={open} onClose={handleClose}>

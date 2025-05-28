@@ -18,11 +18,20 @@ export default function Statuscomodato({ nome, status, data, id, nome_item, sobr
   const [Isready, setIsready] = useState(false);
   const [openModal, setOpenModal] = useState(false);  // Estado para controlar a exibição do modal
   const [selectedItem, setSelectedItem] = useState<any>(null);  // Estado para armazenar o item selecionado
+const [token, setToken] = useState<string | null>(null);
 
+useEffect(() => {
+  const tokenLocalStorage = localStorage.getItem("token");
+  setToken(tokenLocalStorage);
+}, []);  
   const ConcluirAction = () => {
     const confirme = confirm('O usuário completou o empréstimo?');
     if (!confirme) return;
-    axios.put('https://leoncio-backend-production.up.railway.app/transacao/status', { id_emprestimo: id }, { withCredentials: true });
+    axios.put('https://leoncio-backend-production.up.railway.app/transacao/status', { id_emprestimo: id },           {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          });
   };
 
   const handleOpenModal = () => {

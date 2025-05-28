@@ -24,6 +24,12 @@ type ChangeProps = {
 export default function Change({ quantidade1, estoque_id }: ChangeProps) {
   const [open, setOpen] = useState(false);
   const [quantidade, setQuantidade] = useState(quantidade1 || 0); // Define um valor padrão caso undefined
+const [token, setToken] = useState<string | null>(null);
+
+useEffect(() => {
+  const tokenLocalStorage = localStorage.getItem("token");
+  setToken(tokenLocalStorage);
+}, []); 
 
   // Atualiza o estado quando `quantidade1` mudar
   useEffect(() => {
@@ -44,7 +50,11 @@ export default function Change({ quantidade1, estoque_id }: ChangeProps) {
         estoque_id,
         quantidade,
       },
-      {withCredentials: true});
+      {          
+            headers: {
+              Authorization: `Bearer ${token}`
+            
+          }});
       handleClose( )
 
       console.log('Resposta do servidor:', response);

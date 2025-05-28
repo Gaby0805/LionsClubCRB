@@ -13,6 +13,12 @@ export default function Invent2() {
     const [selectedItem, setSelectedItem] = useState(null);
     const [valueSelect, setValueSelect] = useState({"name": "", "id": "", "descricao": "", "status": "", "tamanho": "", "quantidades": "","area_material": ""});
     const toast = useRef(null);
+const [token, setToken] = useState<string | null>(null);
+
+useEffect(() => {
+  const tokenLocalStorage = localStorage.getItem("token");
+  setToken(tokenLocalStorage);
+}, []);  
 
     const onRowSelect = (event) => {
         toast.current.show({ severity: 'info', summary: 'Item selecionado', detail: `Nome: ${event.data.nome_material}`, life: 2000 });
@@ -31,7 +37,11 @@ export default function Invent2() {
         const fetchData = async () => {
             try { 
                 const response = await axios.get("https://leoncio-backend-production.up.railway.app/estoque/lions/",
-                    {withCredentials: true});
+                    {          
+            headers: {
+              Authorization: `Bearer ${token}`
+            
+          }});
                 setItems(response.data);
             } catch (error) {
                 console.log("Erro ao buscar dados:", error);
@@ -47,7 +57,11 @@ export default function Invent2() {
                 data: {
                     id_estoque: valueSelect.id
                 },
-                withCredentials: true            
+                          
+            headers: {
+              Authorization: `Bearer ${token}`
+            
+          }            
             });
             console.log('item deletato')
         }

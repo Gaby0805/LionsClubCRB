@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, MenuItem, Select, InputLabel, FormControl } from '@mui/material';
 import axios from 'axios';
 
@@ -8,6 +8,12 @@ interface ModalTipoUsuarioProps {
   onClose: () => void;
   userId: number; // ou string, dependendo do seu sistema
 }
+const [token, setToken] = useState<string | null>(null);
+
+useEffect(() => {
+  const tokenLocalStorage = localStorage.getItem("token");
+  setToken(tokenLocalStorage);
+}, []);  
 
 export default function ModalTipoUsuario({ open, onClose, userId }: ModalTipoUsuarioProps) {
   const [novoTipo, setNovoTipo] = useState('');
@@ -22,7 +28,11 @@ export default function ModalTipoUsuario({ open, onClose, userId }: ModalTipoUsu
       await axios.put('https://leoncio-backend-production.up.railway.app/usuario/tipo', {
         id_usuario: userId,
         u_tipo: novoTipo
-      }, { withCredentials: true });
+      },           {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          });
 
       alert('Tipo de usuário atualizado com sucesso!');
       onClose(); // fecha o modal

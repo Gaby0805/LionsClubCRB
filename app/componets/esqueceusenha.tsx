@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Dialog,
   DialogTitle,
@@ -23,6 +23,12 @@ export default function EsqueceuSenha({ open, onClose, userId, nome }: ModalSenh
   const [novaSenha, setNovaSenha] = useState('');
   const [senhaAdm, setSenhaAdm] = useState('');
   const { userId: adminId } = useUser();
+const [token, setToken] = useState<string | null>(null);
+
+useEffect(() => {
+  const tokenLocalStorage = localStorage.getItem("token");
+  setToken(tokenLocalStorage);
+}, []);  
 
   const handleSalvar = async () => {
     try {
@@ -31,9 +37,11 @@ export default function EsqueceuSenha({ open, onClose, userId, nome }: ModalSenh
         id_adm: adminId,
         senha_adm: senhaAdm,
         senha_nova: novaSenha
-      }, {
-        withCredentials: true
-      });
+      },           {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          });
 
       alert('Senha alterada com sucesso!');
       setNovaSenha('');

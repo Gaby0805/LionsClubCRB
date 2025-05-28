@@ -25,13 +25,20 @@ export default function ListaUsuariosModal({ open, handleClose }: { open: boolea
   const [openTipoModal, setOpenTipoModal] = useState(false);
   const [openSenhaModal, setOpenSenhaModal] = useState(false);
   const [userSenhaSelecionado, setUserSenhaSelecionado] = useState<Usuario | null>(null);
+const [token, setToken] = useState<string | null>(null);
 
+useEffect(() => {
+  const tokenLocalStorage = localStorage.getItem("token");
+  setToken(tokenLocalStorage);
+}, []);  
   useEffect(() => {
     const fetchUsuarios = async () => {
       try {
-        const response = await axios.get("https://leoncio-backend-production.up.railway.app/usuario/ativos", {
-          withCredentials: true,
-        });
+        const response = await axios.get("https://leoncio-backend-production.up.railway.app/usuario/ativos",           {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          });
         setUsuarios(response.data);
       } catch (error) {
         console.error("Erro ao buscar usuários:", error);

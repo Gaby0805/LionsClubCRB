@@ -31,8 +31,16 @@ export default function StatsItem() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("https://leoncio-backend-production.up.railway.app/transacao/info", {
-          withCredentials: true,
+        const response = await           {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          }.get("https://leoncio-backend-production.up.railway.app/transacao/info", {
+                    
+            headers: {
+              Authorization: `Bearer ${token}`
+            
+          },
         });
         setItems(response.data);
       } catch (error) {

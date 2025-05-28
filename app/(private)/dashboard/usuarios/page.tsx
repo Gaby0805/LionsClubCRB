@@ -118,9 +118,11 @@ useEffect(() => {
                       await axios.post(
                         "https://leoncio-backend-production.up.railway.app/usuario/logout",
                         {},
-                        {
-                          withCredentials: true,
-                        }
+          {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          }
                       );
 
                       alert("Token apagado. Redirecionando...");

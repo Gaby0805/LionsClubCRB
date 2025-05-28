@@ -20,7 +20,12 @@ export default function EditStats({modal}) {
   const [tamanhoSelecionado, setTamanhoSelecionado] = useState('Padrão');
   const [valorSelecionado, setValorSelecionado] = useState('');
   const [aquisicaoSelecionada, setAquisicaoSelecionada] = useState('');
+const [token, setToken] = useState<string | null>(null);
 
+useEffect(() => {
+  const tokenLocalStorage = localStorage.getItem("token");
+  setToken(tokenLocalStorage);
+}, []);  
   const handleOpen = () => setOpen(modal);
   const handleClose = () => setOpen(!modal);
 
@@ -36,7 +41,11 @@ export default function EditStats({modal}) {
         aquisicao: new Date(aquisicaoSelecionada).toISOString(),
         tamanho: tamanhoSelecionado
       },
-      {withCredentials: true});
+      {          
+            headers: {
+              Authorization: `Bearer ${token}`
+            
+          }});
       console.log('Resposta do servidor:', response);
       handleClose();
     } catch (error) {

@@ -6,14 +6,23 @@ import { useEffect, useState } from "react";
 export default function HeaderDash() {
     const { userId } = useUser(); 
     const [valor, setValor] = useState()
+const [token, setToken] = useState<string | null>(null);
 
+useEffect(() => {
+  const tokenLocalStorage = localStorage.getItem("token");
+  setToken(tokenLocalStorage);
+}, []);  
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const response = await axios.post("https://leoncio-backend-production.up.railway.app/usuario/especifico", {
                     id_usuario: userId // Envia o ID do usuário no body
                 },
-                {withCredentials: true});
+          {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          });
                 setValor(response.data.nome_user); // Atualiza o estado com o nome do usuário
             } catch (error) {
                 console.log("Erro ao buscar dados:", error);

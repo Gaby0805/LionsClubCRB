@@ -43,7 +43,7 @@ const autorizar = async () => {
 };
   
   return (
-    <main className="bg-cover bg-center h-screen" style={{ backgroundImage: 'url(/imgs/login.png)' }}>
+    <main className="bg-cover bg-center h-screen" style={{ backgroundImage: 'url(/imgs/imagelogin.png)' }}>
       <div className="w-screen h-screen flex justify-center items-center">
         <div className="w-96 border-2 border-white rounded-2xl flex justify-center items-center flex-col" 
              style={{ height: 500, backgroundColor: "rgba(21, 78, 157, 0.7)" }}>

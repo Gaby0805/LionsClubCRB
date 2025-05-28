@@ -13,6 +13,12 @@ export default function Invent() {
     const [selectedItem, setSelectedItem] = useState(null);
     const [refreshData, setRefreshData] = useState(false);  // 🔄 Gatilho para atualizar a tabela
     const toast = useRef(null);
+const [token, setToken] = useState<string | null>(null);
+
+useEffect(() => {
+  const tokenLocalStorage = localStorage.getItem("token");
+  setToken(tokenLocalStorage);
+}, []); 
 
     const [valueSelect, setValueSelect] = useState({
         "name": "", "id": "", "descricao": "", "status": "", "tamanho": "", "quantidades": ""
@@ -47,9 +53,11 @@ export default function Invent() {
         await axios.delete("https://leoncio-backend-production.up.railway.app/estoque/",{
             data: {
                 id_estoque: valueSelect.id
-            },
-            withCredentials: true            
-        });
+                      {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          });
         console.log('item deletato')
     }
      catch (error) {
