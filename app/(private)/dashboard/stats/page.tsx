@@ -6,7 +6,6 @@ import HeaderDash from "@/app/componets/dash/headerdash";
 import Statuscomodato from "@/app/componets/statusitem";
 import axios from "axios";
 import Itempage from "@/app/componets/pagination";
-import EditStats from "@/app/componets/itemstats";
 
 interface ComodatoItem {
   id_comodato: number;
@@ -16,6 +15,7 @@ interface ComodatoItem {
   data_limite: string;
   id_emprestimo: number;
   nome_material: string;
+  numero_telefone: string;
 }
 
 export default function StatsItem() {
@@ -25,33 +25,28 @@ export default function StatsItem() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedLetter, setSelectedLetter] = useState("");
   const itemsPerPage = 6;
-const [token, setToken] = useState<string | null>(null);
-
-useEffect(() => {
-  const tokenLocalStorage = localStorage.getItem("token");
-  setToken(tokenLocalStorage);
-}, []);  const [valor, setValor] = useState<string>("");
-
   const letras = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get("https://leoncio-backend-production.up.railway.app/transacao/info",{
-            headers: {
-              Authorization: `Bearer ${token}`
-            }
-          });
+    const token = localStorage.getItem("token");
+
+    if (!token) return;
+
+    axios
+      .get("https://leoncio-backend-production.up.railway.app/transacao/info", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
         setItems(response.data);
-      } catch (error) {
-        console.log("Erro ao buscar dados:", error);
-      }
-    };
-    fetchData();
+      })
+      .catch((error) => {
+        console.error("Erro ao buscar dados:", error);
+      });
   }, []);
 
-  // Filtro por busca e letra
-  const filteredItems = items.filter(item => {
+  const filteredItems = items.filter((item) => {
     const nome = item.nome_comodato.toLowerCase();
     const matchSearch = nome.includes(searchTerm.toLowerCase());
     const matchLetra = selectedLetter ? nome.startsWith(selectedLetter.toLowerCase()) : true;
@@ -70,37 +65,39 @@ useEffect(() => {
         <Asside />
         <div className="flex flex-col w-full">
           <HeaderDash />
-          <main className="flex-1 bg-gray-200 flex flex-col overflow-auto ">
-            <div className="flex m-5 flex-col flex-1 scroll-auto">
+          <main className="flex-1 bg-gray-200 flex flex-col overflow-auto">
+            <div className="flex flex-col flex-1 m-5">
               <div className="text-3xl mb-4">Status comodato</div>
 
               {/* 🔎 Pesquisa + Filtro */}
-              <div className="flex flex-wrap items-center gap-4 mb-6">
-                <input
-                  type="text"
-                  placeholder="Pesquisar por nome..."
-                  value={searchTerm}
-                  onChange={(e) => {
-                    setSearchTerm(e.target.value);
-                    setCurrentPage(1);
-                  }}
-                  className="px-3 py-2 rounded-md border border-gray-400 w-64"
-                />
-                <div className="flex flex-wrap gap-1">
-                  {letras.map((letra) => (
-                    <button
-                      key={letra}
-                      onClick={() => {
-                        setSelectedLetter(letra === selectedLetter ? "" : letra);
-                        setCurrentPage(1);
-                      }}
-                      className={`px-2 py-1 rounded border ${
-                        selectedLetter === letra ? "bg-black text-white" : "bg-white"
-                      }`}
-                    >
-                      {letra}
-                    </button>
-                  ))}
+              <div className="sticky top-0 bg-gray-200 z-10 pb-4">
+                <div className="flex flex-wrap items-center gap-4">
+                  <input
+                    type="text"
+                    placeholder="Pesquisar por nome..."
+                    value={searchTerm}
+                    onChange={(e) => {
+                      setSearchTerm(e.target.value);
+                      setCurrentPage(1);
+                    }}
+                    className="px-3 py-2 rounded-md border border-gray-400 w-64"
+                  />
+                  <div className="flex flex-wrap gap-1">
+                    {letras.map((letra) => (
+                      <button
+                        key={letra}
+                        onClick={() => {
+                          setSelectedLetter(letra === selectedLetter ? "" : letra);
+                          setCurrentPage(1);
+                        }}
+                        className={`px-2 py-1 rounded border ${
+                          selectedLetter === letra ? "bg-black text-white" : "bg-white"
+                        }`}
+                      >
+                        {letra}
+                      </button>
+                    ))}
+                  </div>
                 </div>
               </div>
 
@@ -115,7 +112,7 @@ useEffect(() => {
                     >
                       <Statuscomodato
                         nome={item.nome_comodato}
-                       sobrenome ={item.sobrenome_comodato}
+                        sobrenome={item.sobrenome_comodato}
                         telefone={item.numero_telefone}
                         status={item.status}
                         nome_item={item.nome_material}

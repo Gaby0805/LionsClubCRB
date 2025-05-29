@@ -1,4 +1,4 @@
-import React from "react";
+'use client'
 import Image from "next/image";
 import { Button, AppBar, Toolbar, Typography, Container, Grid, Box, Link } from "@mui/material";
 import Footer from "@/app/componets/footer";

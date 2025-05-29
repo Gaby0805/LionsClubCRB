@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, MenuItem, Select, InputLabel, FormControl } from '@mui/material';
 import axios from 'axios';
 
@@ -8,16 +8,16 @@ interface ModalTipoUsuarioProps {
   onClose: () => void;
   userId: number; // ou string, dependendo do seu sistema
 }
-const [token, setToken] = useState<string | null>(null);
-
-useEffect(() => {
-  const tokenLocalStorage = localStorage.getItem("token");
-  setToken(tokenLocalStorage);
-}, []);  
 
 export default function ModalTipoUsuario({ open, onClose, userId }: ModalTipoUsuarioProps) {
   const [novoTipo, setNovoTipo] = useState('');
-
+  
+  const [token, setToken] = useState<string | null>(null);
+  
+  useEffect(() => {
+    const tokenLocalStorage = localStorage.getItem("token");
+    setToken(tokenLocalStorage);
+  }, []);  
 
 
   const handleSubmit = async () => {

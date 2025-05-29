@@ -1,6 +1,5 @@
-'use client';
-
-import React, { useEffect, useState } from "react";
+'use client'
+import { useEffect, useState } from "react";
 import {
   Button,
   Dialog,
@@ -115,22 +114,21 @@ useEffect(() => {
         </DialogActions>
       </Dialog>
 
-      {userSelecionado && (
+    {userSelecionado && (
         <ModalTipoUsuario
           open={openTipoModal}
           onClose={handleFecharModalTipo}
           userId={userSelecionado.id_user}
         />
-      )}
+      )} 
 
-      {userSenhaSelecionado && (
-        <EsqueceuSenha
-          open={openSenhaModal}
-          onClose={handleFecharModalSenha}
-          userId={userSenhaSelecionado.id_user}
-          nome={userSenhaSelecionado.nome_user}
-        />
-      )}
+{userSelecionado ? (
+  <ModalTipoUsuario
+    open={openTipoModal}
+    onClose={handleFecharModalTipo}
+    userId={userSelecionado.id_user}
+  />
+) : null}
     </>
   );
 }

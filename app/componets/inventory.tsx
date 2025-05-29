@@ -17,11 +17,25 @@ export default function Invent() {
 const [token, setToken] = useState<string | null>(null);
 
 useEffect(() => {
-  if (typeof window !== "undefined") {
-    const tokenLocalStorage = localStorage.getItem("token");
-    setToken(tokenLocalStorage);
-  }
-}, []);
+  if (!token) return;
+
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(
+        "https://leoncio-backend-production.up.railway.app/estoque/lions/",
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      setItems(response.data);
+    } catch (error) {
+      console.log("Erro ao buscar dados:", error);
+    }
+  };
+
+  fetchData();
+}, [token]);
+
     const [valueSelect, setValueSelect] = useState({
         "name": "", "id": "", "descricao": "", "status": "", "tamanho": "", "quantidades": ""
     });

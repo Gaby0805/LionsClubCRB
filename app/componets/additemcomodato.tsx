@@ -8,7 +8,6 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 import dayjs, { Dayjs } from 'dayjs';
 import 'dayjs/locale/pt-br'; // importa o locale
-const token = localStorage.getItem("token");
 const style = {
   position: 'absolute' as const,
   top: '50%',
@@ -29,10 +28,11 @@ export default function AddItem({ Area }: { Area: any }) {
   const [aquisicaoSelecionada, setAquisicaoSelecionada] = useState<Dayjs | null>(dayjs());
 const [token, setToken] = useState<string | null>(null);
 
-useEffect(() => {
-  const tokenLocalStorage = localStorage.getItem("token");
-  setToken(tokenLocalStorage);
-}, []);
+  useEffect(() => {
+    const tokenLocalStorage = localStorage.getItem("token");
+    setToken(tokenLocalStorage);
+  }, []);
+
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
