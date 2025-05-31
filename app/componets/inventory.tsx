@@ -15,6 +15,11 @@ export default function Invent() {
     const [refreshData, setRefreshData] = useState(false);  // 🔄 Gatilho para atualizar a tabela
     const toast = useRef(null);
 const [token, setToken] = useState<string | null>(null);
+useEffect(() => {
+  // Exemplo para pegar token do localStorage só uma vez
+  const storedToken = localStorage.getItem('token');
+  if (storedToken) setToken(storedToken);
+}, []);
 
 useEffect(() => {
   if (!token) return;
@@ -22,7 +27,7 @@ useEffect(() => {
   const fetchData = async () => {
     try {
       const response = await axios.get(
-        "https://leoncio-backend-production.up.railway.app/estoque/lions/",
+        "https://leoncio-backend-production.up.railway.app/estoque/ComodatoList/",
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -88,7 +93,7 @@ const deletar = async () => {
 };
 
         
-
+  console.log(token)
 
     // 🚀 Atualiza os dados sempre que refreshData mudar
     useEffect(() => {

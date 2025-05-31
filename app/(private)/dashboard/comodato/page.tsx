@@ -40,27 +40,28 @@ useEffect(() => {
   });
 
   // Busca nome do usuario responsavel
-  useEffect(() => {
-    if (!userId) return;
-    axios.post("https://leoncio-backend-production.up.railway.app/usuario/especifico", { id_usuario: userId },           {
-            headers: {
-              Authorization: `Bearer ${token}`
-            }
-          })
-      .then(response => setValor(response.data.nome_user))
-      .catch(console.error);
-  }, [userId]);
+useEffect(() => {
+  if (!token || !userId) return;
+
+  axios.post("https://leoncio-backend-production.up.railway.app/usuario/especifico", { id_usuario: userId }, {
+    headers: { Authorization: `Bearer ${token}` }
+  })
+  .then(response => setValor(response.data.nome_user))
+  .catch(console.error);
+}, [token, userId]);
 
   // Busca itens de estoque
-  useEffect(() => {
-    axios.get("https://leoncio-backend-production.up.railway.app/estoque/ComodatoList",           {
-            headers: {
-              Authorization: `Bearer ${token}`
-            }
-          })
-      .then(response => setItem(response.data))
-      .catch(console.error);
-  }, []);
+useEffect(() => {
+  if (!token) return; // se token ainda não definido, não faz nada
+
+  axios.get("https://leoncio-backend-production.up.railway.app/estoque/ComodatoList", {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
+  .then(response => setItem(response.data))
+  .catch(console.error);
+}, [token]);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -167,54 +168,61 @@ useEffect(() => {
                   />
                 </div>
 
-                <div className="flex flex-col">
-                <p>CPF</p>
-                <input
-                  tabIndex={3}
-                  type="text"
-                  name="cpf"
-                  value={formData.cpf}
-                  onChange={handleInputChange}
-                  className={`h-12 rounded-md bg-gray-300 p-2 border-2 ${
-                    (formData.cpf.length > 11 || /[a-zA-Z!@#$%¨&*()-=]/.test(formData.cpf))
-                      ? 'border-red-500'
-                      : 'border-transparent'
-                  }`}
-                  placeholder="Ex: 12345678900"
-                />
-                {(formData.cpf.length > 11 || /[a-zA-Z!@#$%¨&*()-=]/.test(formData.cpf)) && (
-                  <span className="text-red-500 text-sm mt-1">passou do limite de carcteres</span>
-                )}
-                </div>
-
-                <div className="flex flex-col">
-                  <p>CEP</p>
-                  <input
-                  tabIndex={5}
-                    type="text"
-                    name="cep"
-                    value={formData.cep}
-                    onChange={handleInputChange}
-                    
-                    className={`h-12 rounded-md bg-gray-300 p-2 border-2 ${
-                    (formData.cep.length > 8 || /[a-zA-Z!@#$%¨&*()-=]/.test(formData.cep))
-                      ? 'border-red-500'
-                      : 'border-transparent'
-                  }`}
-                    placeholder="Ex: 12345678"
-                  />
-                  {(formData.cep.length > 11 || /[a-zA-Z!@#$%¨&*()-=]/.test(formData.cep)) && (
-                  <span className="text-red-500 text-sm mt-1">passou do limite de carcteres</span>
-                )}
-                </div>
+<div className="flex flex-col">
+  <p>CPF</p>
+  <input
+    tabIndex={3}
+    type="text"
+    name="cpf"
+    value={formData.cpf}
+    onChange={handleInputChange}
+    className={`h-12 rounded-md bg-gray-300 p-2 border-2 ${
+      formData.cpf &&
+      (formData.cpf.length > 11 || /[^\d]/.test(formData.cpf))
+        ? 'border-red-500'
+        : 'border-transparent'
+    }`}
+    placeholder="Ex: 12345678900"
+  />
+  {formData.cpf &&
+    (formData.cpf.length > 11 || /[^\d]/.test(formData.cpf)) && (
+      <span className="text-red-500 text-sm mt-1">
+        CPF inválido (somente números, máximo 11 dígitos)
+      </span>
+    )}
+</div>
+<div className="flex flex-col">
+  <p>CEP</p>
+  <input
+    tabIndex={5}
+    type="text"
+    name="cep"
+    value={formData.cep}
+    onChange={handleInputChange}
+    className={`h-12 rounded-md bg-gray-300 p-2 border-2 ${
+      formData.cep &&
+      (formData.cep.length > 8 || /[^\d]/.test(formData.cep))
+        ? 'border-red-500'
+        : 'border-transparent'
+    }`}
+    placeholder="Ex: 12345678"
+  />
+  {/* 79321162 */}
+{formData.cep &&
+    (formData.cep.length > 8 || /[^\d]/.test(formData.cep)) && (
+      <span className="text-red-500 text-sm mt-1">
+        cep inválido (somente números, máximo 8 dígitos)
+      </span>
+    )}
+</div>
                 <div className="flex flex-col">
                   <p>Cidade</p>
                   <Dropdown
                   tabIndex={7}
                     value={formData.cidade_id}
                     options={[
-                      { label: "Corumbá", value: "1" },
-                      { label: "Ladário", value: "2" }
+                      { label: "Corumbá", value: "5" },
+                      { label: "Ladário", value: "6" }
                     ]}
                     onChange={(e) => handleDropdownChange("cidade_id", e.value)}
                     placeholder="Selecione uma cidade"
@@ -280,25 +288,30 @@ useEffect(() => {
                     className="h-12 rounded-md bg-gray-300 p-2"
                   />
                 </div>
-                <div className="flex flex-col">
-                  <p>RG</p>
-                  <input
-                  tabIndex={4}
-                    type="text"
-                    name="rg"
-                    value={formData.rg}
-                    onChange={handleInputChange}
-                    className={`h-12 rounded-md bg-gray-300 p-2 border-2 ${
-                      (formData.rg.length > 14 || /[a-zA-Z!@#$%¨&*()-=]/.test(formData.rg))
-                        ? 'border-red-500'
-                        : 'border-transparent'
-                    }`}
-                    placeholder="Ex: 12345678912345"
-                  />
-                  {(formData.rg.length > 14 || /[a-zA-Z!@#$%¨&*()-=]/.test(formData.rg)) && (
-                  <span className="text-red-500 text-sm mt-1">passou do limite de carcteres</span>
-                )}
-                </div>
+<div className="flex flex-col">
+  <p>RG</p>
+  <input
+    tabIndex={4}
+    type="text"
+    name="rg"
+    value={formData.rg}
+    onChange={handleInputChange}
+    className={`h-12 rounded-md bg-gray-300 p-2 border-2 ${
+      formData.rg &&
+      (formData.rg.length >10 || /[^\d]/.test(formData.rg))
+        ? 'border-red-500'
+        : 'border-transparent'
+    }`}
+    placeholder="Ex: 12345678912345"
+  />
+{formData.rg &&
+    (formData.rg.length > 10 || /[^\d]/.test(formData.rg)) && (
+      <span className="text-red-500 text-sm mt-1">
+        rg inválido (somente números, máximo 10 dígitos)
+      </span>
+    )}
+</div>
+
                 <div className="flex flex-col">
                   <p>Profissão</p>
                   <input
