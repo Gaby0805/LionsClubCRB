@@ -12,7 +12,7 @@ export default function Invent2() {
   const [items, setItems] = useState([]);
   const [selectedItem, setSelectedItem] = useState(null);
   const [valueSelect, setValueSelect] = useState({
-    name: "", id: "", descricao: "", status: "", tamanho: "", quantidades: "", area_material: ""
+    name: "", id: null, descricao: "", status: "", tamanho: "", quantidades: "", area_material: ""
   });
   const [token, setToken] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);

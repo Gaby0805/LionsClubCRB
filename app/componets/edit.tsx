@@ -45,7 +45,7 @@ useEffect(() => {
     setTamanhoSelecionado(tamanho);
     setStatusSelecionado(status);
   }, [nome, descricao, tamanho, status]);
-
+console.log(estoque_id)
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
@@ -75,7 +75,9 @@ useEffect(() => {
     useEffect(() => {
         const fetchData = async () => {
             try { 
-                const response = await axios.get("https://leoncio-backend-production.up.railway.app/estoque/valores/",
+                const response = await axios.post("https://leoncio-backend-production.up.railway.app/estoque/valores/",{
+                  id_estoque: estoque_id
+                },
                   {          
             headers: {
               Authorization: `Bearer ${token}`
@@ -87,7 +89,7 @@ useEffect(() => {
             }
         };
         fetchData();
-    }, []);
+    }, [token,estoque_id]);
 
   return (
     <div className="w-24 py-2 px-4 rounded-md bg-gray-400">

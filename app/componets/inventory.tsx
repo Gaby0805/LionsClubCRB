@@ -20,7 +20,7 @@ useEffect(() => {
   const storedToken = localStorage.getItem('token');
   if (storedToken) setToken(storedToken);
 }, []);
-
+const isFirstRun = useRef(true);
 useEffect(() => {
   if (!token) return;
 
@@ -33,6 +33,7 @@ useEffect(() => {
         }
       );
       setItems(response.data);
+      setRefreshData(!refreshData)
     } catch (error) {
       console.log("Erro ao buscar dados:", error);
     }
@@ -42,7 +43,7 @@ useEffect(() => {
 }, [token]);
 
     const [valueSelect, setValueSelect] = useState({
-        "name": "", "id": "", "descricao": "", "status": "", "tamanho": "", "quantidades": ""
+        "name": "", "id": null, "descricao": "", "status": "", "tamanho": "", "quantidades": ""
     });
 
     const onRowSelect = (event) => {
@@ -57,20 +58,7 @@ useEffect(() => {
         });
     };
 
-const fetchData = async () => {
-  try { 
-    const response = await axios.delete(
-      "https://leoncio-backend-production.up.railway.app/estoque/",
-      {
-        data: { id_estoque: valueSelect.id },
-        headers: { Authorization: `Bearer ${token}` }
-      }
-    );
-    setItems(response.data);
-  } catch (error) {
-    console.log("Erro ao buscar dados:", error);
-  }
-};
+
 
 const deletar = async () => {
   try {
@@ -84,7 +72,7 @@ const deletar = async () => {
         headers: { Authorization: `Bearer ${token}` }
       }
     );
-
+    setRefreshData(!refreshData)
     console.log('item deletado');
   } catch (error) {
     alert('O item precisa possuir quantidade para ser deletado');
@@ -93,12 +81,8 @@ const deletar = async () => {
 };
 
         
-  console.log(token)
 
-    // 🚀 Atualiza os dados sempre que refreshData mudar
-    useEffect(() => {
-        fetchData();
-    }, [refreshData]);
+
 
     return (
         <div className='flex flex-col items-center m-10 w-full'>
