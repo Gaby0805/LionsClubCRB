@@ -55,7 +55,7 @@ export default function ModalTipoUsuario({ open, onClose, userId }: ModalTipoUsu
             onChange={(e) => setNovoTipo(e.target.value)}
             label="Tipo de Usuário"
           >
-            <MenuItem value="ADM">ADM/Presidente</MenuItem>
+            <MenuItem value="ADM/Presidente">ADM/Presidente</MenuItem>
             <MenuItem value="Vice">Vice</MenuItem>
             <MenuItem value="1º Secretaria">1º Secretaria</MenuItem>
             <MenuItem value="2º Secretaria">2º Secretaria</MenuItem>

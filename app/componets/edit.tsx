@@ -82,7 +82,7 @@ console.log(estoque_id)
             headers: {
               Authorization: `Bearer ${token}`
             
-          }});
+          }});                                                
                 setItems(response.data);
             } catch (error) {
                 console.log("Erro ao buscar dados:", error);

@@ -114,21 +114,21 @@ useEffect(() => {
         </DialogActions>
       </Dialog>
 
-    {userSelecionado && (
-        <ModalTipoUsuario
-          open={openTipoModal}
-          onClose={handleFecharModalTipo}
-          userId={userSelecionado.id_user}
-        />
-      )} 
-
-{userSelecionado ? (
+{userSelecionado && (
   <ModalTipoUsuario
     open={openTipoModal}
     onClose={handleFecharModalTipo}
     userId={userSelecionado.id_user}
   />
-) : null}
+)}
+{userSenhaSelecionado && (
+  <EsqueceuSenha
+    open={openSenhaModal}
+    onClose={handleFecharModalSenha}
+    userId={userSenhaSelecionado.id_user}
+    nome={`${userSenhaSelecionado.nome_user} ${userSenhaSelecionado.sobrenome_user}`}
+  />
+)}
     </>
   );
 }
