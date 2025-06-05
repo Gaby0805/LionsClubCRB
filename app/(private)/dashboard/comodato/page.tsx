@@ -79,32 +79,65 @@ useEffect(() => {
     });
   };
 
-  const Enviardados = async () => {
-    try {
-      const dataToSend = { ...formData, itensSelecionados };
-  
-      // Tenta cadastrar a pessoa no comodato
-      await axios.post("https://leoncio-backend-production.up.railway.app/comodato/", dataToSend,           {
-            headers: {
-              Authorization: `Bearer ${token}`
-            }
-          });
-  
-      // Se cadastro for bem-sucedido, envia a transação
-      await axios.post(
-        "https://leoncio-backend-production.up.railway.app/transacao/",
-        {
-          cpf: formData.cpf,
-          user_id: userId,
-          estoque_id: itensSelecionados.map(i => i.id)
-        },
-{
-  headers: {
-    Authorization: `Bearer ${token}`
+const Enviardados = async () => {
+  try {
+    const dataToSend = { ...formData, itensSelecionados };
+
+    // 1. Cadastrar comodato
+    await axios.post("https://leoncio-backend-production.up.railway.app/comodato/", dataToSend, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    // 2. Criar transações
+    await axios.post("https://leoncio-backend-production.up.railway.app/transacao/", {
+      cpf: formData.cpf,
+      user_id: userId,
+      estoque_id: itensSelecionados.map((i) => i.id),
+    }, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    // Buscar o ID do último comodato cadastrado
+const ultimoRes = await axios.get(
+  "https://leoncio-backend-production.up.railway.app/comodato/lastuser",
+  {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
   }
-}      );
-  
-      alert("Cadastro realizado com sucesso!");
+);
+
+const ultimoId = ultimoRes.data.id_comodato;
+
+if (!ultimoId) {
+  throw new Error("ID do último comodato não encontrado.");
+}
+
+
+
+const docResponse = await axios.post(
+  "https://leoncio-backend-production.up.railway.app/transacao/doc",
+  { id: ultimoId },
+  {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    responseType: "blob", // <-- aqui fora do headers
+  }
+);
+
+// Forçar download no navegador
+const blob = new Blob([docResponse.data], {
+  type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+});
+const link = document.createElement("a");
+link.href = window.URL.createObjectURL(blob);
+link.download = `comodato_${ultimoId}.docx`;
+link.click();
+
     } catch (error: any) {
       const errorMessage = error?.response?.data?.error;
   
