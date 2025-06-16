@@ -1,8 +1,9 @@
 'use client'
-import React from "react";
+import React,{ useEffect } from "react";
 import Asside from "../../componets/dash/asside";
 import HeaderDash from "../../componets/dash/headerdash";
 import { motion } from "motion/react"
+import { useRouter } from "next/navigation";
 
 export default function Dashboard() {
 
@@ -11,6 +12,16 @@ export default function Dashboard() {
         delay: 0.5,
         ease: [0, 0.71, 0.2, 1.01],
       }
+      const router = useRouter();
+      useEffect(() => {
+        const token = localStorage.getItem("token");
+
+        if (!token) {
+            // Se não tiver token, redireciona para o login
+            router.push("/login");
+        }
+    }, []); 
+      
     const Logo = () => {
         return(
             <img className="mt-30" src="/imgs/newlogo.png" alt=""  width={300}/>
@@ -42,6 +53,7 @@ export default function Dashboard() {
     >
                 <p> 
                     Bem-vindo ao sistema do Lions Club Corumbá 
+                    
                 </p>   
                 <img className="mt-30" src="/imgs/newlogo.png" width={400} alt="" />
            </motion.div>

@@ -27,6 +27,8 @@ export default function StatsItem() {
   const itemsPerPage = 6;
   const letras = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
 
+
+  
   useEffect(() => {
     const token = localStorage.getItem("token");
 

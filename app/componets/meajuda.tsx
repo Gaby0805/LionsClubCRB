@@ -14,7 +14,7 @@ export default function UsuariosLista() {
   const [openModal, setOpenModal] = useState(false);
   const [isAdmVisible, setIsAdmVisible] = useState(false);
   const [token, setToken] = useState<string>("");
-
+  
   const { userId } = useUser();
 
   const [userInfo, setUserInfo] = useState({
@@ -67,21 +67,11 @@ export default function UsuariosLista() {
     fetchUserInfo();
   }, [userId, token]);
 
-  const handleLogout = async () => {
+  const handleLogout =  () => {
     const confirme = confirm("Tem certeza que deseja sair da conta?");
     if (!confirme) return;
-
+    localStorage.clear()
     try {
-      await axios.post(
-        "https://leoncio-backend-production.up.railway.app/usuario/logout",
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
       alert("Token apagado. Redirecionando...");
       window.location.href = "/login";
     } catch (error) {
