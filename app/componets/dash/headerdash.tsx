@@ -31,9 +31,9 @@ export default function HeaderDash() {
   }, [userId]);
 
   return (
-    <div className="flex h-16 bg-white items-center mx-10 justify-between">
-      <p className="font-bold text-2xl">{valor || "Carregando..."}</p>
-      <div>
+    <div className="flex h-16 bg-white items-center  justify-between">
+      <p className="font-bold text-2xl mx-4">{valor || "Carregando..."}</p>
+      <div className="mx-5">
         <Link href="/dashboard/usuarios">
           <CircleUserRound color="black" size={36} />
         </Link>
