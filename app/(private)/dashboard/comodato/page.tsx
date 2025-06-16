@@ -10,10 +10,19 @@ import { Dropdown } from 'primereact/dropdown';
 import 'primereact/resources/themes/lara-light-indigo/theme.css';
 import 'primereact/resources/primereact.min.css';
 import { useUser } from "@/app/componets/context/UserContext";
+import { useRouter } from "next/navigation";
 
 export default function Comodato() {
   const { userId } = useUser();
 const [token, setToken] = useState<string | null>(null);
+        const router = useRouter();
+        useEffect(() => {
+          const token = localStorage.getItem("token");
+  
+          if (!token) {
+              router.push("/login");
+          }
+      }, []); 
 
 useEffect(() => {
   const tokenLocalStorage = localStorage.getItem("token");

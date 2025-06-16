@@ -5,8 +5,17 @@ import React, { useState, useEffect } from 'react';
 import Invent from "@/app/componets/inventory";
 import HeaderDash from "../../../componets/dash/headerdash";
 import Invent2 from "@/app/componets/inventgeral";
-export default function inventario() {
+import { useRouter } from "next/navigation";
 
+export default function inventario() {
+        const router = useRouter();
+        useEffect(() => {
+          const token = localStorage.getItem("token");
+  
+          if (!token) {
+              router.push("/login");
+          }
+      }, []); 
 
 
 
