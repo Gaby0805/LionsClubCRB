@@ -1,7 +1,8 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Typography, Button, Stack } from '@mui/material';
+import axios from 'axios';
 
 interface ModalComodatoProps {
   item: any;
@@ -9,6 +10,42 @@ interface ModalComodatoProps {
 }
 
 export default function ModalComodatoteste({ item, onClose }: ModalComodatoProps) {
+  const [token, setToken] = useState<string | null>(null);
+  useEffect(() => {
+    const tokenLocalStorage = localStorage.getItem("token");
+    setToken(tokenLocalStorage);
+  }, []);  
+
+const relatorio = async () => {
+  console.log('cheguei aqui');
+
+  try {
+    const response = await axios.post(
+      'https://leoncio-backend-production.up.railway.app/transacao/doc',
+      { id: item.id, area: 'relatorio' },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
+        responseType: "blob",
+      }
+    );
+    console.log('aee');
+
+    // Forçar download no navegador
+    const blob = new Blob([response.data], {
+      type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    });
+    const link = document.createElement("a");
+    link.href = window.URL.createObjectURL(blob);
+    link.download = `comodato_${item.nome_comodato}.docx`;
+    link.click();
+
+  } catch (error) {
+    console.error('Erro ao gerar o relatório:', error);
+    alert('Erro ao gerar o relatório. Verifique se o ID está correto ou se há conexão com o servidor.');
+  }
+};
   return (
     <Dialog open={Boolean(item)} onClose={onClose} maxWidth="sm" fullWidth>
       <DialogTitle>Detalhes do Comodato</DialogTitle>
@@ -25,6 +62,9 @@ export default function ModalComodatoteste({ item, onClose }: ModalComodatoProps
         </Stack>
       </DialogContent>
       <DialogActions>
+        <Button onClick={relatorio} color="primary" variant="outlined">
+          Relatorio
+        </Button>
         <Button onClick={onClose} color="primary" variant="outlined">
           Fechar
         </Button>

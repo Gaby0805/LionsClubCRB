@@ -33,7 +33,6 @@ const autorizar = async () => {
     saveUserId(response.data.id_usuario); 
     console.log("Login realizado com sucesso:", response.data);
 
-    alert("Login realizado com sucesso!");
     router.push('/dashboard');
     
   } catch (error) {

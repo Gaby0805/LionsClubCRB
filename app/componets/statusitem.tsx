@@ -35,7 +35,7 @@ useEffect(() => {
   };
 
   const handleOpenModal = () => {
-    setSelectedItem({ nome_comodato: nome, sobrenome_comodato: sobrenome, status, nome_material: nome_item, telefone: telefone, data_limite: data });  // Aqui você pode passar mais informações
+    setSelectedItem({ nome_comodato: nome, sobrenome_comodato: sobrenome, status, nome_material: nome_item, telefone: telefone, data_limite: data, id });  // Aqui você pode passar mais informações
     setOpenModal(true);
   };
 
