@@ -6,6 +6,7 @@ import HeaderDash from "@/app/componets/dash/headerdash";
 import Statuscomodato from "@/app/componets/statusitem";
 import axios from "axios";
 import Itempage from "@/app/componets/pagination";
+import { useRouter } from "next/navigation";
 
 interface ComodatoItem {
   id_comodato: number;
@@ -26,6 +27,8 @@ export default function StatsItem() {
   const [selectedLetter, setSelectedLetter] = useState("");
   const itemsPerPage = 6;
   const letras = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+
+
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -58,6 +61,15 @@ export default function StatsItem() {
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
+      const router = useRouter();
+      useEffect(() => {
+        const token = localStorage.getItem("token");
+
+        if (!token) {
+            // Se não tiver token, redireciona para o login
+            router.push("/login");
+        }
+    }, []); 
 
   return (
     <div className="flex flex-col h-screen w-screen overflow-hidden">
