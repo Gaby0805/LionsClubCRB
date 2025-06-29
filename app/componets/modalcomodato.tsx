@@ -15,7 +15,7 @@ export default function ModalComodatoteste({ item, onClose }: ModalComodatoProps
     const tokenLocalStorage = localStorage.getItem("token");
     setToken(tokenLocalStorage);
   }, []);  
-
+// aa
 const relatorio = async () => {
   console.log('cheguei aqui');
 
