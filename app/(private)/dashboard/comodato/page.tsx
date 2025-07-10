@@ -40,6 +40,7 @@ useEffect(() => {
     cep: "",
     bairro: "",
     telefone: "",
+    telefone2: "",
     profissao: "",
     estado_civil: "",
     rua: "",
@@ -90,7 +91,12 @@ useEffect(() => {
 
 const Enviardados = async () => {
   try {
-    const dataToSend = { ...formData, itensSelecionados };
+const dataToSend = {
+  ...formData,
+  cidade_id: Number(formData.cidade_id),
+  numero_casa: Number(formData.numero_casa),
+  itensSelecionados
+};
 
     // 1. Cadastrar comodato
     await axios.post("https://leoncio-backend-production.up.railway.app/comodato/", dataToSend, {
@@ -302,6 +308,17 @@ link.click();
                     tabIndex={14}
                     name="telefone"
                     value={formData.telefone}
+                    onChange={handleInputChange}
+                    className="h-12 rounded-md bg-gray-300 p-2"
+                  />
+                </div>
+                <div className="flex flex-col">
+                  <p>Telefone de referencia</p>
+                  <input
+                    type="text"
+                    tabIndex={14}
+                    name="telefone2"
+                    value={formData.telefone2}
                     onChange={handleInputChange}
                     className="h-12 rounded-md bg-gray-300 p-2"
                   />
