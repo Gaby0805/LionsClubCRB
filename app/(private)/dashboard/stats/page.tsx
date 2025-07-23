@@ -114,8 +114,9 @@ export default function StatsItem() {
               </div>
 
               {/* 🟩 Itens */}
-              <div className="p-4">
-                <ul className="columns-1 sm:columns-2 md:columns-3 gap-4 space-y-4">
+<div className="p-4 overflow-y-auto max-h-[500px]">
+  <ul className="columns-1 sm:columns-2 md:columns-3 gap-4 space-y-4">
+
                   {currentItems.map((item) => (
                     <li
                       key={item.id_comodato}
