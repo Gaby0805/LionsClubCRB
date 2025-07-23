@@ -1,10 +1,10 @@
 'use client'
-import Asside from "../../../componets/dash/asside";
+import Asside from "../../../components/dash/asside";
 
 import React, { useState, useEffect } from 'react';
-import Invent from "@/app/componets/inventory";
-import HeaderDash from "../../../componets/dash/headerdash";
-import Invent2 from "@/app/componets/inventgeral";
+import Invent from "@/app/components/inventario/inventory";
+import HeaderDash from "../../../components/dash/headerdash";
+import Invent2 from "@/app/components/inventario/inventgeral";
 import { useRouter } from "next/navigation";
 
 export default function inventario() {

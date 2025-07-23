@@ -4,9 +4,9 @@ import axios from 'axios';
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
 import { Toast } from 'primereact/toast';
-import Change from './change';
-import Edit from './edit';
-import AddItem from './additemcomodato';
+import Change from '../comp_inventario/modal_quantidade';
+import Edit from '../comp_inventario/modal_editar_invetario';
+import AddItem from '../comp_inventario/add_item_inventario';
 
 export default function Invent2() { 
   const [items, setItems] = useState([]);
@@ -104,8 +104,7 @@ export default function Invent2() {
         <h2 className='text-xl sm:text-2xl'>{valueSelect.name || 'Selecione um item'}</h2>
 
         <div className='flex flex-col sm:flex-row justify-center items-center w-full gap-4 mt-4'>
-          <Change quantidade1={valueSelect.quantidades} estoque_id={valueSelect.id} />
-          <Edit 
+                <Change quantidade1={valueSelect.quantidades} estoque_id={valueSelect.id} onUpdateSuccess={() => setRefreshData(prev => !prev)} />          <Edit 
             descricao={valueSelect.descricao}
             nome={valueSelect.name}
             status={valueSelect.status}

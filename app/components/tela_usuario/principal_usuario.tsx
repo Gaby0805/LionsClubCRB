@@ -1,20 +1,21 @@
-"use client";
-import  { useEffect, useState } from "react";
+'use client';
+
+import { useEffect, useState } from "react";
 import { Button } from "@mui/material";
-import InfoUser from "@/app/componets/infouser";
+import InfoUser from "@/app/components/tela_usuario/tabela_principal_usuario";
 import axios from "axios";
-import { useUser } from "@/app/componets/context/UserContext";
-import ModalUsuario from "@/app/componets/modalcreateuser";
-import ListaUsuariosModal from "@/app/componets/usercargos";
-import Asside from "./dash/asside";
-import HeaderDash from "./dash/headerdash";
+import { useUser } from "@/app/components/context/UserContext";
+import ModalUsuario from "@/app/components/tela_usuario/adm/modal_criar_usuario";
+import ListaUsuariosModal from "@/app/components/tela_usuario/adm/modal_usuarios_existentes";
+import Asside from "../dash/asside";
+import HeaderDash from "../dash/headerdash";
 
 export default function UsuariosLista() {
   const [open, setOpen] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [isAdmVisible, setIsAdmVisible] = useState(false);
   const [token, setToken] = useState<string>("");
-  
+
   const { userId } = useUser();
 
   const [userInfo, setUserInfo] = useState({
@@ -30,9 +31,6 @@ export default function UsuariosLista() {
     const tokenFromStorage = localStorage.getItem("token") || "";
     setToken(tokenFromStorage);
   }, []);
-
-  const handleOpenModal = () => setOpenModal(true);
-  const handleCloseModal = () => setOpenModal(false);
 
   useEffect(() => {
     const fetchUserInfo = async () => {
@@ -51,14 +49,25 @@ export default function UsuariosLista() {
 
         setUserInfo({
           nome_user: response.data.nome_user,
-          sobrenome: response.data.sobrenome, // corrigido aqui
+          sobrenome: response.data.sobrenome,
           email: response.data.email,
           cpf: response.data.cpf,
           tipo_user: response.data.tipo_user,
           senha: "",
         });
 
-        setIsAdmVisible(response.data.tipo_user === "ADM/Presidente");
+        const nomeCompleto = `${response.data.nome_user} ${response.data.sobrenome}`.trim();
+        const tipoUser = response.data.tipo_user;
+
+        if (
+          nomeCompleto.toLowerCase() === "ana karina" ||
+          tipoUser === "Adm" ||
+          tipoUser === "Presidente"
+        ) {
+          setIsAdmVisible(true);
+        } else {
+          setIsAdmVisible(false);
+        }
       } catch (error) {
         console.error("Erro ao buscar dados do usuário:", error);
       }
@@ -67,10 +76,13 @@ export default function UsuariosLista() {
     fetchUserInfo();
   }, [userId, token]);
 
-  const handleLogout =  () => {
+  const handleOpenModal = () => setOpenModal(true);
+  const handleCloseModal = () => setOpenModal(false);
+
+  const handleLogout = () => {
     const confirme = confirm("Tem certeza que deseja sair da conta?");
     if (!confirme) return;
-    localStorage.clear()
+    localStorage.clear();
     try {
       alert("Token apagado. Redirecionando...");
       window.location.href = "/login";
@@ -103,7 +115,7 @@ export default function UsuariosLista() {
               )}
 
               <ModalUsuario open={open} handleClose={() => setOpen(false)} />
-              <ListaUsuariosModal open={openModal} handleClose={handleCloseModal} /> 
+              <ListaUsuariosModal open={openModal} handleClose={handleCloseModal} />
             </div>
 
             <div className="flex justify-end mr-16 mt-4">

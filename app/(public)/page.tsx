@@ -11,8 +11,8 @@ import {
   Box,
   Link,
 } from "@mui/material";
-import Header from "../componets/header";
-import Footer from "../componets/footer";
+import Header from "../components/pre_login/header";
+import Footer from "../components/pre_login/footer";
 
 export default function HomePage() {
   return (

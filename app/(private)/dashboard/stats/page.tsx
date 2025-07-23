@@ -1,11 +1,11 @@
 'use client';
 
 import React, { useEffect, useState } from "react";
-import Asside from "@/app/componets/dash/asside";
-import HeaderDash from "@/app/componets/dash/headerdash";
-import Statuscomodato from "@/app/componets/statusitem";
+import Asside from "@/app/components/dash/asside";
+import HeaderDash from "@/app/components/dash/headerdash";
+import Statuscomodato from "@/app/components/status_comodato/template_emprestimo";
 import axios from "axios";
-import Itempage from "@/app/componets/pagination";
+import Itempage from "@/app/components/uteis/pagination";
 import { useRouter } from "next/navigation";
 
 interface ComodatoItem {

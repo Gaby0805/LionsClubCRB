@@ -1,8 +1,8 @@
 'use client'
 import Image from "next/image";
 import { Button, AppBar, Toolbar, Typography, Container, Grid, Box, Link } from "@mui/material";
-import Footer from "@/app/componets/footer";
-import Header from "@/app/componets/header";
+import Footer from "@/app/components/pre_login/footer";
+import Header from "@/app/components/pre_login/header";
 
 
 export default function Projetos() {

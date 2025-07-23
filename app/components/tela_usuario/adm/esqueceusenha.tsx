@@ -10,7 +10,7 @@ import {
   Button
 } from '@mui/material';
 import axios from 'axios';
-import { useUser } from '@/app/componets/context/UserContext'; // ajuste o caminho conforme sua estrutura
+import { useUser } from '@/app/components/context/UserContext'; // ajuste o caminho conforme sua estrutura
 
 interface ModalSenhaUsuarioProps {
   open: boolean;

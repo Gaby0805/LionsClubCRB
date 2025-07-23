@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import ModalComodatoteste from "./modalcomodato";  // Importando o modal
+import ModalComodatoteste from "./modal_ver_comodato";  // Importando o modal
 
 interface StatuscomodatoProps {
   nome: string;

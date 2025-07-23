@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { Button, Modal, TextField } from "@mui/material";
-import { useUser } from "./context/UserContext";
+import { useUser } from "../context/UserContext";
 import axios from "axios";
 
 export default function InfoUser() {

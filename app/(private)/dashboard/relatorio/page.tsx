@@ -1,11 +1,11 @@
 'use client'
 import React from "react";
-import Asside from "../../../componets/dash/asside";
-import HeaderDash from "../../../componets/dash/headerdash";
+import Asside from "../../../components/dash/asside";
+import HeaderDash from "../../../components/dash/headerdash";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
-import Charts from "../../../componets/chart";
+import Charts from "../../../components/relatorio/chart";
 import CircularProgress from '@mui/material/CircularProgress';
 export default function Relatório() {
             const router = useRouter();

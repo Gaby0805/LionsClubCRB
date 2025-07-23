@@ -2,9 +2,9 @@
 import React from "react";
 import Image from "next/image";
 import { Button, AppBar, Toolbar, Typography, Container, Grid, Box, Link } from "@mui/material";
-import Footer from "@/app/componets/footer";
-import Header from "@/app/componets/header";
-import EmailCard from "@/app/componets/cardemail";
+import Footer from "@/app/components/pre_login/footer";
+import Header from "@/app/components/pre_login/header";
+import EmailCard from "@/app/components/pre_login/cardemail";
 
 
 export default function Projetos() {

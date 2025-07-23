@@ -4,9 +4,10 @@ import axios from 'axios';
 import { Toast } from 'primereact/toast';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-import AddItem from './additemcomodato';
-import Change from './change';
-import Edit from './edit';
+import Change from '../comp_inventario/modal_quantidade';
+import Edit from '../comp_inventario/modal_editar_invetario';
+import AddItem from '../comp_inventario/add_item_inventario';
+
 import { Button } from '@mui/material';
 
 export default function Invent() { 

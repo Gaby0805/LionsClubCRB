@@ -1,22 +1,33 @@
 'use client';
 
-import { createContext, useContext, useState, useEffect, useCallback, ReactNode } from 'react';
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useCallback,
+  ReactNode,
+} from 'react';
+import axios from 'axios';
 
 // Define a estrutura esperada do contexto
 interface UserContextType {
   userId: string | null;
+  nomeUser: string;
   saveUserId: (id: string) => void;
 }
 
-// Cria o contexto com a estrutura tipada
+// Cria o contexto com valores padrão
 const UserContext = createContext<UserContextType>({
   userId: null,
-  saveUserId: () => {}, // Função padrão vazia para evitar erro
+  nomeUser: '',
+  saveUserId: () => {},
 });
 
 // Provider do contexto
 export function UserProvider({ children }: { children: ReactNode }) {
   const [userId, setUserId] = useState<string | null>(null);
+  const [nomeUser, setNomeUser] = useState<string>('');
 
   // Ao montar, tenta carregar o userId do localStorage
   useEffect(() => {
@@ -32,6 +43,27 @@ export function UserProvider({ children }: { children: ReactNode }) {
     localStorage.setItem('user_id', id);
   }, []);
 
+  // Busca o nome do usuário ao mudar o userId
+  useEffect(() => {
+    const fetchNomeUser = async () => {
+      const token = localStorage.getItem('token');
+      if (!userId || !token) return;
+
+      try {
+        const response = await axios.post(
+          'https://leoncio-backend-production.up.railway.app/usuario/especifico',
+          { id_usuario: userId },
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        setNomeUser(response.data.nome_user);
+      } catch (error) {
+        console.error('Erro ao buscar nome do usuário:', error);
+      }
+    };
+
+    fetchNomeUser();
+  }, [userId]);
+
   // Ouve mudanças no localStorage feitas em outras abas/janelas
   useEffect(() => {
     const handleStorageChange = (event: StorageEvent) => {
@@ -40,14 +72,11 @@ export function UserProvider({ children }: { children: ReactNode }) {
       }
     };
     window.addEventListener('storage', handleStorageChange);
-
-    return () => {
-      window.removeEventListener('storage', handleStorageChange);
-    };
+    return () => window.removeEventListener('storage', handleStorageChange);
   }, []);
 
   return (
-    <UserContext.Provider value={{ userId, saveUserId }}>
+    <UserContext.Provider value={{ userId, saveUserId, nomeUser }}>
       {children}
     </UserContext.Provider>
   );

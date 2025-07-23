@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "../globals.css";
-import { UserProvider } from "../componets/context/UserContext";
+import { UserProvider } from "../components/context/UserContext";
 
 
 export const metadata: Metadata = {

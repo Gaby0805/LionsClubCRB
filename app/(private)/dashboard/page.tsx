@@ -1,7 +1,7 @@
 'use client'
 import React,{ useEffect } from "react";
-import Asside from "../../componets/dash/asside";
-import HeaderDash from "../../componets/dash/headerdash";
+import Asside from "../../components/dash/asside";
+import HeaderDash from "../../components/dash/headerdash";
 import { motion } from "motion/react"
 import { useRouter } from "next/navigation";
 

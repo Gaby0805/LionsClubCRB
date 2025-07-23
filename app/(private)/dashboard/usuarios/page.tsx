@@ -2,7 +2,7 @@
 import { useRouter } from "next/navigation";
 import React,{ useEffect } from "react";
 
-import UsuariosLista from "@/app/componets/meajuda";
+import UsuariosLista from "@/app/components/tela_usuario/principal_usuario";
 
 export default function Page() {
         const router = useRouter();

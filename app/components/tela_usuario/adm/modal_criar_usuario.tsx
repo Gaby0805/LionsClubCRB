@@ -10,6 +10,7 @@ import {
   MenuItem,
   Typography
 } from '@mui/material';
+import { cargos_expostos } from '../../cargos/cargos_usuarios';
 
 const style = {
   position: 'absolute' as const,
@@ -23,7 +24,6 @@ const style = {
   p: 4,
 };
 
-const tiposUsuario = ['ADM/Presidente', 'Vice', '1º Secretaria', '2º Secretaria', 'Diretor de Patrimonio'];
 
 const ModalUsuario = ({ open, handleClose }: { open: boolean; handleClose: () => void }) => {
   const [formData, setFormData] = useState({
@@ -150,7 +150,7 @@ const ModalUsuario = ({ open, handleClose }: { open: boolean; handleClose: () =>
           onChange={handleChange}
           margin="normal"
         >
-          {tiposUsuario.map((tipo) => (
+          {cargos_expostos.map((tipo) => (
             <MenuItem key={tipo} value={tipo}>
               {tipo}
             </MenuItem>

@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Copse, Concert_One } from "next/font/google";
 import axios from "axios";
 import {useRouter} from "next/navigation";
-import { useUser } from "../../componets/context/UserContext";
+import { useUser } from "../../components/context/UserContext";
 
 const copsefont = Copse({ subsets: ["latin"], weight: "400" });
 const Concert_Onefont = Concert_One({ subsets: ["latin"], weight: "400" });

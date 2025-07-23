@@ -8,7 +8,7 @@ import {
   DialogTitle
 } from "@mui/material";
 import axios from "axios";
-import ModalTipoUsuario from "./ModalTipoUsuario";
+import ModalTipoUsuario from "./modal_trocar_tipo_usuario";
 import EsqueceuSenha from "./esqueceusenha";
 
 interface Usuario {
