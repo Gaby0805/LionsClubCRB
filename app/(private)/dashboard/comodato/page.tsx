@@ -5,12 +5,14 @@ import HeaderDash from "../../../components/dash/headerdash";
 import { useAuth } from "../../../components/comodato/auth_token";
 import { useFormData } from "../../../components/comodato/formdata";
 import { useUser } from "@/app/components/context/UserContext";
-import FormInput from "../../../components/comodato/input_base";
+import FormInput from "../../../components/comodato/Normal";
 import FormDropdown from "../../../components/comodato/input_dropdown";
 import ItemList from "../../../components/comodato/lista_items_inventario";
 import axios from 'axios';
 import { isInvalidCPF, isInvalidRG } from "../../../components/comodato/validacao";
-import FormReduzido from '../../../components/comodato/input_base';
+import CPFInputReduzido from '@/app/components/comodato/cpf';
+import CEPInputReduzido from '@/app/components/comodato/cep';
+import TelefoneInputReduzido from '@/app/components/comodato/telefone';
 
 export default function Comodato() {
   const { userId } = useUser();
@@ -165,22 +167,24 @@ link.click();
         value={formData.nome}
         onChange={handleInputChange}
       />
-      <FormInput
-        label="CPF"
-        name="cpf"
-        value={formData.cpf}
-        onChange={handleInputChange}
-        isInvalid={isInvalidCPF(formData.cpf)}
-        errorMessage="CPF inválido (somente números, máximo 11 dígitos)"
-      />
-      <FormInput
-        label="CEP"
-        name="cep"
-        value={formData.cep}
-        onChange={handleInputChange}
-        isInvalid={formData.cep.length > 8 || /[^\d]/.test(formData.cep)}
-        errorMessage="CEP inválido (somente números, máximo 8 dígitos)"
-      />
+      <CPFInputReduzido
+  label="CPF"
+  name="cpf"
+  value={formData.cpf}
+  onChange={handleInputChange}
+  isInvalid={isInvalidCPF(formData.cpf)}
+  errorMessage="CPF inválido"
+/>
+
+<CEPInputReduzido
+  label="CEP"
+  name="cep"
+  value={formData.cep}
+  onChange={handleInputChange}
+  isInvalid={formData.cep.length > 8}
+  errorMessage="CEP inválido (máximo 8 dígitos)"
+/>
+
       <FormDropdown
         label="Cidade"
         name="cidade_id"
@@ -236,18 +240,25 @@ link.click();
     )}
   </div>
 </div>
-      <FormInput
-        label="Telefone"
-        name="telefone"
-        value={formData.telefone}
-        onChange={handleInputChange}
-      />
-      <FormInput
-        label="Telefone de Referência"
-        name="telefone2"
-        value={formData.telefone2}
-        onChange={handleInputChange}
-      />
+<TelefoneInputReduzido
+  label="Telefone"
+  name="telefone"
+  value={formData.telefone}
+  onChange={handleInputChange}
+  isInvalid={formData.telefone !== '' && formData.telefone.length < 10}
+  errorMessage="Telefone inválido"
+/>
+
+
+<TelefoneInputReduzido
+  label="Telefone de referência"
+  name="telefone2"
+  value={formData.telefone2}
+  onChange={handleInputChange}
+  isInvalid={formData.telefone2.length < 10 && formData.telefone2!== ''} // ex: valida se é menor que 10 dígitos (ajuste como preferir)
+  errorMessage="Telefone inválido"
+/>
+
       <FormInput
         label="Usuário Responsável"
         name="usuario_responsavel"
@@ -271,7 +282,7 @@ link.click();
         value={formData.rg}
         onChange={handleInputChange}
         isInvalid={isInvalidRG(formData.rg)}
-        errorMessage="RG inválido (somente números, máximo 10 dígitos)"
+        errorMessage="RG inválido (somente números, máximo 15 dígitos)"
       />
       <FormInput
         label="Profissão"

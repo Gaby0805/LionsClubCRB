@@ -13,7 +13,7 @@ interface FormInputProps {
   enable?: boolean
 }
 
-const FormInput: React.FC<FormInputProps> = ({ label, name, value, onChange, placeholder, isInvalid, errorMessage,enable }) => (
+const FormReduzido: React.FC<FormInputProps> = ({ label, name, value, onChange, placeholder, isInvalid, errorMessage,enable }) => (
   <div className="flex flex-col">
     <p>{label}</p>
     <input
@@ -21,7 +21,7 @@ const FormInput: React.FC<FormInputProps> = ({ label, name, value, onChange, pla
       name={name}
       value={value}
       onChange={onChange}
-      className={`h-12 rounded-md bg-gray-300 p-2 border-2 mr-16 ${isInvalid ? 'border-red-500' : 'border-transparent'}`}
+      className={`h-12 rounded-md bg-gray-300 p-2 border-2 ${isInvalid ? 'border-red-500' : 'border-transparent'}`}
       placeholder={placeholder}
       disabled={enable}
     />
@@ -31,4 +31,4 @@ const FormInput: React.FC<FormInputProps> = ({ label, name, value, onChange, pla
   </div>
 );
 
-export default FormInput;
+export default FormReduzido;

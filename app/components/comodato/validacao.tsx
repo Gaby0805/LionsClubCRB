@@ -5,5 +5,5 @@ export const isInvalidCPF = (cpf: string) => {
 };
 
 export const isInvalidRG = (rg: string) => {
-  return rg.length > 10 || /[^\d]/.test(rg);
+  return rg.length > 15 || /[^\d]/.test(rg);
 };

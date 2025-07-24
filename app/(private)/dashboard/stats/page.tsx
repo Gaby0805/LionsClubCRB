@@ -130,7 +130,7 @@ export default function StatsItem() {
                         status={item.status}
                         nome_item={item.nome_material}
                         data={new Date(item.data_limite).toISOString().split("T")[0]}
-                        id={item.id_emprestimo.toString()}
+                          id={item.id_emprestimo.toString()}
                       />
                     </li>
                   ))}

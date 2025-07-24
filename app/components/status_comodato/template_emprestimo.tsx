@@ -54,7 +54,6 @@ useEffect(() => {
     <div className="bg-white mr-10 rounded-lg p-4 shadow-md flex">
       <div className="flex-1">
         <h3 className="text-xl font-semibold">{nome}</h3>
-        <p>id: {id}</p>
         <p>Status: {status}</p>
         <p>Item: {nome_item}</p>
         <p>Data limite: {data}</p>
