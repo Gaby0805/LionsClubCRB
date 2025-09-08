@@ -190,7 +190,7 @@ export default function Invent() {
                   <ModalInventExcluir id={sub.id} tipo="subCategoria" />
                 </div>
               </AccordionTrigger>
-
+  
               <AccordionContent>
                 <ul className="ml-8 list-disc text-sm space-y-1">
                   {sub.itens.map((item: any) => (
