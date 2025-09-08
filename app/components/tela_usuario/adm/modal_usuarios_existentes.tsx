@@ -10,7 +10,7 @@ import {
 import axios from "axios";
 import ModalTipoUsuario from "./modal_trocar_tipo_usuario";
 import EsqueceuSenha from "./esqueceusenha";
-
+import {api} from "../../../components/uteis/api"
 interface Usuario {
   id_user: number;
   nome_user: string;
@@ -33,7 +33,7 @@ useEffect(() => {
   useEffect(() => {
     const fetchUsuarios = async () => {
       try {
-        const response = await axios.get("https://leoncio-backend-production.up.railway.app/usuario/ativos",           {
+        const response = await api.get("usuario/ativos",           {
             headers: {
               Authorization: `Bearer ${token}`
             }

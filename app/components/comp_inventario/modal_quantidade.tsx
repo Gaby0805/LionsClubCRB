@@ -6,6 +6,7 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import {api} from "../../components/uteis/api"
 
 const style = {
   position: 'absolute',
@@ -48,7 +49,7 @@ useEffect(() => {
   const atualizar = async () => {
     try {
       console.log("Valor atualizado:", quantidade);
-      const response = await axios.put('https://leoncio-backend-production.up.railway.app/quantidades/', {
+      const response = await api.put('quantidades/', {
         estoque_id,
         quantidade,
       },

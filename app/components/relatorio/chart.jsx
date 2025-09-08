@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { ColumnChart, PieChart, BarChart } from "react-chartkick";
 import "chartkick/chart.js";
+import {api} from "../../components/uteis/api"
 
 export default function Charts() {
   const [comodatoPorCidade, setComodatoPorCidade] = useState([]);
@@ -13,11 +14,10 @@ export default function Charts() {
     const fetchData = async () => {
       const token = localStorage.getItem("token");
       const headers = { Authorization: `Bearer ${token}` };
-      const BASE_URL = "https://leoncio-backend-production.up.railway.app";
 
       try {
         // 1. Municípios com mais contratos (formato especial)
-        const resCidade = await axios.get(`${BASE_URL}/relatorio/comodatocidade`, { headers });
+        const resCidade = await api.get(`relatorio/comodatocidade`, { headers });
         const cidadesObj = resCidade.data[0] || {};
 
         const formatadoCidade = Object.entries(cidadesObj)
@@ -34,7 +34,7 @@ export default function Charts() {
 
       try {
         // 2. Totais por status com data
-        const resStatus = await axios.get(`${BASE_URL}/relatorio/usersdata`, { headers });
+        const resStatus = await api.get(`${BASE_URL}/relatorio/usersdata`, { headers });
         const formatadoStatus = resStatus.data.map(item => [item.data_label, item.total]);
         setEmprestimosTotais(formatadoStatus);
       } catch (error) {
@@ -43,7 +43,7 @@ export default function Charts() {
 
       try {
         // 3. Totais por mês (ano fixo por enquanto)
-        const resMes = await axios.post(`${BASE_URL}/relatorio/usersmes`, { ano: 2024 }, { headers });
+        const resMes = await api.post(`${BASE_URL}/relatorio/usersmes`, { ano: 2024 }, { headers });
         const meses = ["jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"];
         const dadosMes = resMes.data[0] || {};
 
@@ -55,7 +55,7 @@ export default function Charts() {
 
       try {
         // 4. Materiais mais emprestados
-        const resTop = await axios.get(`${BASE_URL}/relatorio/top`, { headers });
+        const resTop = await api.get(`${BASE_URL}/relatorio/top`, { headers });
         const formatadoTop = resTop.data.map(item => [item.nome_material, item.qtd_emprestimo]);
         setMateriaisTop(formatadoTop);
       } catch (error) {

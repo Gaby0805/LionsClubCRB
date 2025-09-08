@@ -14,6 +14,7 @@ import {
 } from '@mui/material';
 import axios from 'axios';
 import { cargos, cargos_expostos } from '../../cargos/cargos_usuarios';
+import {api} from "../../../components/uteis/api"
 
 interface ModalTipoUsuarioProps {
   open: boolean;
@@ -38,8 +39,8 @@ export default function ModalTipoUsuario({ open, onClose, userId }: ModalTipoUsu
     if (!confirme) return;
 
     try {
-      await axios.put(
-        'https://leoncio-backend-production.up.railway.app/usuario/tipo',
+      await api.put(
+        'usuario/tipo',
         {
           id_usuario: userId,
           u_tipo: novoTipo,

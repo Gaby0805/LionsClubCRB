@@ -9,6 +9,7 @@ import {
   ReactNode,
 } from 'react';
 import axios from 'axios';
+import {api} from "../../components/uteis/api"
 
 // Define a estrutura esperada do contexto
 interface UserContextType {
@@ -50,8 +51,8 @@ export function UserProvider({ children }: { children: ReactNode }) {
       if (!userId || !token) return;
 
       try {
-        const response = await axios.post(
-          'https://leoncio-backend-production.up.railway.app/usuario/especifico',
+        const response = await api.post(
+          'usuario/especifico',
           { id_usuario: userId },
           { headers: { Authorization: `Bearer ${token}` } }
         );

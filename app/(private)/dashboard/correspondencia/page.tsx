@@ -8,11 +8,13 @@ import { useUser } from "@/app/components/context/UserContext";
 import FormInput from "../../../components/comodato/Normal";
 import FormDropdown from "../../../components/comodato/input_dropdown";
 import ItemList from "../../../components/comodato/lista_items_inventario";
+import axios from 'axios';
 import { isInvalidCPF, isInvalidRG } from "../../../components/comodato/validacao";
 import CPFInputReduzido from '@/app/components/comodato/cpf';
 import CEPInputReduzido from '@/app/components/comodato/cep';
 import TelefoneInputReduzido from '@/app/components/comodato/telefone';
 import {api} from "../../../components/uteis/api"
+
 export default function Comodato() {
   const { userId } = useUser();
   const token = useAuth();
@@ -155,181 +157,13 @@ link.click();
         <div className="flex flex-col w-full">
           <HeaderDash />
 <main className="flex-1 h-full w-full bg-gray-100 p-10 overflow-auto">
-  <h1 className="text-4xl font-bold mb-4 ">Cadastro</h1>
-  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+  <h1 className="text-4xl font-bold mb-4 ">Cadastro de correspondecias</h1>
+
+    <div className='flex  h-full bg-amber-200 m-5 justify-center items-center '>
     
-    {/* Coluna 1 */}
-    <div className="space-y-4">
-      <FormInput
-        label="Nome"
-        name="nome"
-        value={formData.nome}
-        onChange={handleInputChange}
-      />
-      <CPFInputReduzido
-  label="CPF"
-  name="cpf"
-  value={formData.cpf}
-  onChange={handleInputChange}
-  isInvalid={isInvalidCPF(formData.cpf)}
-  errorMessage="CPF inválido"
-/>
 
-<CEPInputReduzido
-  label="CEP"
-  name="cep"
-  value={formData.cep}
-  onChange={handleInputChange}
-  isInvalid={formData.cep.length > 8}
-  errorMessage="CEP inválido (máximo 8 dígitos)"
-/>
-
-      <FormDropdown
-        label="Cidade"
-        name="cidade_id"
-        value={formData.cidade_id}
-        options={[
-          { label: "Corumbá", value: "5" },
-          { label: "Ladário", value: "6" }
-        ]}
-        onChange={(e) => handleDropdownChange("cidade_id", e.value)}
-      />
-<div className="flex gap-4">
-  <div className="flex w-1/4 flex-col">
-    <p>Número</p>
-    <input
-      type="text"
-      tabIndex={9}
-      name="numero_casa"
-      value={formData.numero_casa}
-      onChange={handleInputChange}
-      className={`h-12 rounded-md bg-gray-300 p-2 border-2 ${
-        !/^\d*$/.test(formData.numero_casa) && formData.numero_casa.length > 0
-          ? 'border-red-500'
-          : 'border-transparent'
-      }`}
-      placeholder="Ex: 123"
-    />
-    {!/^\d*$/.test(formData.numero_casa) && formData.numero_casa.length > 0 && (
-      <span className="text-red-500 text-sm mt-1">
-        Número inválido (somente números)
-      </span>
-    )}
-  </div>
-
-  <div className="flex-1 flex flex-col">
-    <p>Bairro</p>
-    <input
-      type="text"
-      tabIndex={11}
-      name="bairro"
-      value={formData.bairro}
-      onChange={handleInputChange}
-      className={`h-12 rounded-md bg-gray-300 p-2 border-2 ${
-        !formData.bairro.trim() && formData.bairro.length > 0
-          ? 'border-red-500'
-          : 'border-transparent'
-      }`}
-      placeholder="Ex: Centro"
-    />
-    {!formData.bairro.trim() && formData.bairro.length > 0 && (
-      <span className="text-red-500 text-sm mt-1">
-        Bairro inválido (campo não pode ser vazio)
-      </span>
-    )}
-  </div>
-</div>
-<TelefoneInputReduzido
-  label="Telefone"
-  name="telefone"
-  value={formData.telefone}
-  onChange={handleInputChange}
-  isInvalid={formData.telefone !== '' && formData.telefone.length < 10}
-  errorMessage="Telefone inválido"
-/>
-
-
-<TelefoneInputReduzido
-  label="Telefone de referência"
-  name="telefone2"
-  value={formData.telefone2}
-  onChange={handleInputChange}
-  isInvalid={formData.telefone2.length < 10 && formData.telefone2!== ''} // ex: valida se é menor que 10 dígitos (ajuste como preferir)
-  errorMessage="Telefone inválido"
-/>
-
-      <FormInput
-        label="Usuário Responsável"
-        name="usuario_responsavel"
-        value={valor}
-        onChange={() => {}}
-        enable={true}
-      />
     </div>
 
-    {/* Coluna 2 */}
-    <div className="space-y-4">
-      <FormInput
-        label="Sobrenome"
-        name="sobrenome"
-        value={formData.sobrenome}
-        onChange={handleInputChange}
-      />
-      <FormInput
-        label="RG"
-        name="rg"
-        value={formData.rg}
-        onChange={handleInputChange}
-        isInvalid={isInvalidRG(formData.rg)}
-        errorMessage="RG inválido (somente números, máximo 15 dígitos)"
-      />
-      <FormInput
-        label="Profissão"
-        name="profissao"
-        value={formData.profissao}
-        onChange={handleInputChange}
-      />
-      <FormInput
-        label="Rua"
-        name="rua"
-        value={formData.rua}
-        onChange={handleInputChange}
-      />
-      <FormInput
-        label="Complemento"
-        name="complemento"
-        value={formData.complemento}
-        onChange={handleInputChange}
-      />
-      <FormDropdown
-        label="Estado Civil"
-        name="estado_civil"
-        value={formData.estado_civil}
-        options={[
-          { label: "Solteiro(a)", value: "solteiro" },
-          { label: "Casado(a)", value: "casado" },
-          { label: "Divorciado(a)", value: "divorciado" },
-          { label: "Viúvo(a)", value: "viuvo" }
-        ]}
-        onChange={(e) => handleDropdownChange("estado_civil", e.value)}
-      />
-    </div>
-
-    {/* Coluna 3 - Itens Solicitados */}
-    <div className="space-y-4 ml-40">
-      <ItemList
-        items={item}
-        selectedItems={itensSelecionados}
-        onItemSelect={handleItemSelection}
-      />
-      <button
-        onClick={Enviardados}
-        className="w-full mt-5 bg-blue-500 text-white rounded-md py-2 text-lg font-semibold hover:bg-blue-600 transition duration-200"
-      >
-        Enviar
-      </button>
-    </div>
-  </div>
 </main>
 
         </div>

@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { Button, Modal, TextField } from "@mui/material";
 import { useUser } from "../context/UserContext";
 import axios from "axios";
+import {api} from "../../components/uteis/api"
 
 export default function InfoUser() {
   const { userId } = useUser();
@@ -45,8 +46,8 @@ export default function InfoUser() {
 
     const fetchData = async () => {
       try {
-        const response = await axios.post(
-          "https://leoncio-backend-production.up.railway.app/usuario/especifico",
+        const response = await api.post(
+          "usuario/especifico",
           { id_usuario: userId },
           {
             headers: {
@@ -91,8 +92,8 @@ export default function InfoUser() {
     }
 
     try {
-      const response = await axios.put(
-        "https://leoncio-backend-production.up.railway.app/usuario/senha",
+      const response = await api.put(
+        "usuario/senha",
         {
           id_usuario: userId,
           senha_antiga: senhaAntiga,
@@ -131,8 +132,8 @@ export default function InfoUser() {
     if (!confirmealter) return;
 
     try {
-      await axios.put(
-        "https://leoncio-backend-production.up.railway.app/usuario",
+      await api.put(
+        "usuario",
         {
           id_usuario: userId,
           u_nome: respostasNome,

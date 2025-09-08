@@ -20,8 +20,8 @@ export const cargos_expostos = [
 ];
 
 export const permissoesPorCargo: Record<string, string[]> = {
-  "Ana Karina ": ["comodato", "inventario", "inventariog", "relatorio", "stats"],
-  "Adm": ["comodato", "inventario", "inventariog", "relatorio", "stats"],
+  "Ana Karina ": ["comodato", "inventario", "inventariog", "relatorio", "stats", "correspondencia"],
+  "Adm": ["comodato", "inventario", "inventariog", "relatorio", "stats", "correspondencia"] ,
   "Presidente": ["comodato", "inventario", "inventariog", "relatorio", "stats"],
   "Vice": ["comodato", "inventario", "inventariog", "relatorio", "stats"],
   "1º secretária": ["comodato", "inventario", "inventariog", "relatorio", "stats"],

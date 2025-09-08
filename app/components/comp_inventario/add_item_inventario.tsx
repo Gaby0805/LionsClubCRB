@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { Box, Button, Typography, Modal, TextField } from '@mui/material';
 import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import {api} from "../../components/uteis/api"
 
 import dayjs, { Dayjs } from 'dayjs';
 import 'dayjs/locale/pt-br'; // importa o locale
@@ -43,8 +44,8 @@ const [token, setToken] = useState<string | null>(null);
         tamanhoSelecionado, valorSelecionado, 
         aquisicaoSelecionada 
       });
-      const response = await axios.post(
-        'https://leoncio-backend-production.up.railway.app/estoque/',
+      const response = await api.post(
+        'estoque/',
         {
           nome_material: nomeEditado,
           descricao: descricaoEditada,

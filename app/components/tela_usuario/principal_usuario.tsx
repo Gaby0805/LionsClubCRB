@@ -9,6 +9,7 @@ import ModalUsuario from "@/app/components/tela_usuario/adm/modal_criar_usuario"
 import ListaUsuariosModal from "@/app/components/tela_usuario/adm/modal_usuarios_existentes";
 import Asside from "../dash/asside";
 import HeaderDash from "../dash/headerdash";
+import {api} from "../../components/uteis/api"
 
 export default function UsuariosLista() {
   const [open, setOpen] = useState(false);
@@ -37,8 +38,8 @@ export default function UsuariosLista() {
       if (!userId || !token) return;
 
       try {
-        const response = await axios.post(
-          "https://leoncio-backend-production.up.railway.app/usuario/especifico",
+        const response = await api.post(
+          "usuario/especifico",
           { id_usuario: userId },
           {
             headers: {

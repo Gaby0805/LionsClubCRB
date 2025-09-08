@@ -7,12 +7,16 @@ import {
   FileSpreadsheet,
   NotepadText,
   Menu,
-  X
+  X,
+  LetterText,
+  LetterTextIcon
 } from "lucide-react";
 import { useUser } from "../context/UserContext";
 import axios from "axios";
 import Link from "next/link";
 import { permissoesPorCargo } from "../cargos/cargos_usuarios";
+import EmailCard from "../pre_login/cardemail";
+import {api} from "../../components/uteis/api"
 
 export default function Asside() {
   const { userId } = useUser();
@@ -30,8 +34,8 @@ export default function Asside() {
 
     const fetchData = async () => {
       try {
-        const response = await axios.post(
-          "https://leoncio-backend-production.up.railway.app/usuario/especifico",
+        const response = await api.post(
+          "usuario/especifico",
           { id_usuario: userId },
           { headers: { Authorization: `Bearer ${token}` } }
         );
@@ -99,6 +103,12 @@ export default function Asside() {
               <Link href="/dashboard/stats" className="flex items-center gap-2 hover:text-gray-300">
                 <NotepadText size={20} />
                 <span className="leading-5">Status Comodato</span>
+              </Link>
+            )}
+            {podeVer("correspondencia") && (
+              <Link href="/dashboard/correspondencia" className="flex items-center gap-2 hover:text-gray-300">
+                <LetterTextIcon  />
+                <span className="leading-5">correspondencias</span>
               </Link>
             )}
           </div>

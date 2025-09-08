@@ -9,7 +9,7 @@ import {
   TextField,
   Button
 } from '@mui/material';
-import axios from 'axios';
+import {api} from "../../../components/uteis/api"
 import { useUser } from '@/app/components/context/UserContext'; // ajuste o caminho conforme sua estrutura
 
 interface ModalSenhaUsuarioProps {
@@ -32,7 +32,7 @@ useEffect(() => {
 
   const handleSalvar = async () => {
     try {
-      await axios.put('https://leoncio-backend-production.up.railway.app/usuario/esqueceusenha', {
+      await api.put('usuario/esqueceusenha', {
         id_usuario: userId,
         id_adm: adminId,
         senha_adm: senhaAdm,

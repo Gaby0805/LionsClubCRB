@@ -6,6 +6,7 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import {api} from "../../components/uteis/api"
 
 const style = {
   position: 'absolute',
@@ -52,7 +53,7 @@ console.log(estoque_id)
   const atualizar = async () => {
     try {
       console.log("Dados enviados:", { nomeEditado, descricaoEditada, statusSelecionado, tamanhoSelecionado });
-      const response = await axios.put('https://leoncio-backend-production.up.railway.app/estoque/', {
+      const response = await api.put('estoque/', {
         estoque_id,
         nome_material: nomeEditado, 
         descricao: descricaoEditada,
@@ -75,7 +76,7 @@ console.log(estoque_id)
     useEffect(() => {
         const fetchData = async () => {
             try { 
-                const response = await axios.post("https://leoncio-backend-production.up.railway.app/estoque/valores/",{
+                const response = await api.post("estoque/valores/",{
                   id_estoque: estoque_id
                 },
                   {          

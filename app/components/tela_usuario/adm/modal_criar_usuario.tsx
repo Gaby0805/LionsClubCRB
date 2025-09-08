@@ -11,7 +11,7 @@ import {
   Typography
 } from '@mui/material';
 import { cargos_expostos } from '../../cargos/cargos_usuarios';
-
+import {api} from "../../../components/uteis/api"
 const style = {
   position: 'absolute' as const,
   top: '50%',
@@ -66,8 +66,8 @@ const ModalUsuario = ({ open, handleClose }: { open: boolean; handleClose: () =>
     setLoading(true);
 
     try {
-      await axios.post(
-        'https://leoncio-backend-production.up.railway.app/usuario',
+      await api.post(
+        'usuario',
         formData,
         {
           headers: {

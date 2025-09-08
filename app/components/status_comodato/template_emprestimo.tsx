@@ -27,7 +27,7 @@ useEffect(() => {
   const ConcluirAction = () => {
     const confirme = confirm('O usuário completou o empréstimo?');
     if (!confirme) return;
-    axios.put('https://leoncio-backend-production.up.railway.app/transacao/status', { id_emprestimo: id },           {
+    api.put('transacao/status', { id_emprestimo: id },           {
             headers: {
               Authorization: `Bearer ${token}`
             }

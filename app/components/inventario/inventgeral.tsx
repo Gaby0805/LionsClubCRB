@@ -7,6 +7,7 @@ import { Toast } from 'primereact/toast';
 import Change from '../comp_inventario/modal_quantidade';
 import Edit from '../comp_inventario/modal_editar_invetario';
 import AddItem from '../comp_inventario/add_item_inventario';
+import {api} from "../../components/uteis/api"
 
 export default function Invent2() { 
   const [items, setItems] = useState([]);
@@ -27,7 +28,7 @@ export default function Invent2() {
     if (!token) return;
     setLoading(true);
     try {
-      const response = await axios.get("https://leoncio-backend-production.up.railway.app/estoque/lions", {
+      const response = await api.get("estoque/lions", {
         headers: { Authorization: `Bearer ${token}` }
       });
       setItems(response.data);
@@ -65,7 +66,7 @@ export default function Invent2() {
       const confirmDelete = confirm('Você tem certeza que deseja excluir o item?');
       if (!confirmDelete) return;
 
-      await axios.delete("https://leoncio-backend-production.up.railway.app/estoque", {
+      await api.delete("estoque", {
         data: { id_estoque: valueSelect.id },
         headers: { Authorization: `Bearer ${token}` }
       });

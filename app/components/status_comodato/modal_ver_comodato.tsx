@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Typography, Button, Stack } from '@mui/material';
-import axios from 'axios';
+import {api} from "../../components/uteis/api"
 
 interface ModalComodatoProps {
   item: any;
@@ -20,8 +20,8 @@ const relatorio = async () => {
   console.log('cheguei aqui');
 
   try {
-    const response = await axios.post(
-      'https://leoncio-backend-production.up.railway.app/transacao/doc',
+    const response = await api.post(
+      'transacao/doc',
       { id: item.id, area: 'relatorio' },
       {
         headers: {

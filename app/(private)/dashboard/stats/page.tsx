@@ -7,6 +7,7 @@ import Statuscomodato from "@/app/components/status_comodato/template_emprestimo
 import axios from "axios";
 import Itempage from "@/app/components/uteis/pagination";
 import { useRouter } from "next/navigation";
+import {api} from "../../../components/uteis/api"
 
 interface ComodatoItem {
   id_comodato: number;
@@ -35,8 +36,8 @@ export default function StatsItem() {
 
     if (!token) return;
 
-    axios
-      .get("https://leoncio-backend-production.up.railway.app/transacao/info", {
+    api
+      .get("transacao/info", {
         headers: {
           Authorization: `Bearer ${token}`,
         },

@@ -4,6 +4,7 @@ import { Copse, Concert_One } from "next/font/google";
 import axios from "axios";
 import {useRouter} from "next/navigation";
 import { useUser } from "../../components/context/UserContext";
+import {api} from "../../components/uteis/api"
 
 const copsefont = Copse({ subsets: ["latin"], weight: "400" });
 const Concert_Onefont = Concert_One({ subsets: ["latin"], weight: "400" });
@@ -18,8 +19,8 @@ export default function Home() {
   // Função para autenticar usuário
 const autorizar = async () => {
   try {
-    const response = await axios.post(
-      "https://leoncio-backend-production.up.railway.app/usuario/autenticar", 
+    const response = await api.post(
+      "usuario/autenticar", 
       { email, senha }
     );
 
@@ -68,12 +69,10 @@ const autorizar = async () => {
               className={`${copsefont.className} bg-gray-400 w-72 h-11 rounded-md text-xl font-bold p-3 opacity-80 mt-5`}
             />
 
-            <p className="mr-32 mt-1 font-bold underline">Esqueci minha senha</p>
-
             {/* Botão de Login */}
             <button 
               onClick={autorizar} 
-              className={`${Concert_Onefont.className} h-13 w-44 text-2xl bg-amber-400 rounded-md mt-4`}>
+              className={`${Concert_Onefont.className} h-13 w-44 text-2xl bg-amber-400 rounded-md mt-4 cursor-pointer transition-transform duration-300 hover:scale-110`}>
               Entrar
             </button>
 
