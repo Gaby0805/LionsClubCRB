@@ -13,6 +13,21 @@ import CPFInputReduzido from '@/app/components/comodato/cpf';
 import CEPInputReduzido from '@/app/components/comodato/cep';
 import TelefoneInputReduzido from '@/app/components/comodato/telefone';
 import {api} from "../../../components/uteis/api"
+
+import { format } from "date-fns"
+import { Calendar as CalendarIcon } from "lucide-react"
+ 
+import { cn } from "@/lib/utils"
+import { Button } from "@/components/ui/button"
+import { Calendar } from "@/components/ui/calendar"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
+import { ptBR } from 'date-fns/locale';
+
+
 export default function Comodato() {
   const { userId } = useUser();
   const token = useAuth();
@@ -20,7 +35,7 @@ export default function Comodato() {
   const [itensSelecionados, setItensSelecionados] = useState<{ id: number }[]>([]);
   const [item, setItem] = useState<{ id_estoque: number; nome_material: string }[]>([]);
   const [valor, setValor] = useState<string>("");
-
+  const [date, setDate] = React.useState<Date>()
   useEffect(() => {
     if (!token || !userId) return;
 
@@ -29,13 +44,7 @@ export default function Comodato() {
     }).then(response => setValor(response.data.nome_user)).catch(console.error);
   }, [token, userId]);
 
-  useEffect(() => {
-    if (!token) return;
 
-    api.get("estoque/ComodatoList", {
-      headers: { Authorization: `Bearer ${token}` }
-    }).then(response => setItem(response.data)).catch(console.error);
-  }, [token]);
 
   const handleItemSelection = (id: number) => {
     setItensSelecionados(prev => {
@@ -46,12 +55,13 @@ export default function Comodato() {
 
 const Enviardados = async () => {
   try {
-const dataToSend = {
-  ...formData,
-  cidade_id: Number(formData.cidade_id),
-  numero_casa: Number(formData.numero_casa),
-  itensSelecionados
-};
+    const dataToSend = {
+      ...formData,
+      cidade_id: Number(formData.cidade_id),
+      numero_casa: Number(formData.numero_casa),
+      itensSelecionados,
+      data_emprestimo: date ? date.toISOString().split("T")[0] : null // 👈 envia yyyy-MM-dd
+    };
 
     // 1. Cadastrar comodato
     await api.post("comodato/", dataToSend, {
@@ -64,7 +74,8 @@ const dataToSend = {
     await api.post("transacao/", {
       cpf: formData.cpf,
       user_id: userId,
-      estoque_id: itensSelecionados.map((i) => i.id),
+      item_id: itensSelecionados.map((i) => i.id),
+      data: dataToSend.data_emprestimo
     }, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -88,22 +99,15 @@ if (!ultimoId) {
 
 
 
-const docResponse = await api.post(
+const response = await api.post(
   "transacao/doc",
   { id: ultimoId },
   {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
     responseType: "blob", // <-- aqui fora do headers
   }
 );
-
-// Forçar download no navegador
-const blob = new Blob([docResponse.data], {
-  type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-});
-const link = document.createElement("a");
+const blob = new Blob([response.data], { type: response.headers['content-type'] });
+const link = document.createElement('a');
 link.href = window.URL.createObjectURL(blob);
 link.download = `comodato_${ultimoId}.docx`;
 link.click();
@@ -189,8 +193,8 @@ link.click();
         name="cidade_id"
         value={formData.cidade_id}
         options={[
-          { label: "Corumbá", value: "5" },
-          { label: "Ladário", value: "6" }
+          { label: "Corumbá", value: "1" },
+          { label: "Ladário", value: "2" }
         ]}
         onChange={(e) => handleDropdownChange("cidade_id", e.value)}
       />
@@ -313,6 +317,21 @@ link.click();
         ]}
         onChange={(e) => handleDropdownChange("estado_civil", e.value)}
       />
+          <Popover>
+      <PopoverTrigger asChild>
+        <Button
+          variant="outline"
+          data-empty={!date}
+          className="data-[empty=true]:text-muted-foreground w-[280px] justify-start text-left font-normal"
+        >
+          <CalendarIcon />
+          {date ? format(date, "PPP") : <span>data do emprestimo</span>}
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className="w-auto p-0">
+        <Calendar mode="single" locale={ptBR} selected={date} onSelect={setDate} />
+      </PopoverContent>
+    </Popover>
     </div>
 
     {/* Coluna 3 - Itens Solicitados */}

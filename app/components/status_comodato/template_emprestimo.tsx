@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import ModalComodatoteste from "./modal_ver_comodato";  // Importando o modal
+import { api } from "../uteis/api";
 
 interface StatuscomodatoProps {
   nome: string;
@@ -12,9 +13,10 @@ interface StatuscomodatoProps {
   nome_item: string;
   sobrenome: string;
   telefone: string;
+  identificacao: string;
 }
 
-export default function Statuscomodato({ nome, status, data, id, nome_item, sobrenome, telefone}: StatuscomodatoProps) {
+export default function Statuscomodato({ nome, status, data, id, nome_item, sobrenome, telefone,identificacao}: StatuscomodatoProps) {
   const [Isready, setIsready] = useState(false);
   const [openModal, setOpenModal] = useState(false);  // Estado para controlar a exibição do modal
   const [selectedItem, setSelectedItem] = useState<any>(null);  // Estado para armazenar o item selecionado
@@ -27,11 +29,17 @@ useEffect(() => {
   const ConcluirAction = () => {
     const confirme = confirm('O usuário completou o empréstimo?');
     if (!confirme) return;
-    api.put('transacao/status', { id_emprestimo: id },           {
-            headers: {
-              Authorization: `Bearer ${token}`
-            }
-          });
+    try {
+
+      api.put('transacao/status', { id_emprestimo: id },           {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+    }
+    catch (error) {
+      console.error('Erro ao concluir o empréstimo:', error);
+    }
   };
 
   const handleOpenModal = () => {
@@ -55,6 +63,7 @@ useEffect(() => {
       <div className="flex-1">
         <h3 className="text-xl font-semibold">{nome}</h3>
         <p>Status: {status}</p>
+        <p>id do item: {identificacao}</p>
         <p>Item: {nome_item}</p>
         <p>Data limite: {data}</p>
       </div>

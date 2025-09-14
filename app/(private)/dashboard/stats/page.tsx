@@ -129,7 +129,8 @@ export default function StatsItem() {
                         sobrenome={item.sobrenome_comodato}
                         telefone={item.numero_telefone}
                         status={item.status}
-                        nome_item={item.nome_material}
+                        nome_item={item.nome}
+                        identificacao={item.identificacao_do_item}
                         data={new Date(item.data_limite).toISOString().split("T")[0]}
                           id={item.id_emprestimo.toString()}
                       />

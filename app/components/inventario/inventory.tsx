@@ -14,6 +14,9 @@ import {
 import ModalInvent from "../comp_inventario/modal";
 import ModalInventExcluir from "../comp_inventario/modal_Excluir";
 import ModalEditSub from "../comp_inventario/modal_editar_sub";
+import ModalEditItem from "../comp_inventario/modal_editar_item";
+import ModalAddItem from "../comp_inventario/add_categ.inventrio";
+import ModalAddsub from "../comp_inventario/modal_add_sub";
 
 export default function Invent() {
   const [categorias, setCategorias] = useState<any[]>([]);
@@ -146,8 +149,12 @@ export default function Invent() {
       <Toast ref={toast} />
 
       {/* Adicionar item */}
-      <AddItem Area={"Comodato"} onAddSuccess={() => setRefreshData((prev) => !prev)} />
+<div className="flex gap-2">
+      <ModalAddItem lugar={'Comodato'}  />
+      <ModalAddsub  />
+      <AddItem onAddSuccess={() => setRefreshData((prev) => !prev)} />
 
+</div>
       {/* Lista de categorias, subcategorias e itens */}
       <div className="w-full h-full mt-4">
 <Accordion type="multiple" className="w-full">
@@ -209,14 +216,12 @@ export default function Invent() {
 
                       {/* Direita */}
                       <div className="flex gap-2">
-                        <ModalEditSub
-                          id={sub.id}
-                          categoria={sub.categoria}
-                          descricao={sub.descricao}
-                          nome={sub.nome}
-                          tamanho={sub.tamanho}
+                        <ModalEditItem
+                          id={item.id_item}
+                          nome={item.identificacao_do_item}
+                          status={item.status}
                         />
-                        <ModalInventExcluir id={sub.id} tipo="subCategoria" />
+                        <ModalInventExcluir id={item.id_item} tipo="item" />
                       </div>
                     </li>
                   ))}

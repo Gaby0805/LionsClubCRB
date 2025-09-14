@@ -1,151 +1,138 @@
 "use client";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
-import axios from 'axios';
-import { useEffect, useState } from 'react';
-import { Box, Button, Typography, Modal, TextField } from '@mui/material';
-import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import {api} from "../../components/uteis/api"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
-import dayjs, { Dayjs } from 'dayjs';
-import 'dayjs/locale/pt-br'; // importa o locale
-const style = {
-  position: 'absolute' as const,
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: 'background.paper',
-  boxShadow: 24,
-  p: 4,
-};
+import { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { api } from "../uteis/api";
 
-export default function AddItem({ Area }: { Area: any }) {
+interface SubCategoria {
+  id_sub_categoria: number;
+  nome: string;
+}
+
+export default function ModalAddItem() {
+  const [nomeItem, setNomeItem] = useState("");
+  const [status, setStatus] = useState("true");
+  const [subCategorias, setSubCategorias] = useState<SubCategoria[]>([]);
+  const [subCatId, setSubCatId] = useState("");
   const [open, setOpen] = useState(false);
-  const [nomeEditado, setNomeEditado] = useState('');
-  const [descricaoEditada, setDescricaoEditada] = useState('');
-  const [tamanhoSelecionado, setTamanhoSelecionado] = useState('Padrão');
-  const [valorSelecionado, setValorSelecionado] = useState('');
-  const [aquisicaoSelecionada, setAquisicaoSelecionada] = useState<Dayjs | null>(dayjs());
-const [token, setToken] = useState<string | null>(null);
 
+  // Buscar subcategorias ao abrir modal
   useEffect(() => {
-    const tokenLocalStorage = localStorage.getItem("token");
-    setToken(tokenLocalStorage);
-  }, []);
+    const fetchSubCategorias = async () => {
+      try {
+        const res = await api.get("/sub-categ/sub-categoria");
+        setSubCategorias(res.data);
+      } catch (error) {
+        console.error("Erro ao buscar subcategorias:", error);
+      }
+    };
+    if (open) fetchSubCategorias();
+  }, [open]);
 
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-
-  const Enviar = async () => {
+  const salvarItem = async () => {
     try {
-      console.log("Dados enviados:", { 
-        nomeEditado, descricaoEditada, 
-        tamanhoSelecionado, valorSelecionado, 
-        aquisicaoSelecionada 
+      if (!subCatId) {
+        alert("Selecione uma subcategoria!");
+        return;
+      }
+
+      await api.post("/item/item", {
+        identificacao_do_item: nomeItem,
+        status: status === "true", // transforma string em boolean
+        sub_categoria_id: Number(subCatId),
       });
-      const response = await api.post(
-        'estoque/',
-        {
-          nome_material: nomeEditado,
-          descricao: descricaoEditada,
-          valor: valorSelecionado,
-          status: 'Ativo',
-          area_material: Area,
-          aquisicao: aquisicaoSelecionada?.toISOString(),
-          tamanho: tamanhoSelecionado
-        },
-{
-  headers: {
-    Authorization: `Bearer ${token}`
-  }
-}      );
-      console.log('Resposta do servidor:', response.data);
-      handleClose();
+
+      alert("Item adicionado com sucesso!");
+      setOpen(false);
+
+      // resetar campos
+      setNomeItem("");
+      setStatus("true");
+      setSubCatId("");
     } catch (error) {
-      alert('verifique as informações')
-      console.error("Erro ao enviar os dados:", error);
+      console.error("Erro ao adicionar item:", error);
+      alert("Erro ao adicionar item.");
     }
   };
 
   return (
-    <div className="w-fit py-2 px-4 rounded-md bg-gray-400">
-      <Button sx={{ color: 'black' }} onClick={handleOpen}>
-        Adicionar item
-      </Button>
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger className="flex">
+        <div className="w-fit py-2 px-4 rounded-md bg-gray-400">
+          Adicionar item
+        </div>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Adicionar Item</DialogTitle>
+          <DialogDescription>
+            Preencha os dados do novo item:
+          </DialogDescription>
+        </DialogHeader>
 
-      <Modal open={open} onClose={handleClose}>
-        <Box sx={style}>
-          <Typography variant="h6" component="h2" className="flex justify-center">
-            Edite os valores
-          </Typography>
+        <div className="flex flex-col gap-3">
+          <input
+            type="text"
+            className="border p-2 rounded w-full"
+            placeholder="Identificação do item"
+            value={nomeItem}
+            onChange={(e) => setNomeItem(e.target.value)}
+          />
 
-          <Box 
-            component="form"
-            sx={{ mt: 2, display: 'flex', flexDirection: 'column', gap: 2 }}
-          >
-            <TextField
-              label="Nome"
-              value={nomeEditado}
-              onChange={(e) => setNomeEditado(e.target.value)}
-              size="small"
-              fullWidth
-            />
+          {/* Select de status */}
+          <Select value={status} onValueChange={setStatus}>
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Selecione o status" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="true">Ativado</SelectItem>
+              <SelectItem value="false">Desativado</SelectItem>
+            </SelectContent>
+          </Select>
 
-            <TextField
-              label="Descrição"
-              multiline
-              rows={4}
-              value={descricaoEditada}
-              onChange={(e) => setDescricaoEditada(e.target.value)}
-              size="small"
-              fullWidth
-            />
+          {/* Select de subcategorias vindas do backend */}
+          <Select value={subCatId} onValueChange={setSubCatId}>
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Selecione a subcategoria" />
+            </SelectTrigger>
+            <SelectContent>
+              {subCategorias.map((s) => (
+                <SelectItem
+                  key={s.id_sub_categoria}
+                  value={String(s.id_sub_categoria)}
+                >
+                  {s.nome}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
 
-            <TextField
-              select
-              label="Tamanho"
-              value={tamanhoSelecionado}
-              onChange={(e) => setTamanhoSelecionado(e.target.value)}
-              SelectProps={{ native: true }}
-              size="small"
-              fullWidth
-            >
-              <option value="Padrão">Padrão</option>
-              <option value="Pequena">Pequena</option>
-              <option value="Média">Média</option>
-              <option value="Grande">Grande</option>
-            </TextField>
-
-            <TextField
-              label="Valor"
-              type="number"
-              placeholder="20.52"
-              value={valorSelecionado}
-              onChange={(e) => setValorSelecionado(e.target.value)}
-              size="small"
-              fullWidth
-            />
-
-<LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
-      <DatePicker
-        label="Data de Aquisição"
-        value={aquisicaoSelecionada}
-        onChange={(newValue) => setAquisicaoSelecionada(newValue)}
-        format="DD/MM/YYYY"
-        renderInput={(params) => (
-          <TextField {...params} size="small" fullWidth />
-        )}
-      />
-
-    </LocalizationProvider>
-
-            <Button variant="contained" onClick={Enviar}>
-              Enviar
-            </Button>
-          </Box>
-        </Box>
-      </Modal>
-    </div>
+        <div className="flex justify-end gap-2 mt-4">
+          <Button variant="outline" onClick={() => setOpen(false)}>
+            Cancelar
+          </Button>
+          <Button variant="default" onClick={salvarItem}>
+            Salvar
+          </Button>
+        </div>
+      </DialogContent>
+    </Dialog>
   );
 }

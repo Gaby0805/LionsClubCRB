@@ -17,7 +17,8 @@ export const useFormData = () => {
     rua: "",
     numero_casa: "",
     complemento: "",
-    cidade_id: ""
+    cidade_id: "",
+    data: ""
   });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {

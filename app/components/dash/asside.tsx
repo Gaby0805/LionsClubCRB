@@ -87,12 +87,12 @@ export default function Asside() {
                 <span>Inventário Comodato</span>
               </Link>
             )}
-            {podeVer("inventariog") && (
+            {/* {podeVer("inventariog") && (
               <Link href="/dashboard/inventariog" className="flex items-center gap-2 hover:text-gray-300">
                 <Backpack size={20} />
                 <span>Inventário Patrimonial</span>
               </Link>
-            )}
+            )} */}
             {podeVer("relatorio") && (
               <Link href="/dashboard/relatorio" className="flex items-center gap-2 hover:text-gray-300">
                 <FileSpreadsheet size={20} />
@@ -105,12 +105,12 @@ export default function Asside() {
                 <span className="leading-5">Status Comodato</span>
               </Link>
             )}
-            {podeVer("correspondencia") && (
+            {/* {podeVer("correspondencia") && (
               <Link href="/dashboard/correspondencia" className="flex items-center gap-2 hover:text-gray-300">
                 <LetterTextIcon  />
                 <span className="leading-5">correspondencias</span>
               </Link>
-            )}
+            )} */}
           </div>
 
           <div className="flex justify-center mb-4">
