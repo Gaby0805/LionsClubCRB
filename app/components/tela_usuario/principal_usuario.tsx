@@ -59,16 +59,17 @@ export default function UsuariosLista() {
 
         const nomeCompleto = `${response.data.nome_user} ${response.data.sobrenome}`.trim();
         const tipoUser = response.data.tipo_user;
+        console.log("Nome completo do usuário:", response.data.nome_user );
+if (
+  response.data.nome_user.trim().toLowerCase() === 'ana' ||
+  tipoUser === "Adm" ||
+  tipoUser === "Presidente"
+) {
+  setIsAdmVisible(true);
+} else {
+  setIsAdmVisible(false);
+}
 
-        if (
-          nomeCompleto.toLowerCase() === "ana karina" ||
-          tipoUser === "Adm" ||
-          tipoUser === "Presidente"
-        ) {
-          setIsAdmVisible(true);
-        } else {
-          setIsAdmVisible(false);
-        }
       } catch (error) {
         console.error("Erro ao buscar dados do usuário:", error);
       }
