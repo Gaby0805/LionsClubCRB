@@ -1,11 +1,11 @@
 // src/services/api.js
 import axios from "axios";
 
-const urlTest = 'http://localhost:3333'
-const urlProf = ''
+const urlTest = ''
+const urlProf = 'leoncio-backend-production.up.railway.app'
 
 const api = axios.create({
-  baseURL: urlTest, // sua API base
+  baseURL: urlProf, // sua API base
   timeout: 5000, // tempo máximo de espera (opcional)
   headers: {
     "Content-Type": "application/json",
