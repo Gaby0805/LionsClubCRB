@@ -2,11 +2,11 @@
 import axios from "axios";
 
 const urlTest = ''
-const urlProf = 'leoncio-backend-production.up.railway.app'
+const urlProf = 'https://leoncio-backend-production.up.railway.app';
 
 const api = axios.create({
-  baseURL: urlProf, // sua API base
-  timeout: 5000, // tempo máximo de espera (opcional)
+  baseURL: urlProf, 
+  timeout: 5000, 
   headers: {
     "Content-Type": "application/json",
   },
